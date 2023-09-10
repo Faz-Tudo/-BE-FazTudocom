@@ -1,8 +1,11 @@
 package sptech.faztudo.comLOCAL;
 
+import io.micrometer.common.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +19,7 @@ public class FazTudoController {
 
     @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody User user){
-        if (user.getName().isEmpty() || user.getCpf().isEmpty() || user.getEmail().isEmpty() ||
-                user.getPhone().isEmpty() || user.getSenha().isEmpty()||user.getSenha().length() < 8||
-                user.getName().length() < 5 || user.getName().length() > 50 || user.getLastName().length() < 5||
-                user.getLastName().length() > 150 || user.getCpf().length() < 11|| user.getPhone().length() < 8){
+        if (!isUserValid(user)){
             return ResponseEntity.status(400).build();
         }
 
@@ -57,6 +57,40 @@ public class FazTudoController {
             return ResponseEntity.status(404).build();
         }
         return ResponseEntity.status(200).build();
+    }
+
+
+    private boolean isUserValid(User user) {
+        return isValidName(user.getName()) &&
+                isValidLastName(user.getLastName()) &&
+                isValidCPF(user.getCpf()) &&
+                isValidEmail(user.getEmail()) &&
+                isValidPhone(user.getPhone()) &&
+                isValidPassword(user.getSenha());
+    }
+
+    private boolean isValidName(String name) {
+        return !StringUtils.isEmpty(name) && name.length() >= 5 && name.length() <= 50;
+    }
+
+    private boolean isValidLastName(String lastName) {
+        return !StringUtils.isEmpty(lastName) && lastName.length() >= 5 && lastName.length() <= 150;
+    }
+
+    private boolean isValidCPF(String cpf) {
+        return !StringUtils.isEmpty(cpf) && cpf.length() == 11;
+    }
+
+    private boolean isValidEmail(String email) {
+        return !StringUtils.isEmpty(email) ;
+    }
+
+    private boolean isValidPhone(String phone) {
+        return !StringUtils.isEmpty(phone) && phone.length() >= 8;
+    }
+
+    private boolean isValidPassword(String password) {
+        return !StringUtils.isEmpty(password) && password.length() >= 8;
     }
 
 }
