@@ -1,24 +1,59 @@
 package sptech.faztudo.comLOCAL;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.br.CPF;
+import org.springframework.lang.NonNull;
 
 @Entity
 public class User {
 
 
     @Id
+    @Column(unique = true, name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "name", nullable = false)
+    @Size(min = 5, max = 50, message = "Nome com tamanho de inválido")
+    @NotBlank(message = "Preencha o campo nome corretamente. ")
     private String name;
+
+    @Column(name = "lastName", nullable = false)
+    @Size(min = 5, max = 150, message = "Sobrenome com tamanho inválido")
+    @NotBlank(message = "Preencha o campo sobrenome corretamente. ")
     private String lastName;
+
+    @Column(name = "cpf", nullable = false, unique = true, length = 11)
+    @CPF(message = "CPF inválido!")
+    @NotNull
     private String cpf;
+
+    @Column(name = "state")
     private String state;
+
+    @Column(name = "city")
     private String city;
+
+    @Column(name = "phone", unique = true, nullable = false)
+//    @Pattern(regexp = "\\([0-9]{2}\\) [0-9]{4,5}-[0-9]{4}", message = "Telefone inválido")
+    @NotNull
     private String phone;
+
+    @Column(name = "email", unique = true, nullable = false)
+    @Email(message = "Email inválido!")
+    @NotNull
     private String email;
+
+    @Column(name = "senha", nullable = false)
+    @Pattern.List({
+            @Pattern(regexp = ".*[A-Z].*", message = "A senha deve conter pelo menos uma letra maiúscula"),
+            @Pattern(regexp = ".*[a-z].*", message = "A senha deve conter pelo menos uma letra minúscula"),
+            @Pattern(regexp = ".*\\d.*", message = "A senha deve conter pelo menos um dígito"),
+            @Pattern(regexp = "(?=.*[!@#$%^&*()]).{8,}$", message = "A senha deve conter pelo menos um caractere especial e 8 caracteres.")
+    })
+    @NotNull
     private String senha;
 
     public int getId() {
