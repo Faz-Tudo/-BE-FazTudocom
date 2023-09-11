@@ -102,7 +102,7 @@ public class User implements UserDetails {
         this.phone = phone;
         this.email = email;
         this.senha = senha;
-//        this.role = role;
+        this.role = role;
     }
 
     public String getEmail() {
