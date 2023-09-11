@@ -6,14 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.token.TokenService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sptech.faztudo.comLOCAL.domain.users.AuthenticationDTO;
+import sptech.faztudo.comLOCAL.domain.users.LoginResponseDTO;
 import sptech.faztudo.comLOCAL.domain.users.RegisterDTO;
 import sptech.faztudo.comLOCAL.domain.users.User;
+import sptech.faztudo.comLOCAL.infra.security.TokeService;
 import sptech.faztudo.comLOCAL.repositorys.userRepository;
 
 @RestController
@@ -26,21 +29,20 @@ public class AuthenticationController {
     @Autowired
     private userRepository repository;
 
+    @Autowired
+    private TokeService tokeService;
+
 
 
     @PostMapping("/login")
-    public ResponseEntity<User> login(@RequestBody @Valid AuthenticationDTO data){
+    public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data){
 
-        try {
-            var userNamePassWord = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
-            var auth = this.authenticationManager.authenticate(userNamePassWord);
+        var userNamePassWord = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
+        var auth = this.authenticationManager.authenticate(userNamePassWord);
 
-            return ResponseEntity.status(200).build();
-        }catch (Exception e){
-            System.out.println(e);
-            return ResponseEntity.status(403).build();
-        }
+        var token = tokeService.generateToken((User) auth.getPrincipal());
 
+        return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 
     @PostMapping("/register")

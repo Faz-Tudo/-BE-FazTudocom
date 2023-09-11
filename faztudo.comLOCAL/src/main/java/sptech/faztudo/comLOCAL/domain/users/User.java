@@ -105,7 +105,9 @@ public class User implements UserDetails {
 //        this.role = role;
     }
 
-
+    public String getEmail() {
+        return email;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
