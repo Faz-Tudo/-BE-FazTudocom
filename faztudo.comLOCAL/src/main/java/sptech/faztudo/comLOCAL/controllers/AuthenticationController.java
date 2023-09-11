@@ -29,11 +29,18 @@ public class AuthenticationController {
 
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data){
-        var userNamePassWord = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
-        var auth = this.authenticationManager.authenticate(userNamePassWord);
+    public ResponseEntity<User> login(@RequestBody @Valid AuthenticationDTO data){
 
-        return ResponseEntity.status(200).build();
+        try {
+            var userNamePassWord = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
+            var auth = this.authenticationManager.authenticate(userNamePassWord);
+
+            return ResponseEntity.status(200).build();
+        }catch (Exception e){
+            System.out.println(e);
+            return ResponseEntity.status(403).build();
+        }
+
     }
 
     @PostMapping("/register")
@@ -48,7 +55,7 @@ public class AuthenticationController {
 
 
         this.repository.save(newUser);
-        return ResponseEntity.status(200).body(newUser);
+        return ResponseEntity.status(201).body(newUser);
     }
 
 
