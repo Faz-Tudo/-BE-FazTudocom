@@ -1,6 +1,8 @@
-package sptech.faztudo.comLOCAL;
+package sptech.faztudo.comLOCAL.domain.users;
 
-public class ServiceProvider extends User{
+import sptech.faztudo.comLOCAL.domain.users.User;
+
+public class ServiceProvider extends User {
 
     private int category;
 

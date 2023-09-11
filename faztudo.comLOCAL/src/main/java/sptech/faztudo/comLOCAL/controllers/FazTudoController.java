@@ -1,13 +1,13 @@
-package sptech.faztudo.comLOCAL;
+package sptech.faztudo.comLOCAL.controllers;
 
 import io.micrometer.common.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sptech.faztudo.comLOCAL.domain.users.User;
+import sptech.faztudo.comLOCAL.repositorys.userRepository;
 
 
-
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController

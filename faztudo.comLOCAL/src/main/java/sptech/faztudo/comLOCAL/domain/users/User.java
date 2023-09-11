@@ -1,4 +1,4 @@
-package sptech.faztudo.comLOCAL;
+package sptech.faztudo.comLOCAL.domain.users;
 
 import jakarta.persistence.*;
 
@@ -7,6 +7,7 @@ import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import sptech.faztudo.comLOCAL.UserRole;
 
 import java.util.Collection;
 import java.util.List;
