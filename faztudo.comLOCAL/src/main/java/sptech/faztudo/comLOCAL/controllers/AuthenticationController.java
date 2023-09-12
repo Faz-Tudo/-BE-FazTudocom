@@ -17,7 +17,12 @@ import sptech.faztudo.comLOCAL.domain.users.LoginResponseDTO;
 import sptech.faztudo.comLOCAL.domain.users.RegisterDTO;
 import sptech.faztudo.comLOCAL.domain.users.User;
 import sptech.faztudo.comLOCAL.infra.security.TokeService;
+import sptech.faztudo.comLOCAL.infra.security.tokenForRegister.ConfirmationToken;
+import sptech.faztudo.comLOCAL.infra.security.tokenForRegister.ConfirmationTokenService;
 import sptech.faztudo.comLOCAL.repositorys.userRepository;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("auth")
@@ -32,6 +37,11 @@ public class AuthenticationController {
     @Autowired
     private TokeService tokeService;
 
+    @Autowired
+    private ConfirmationTokenService confirmationTokenService;
+
+    public AuthenticationController() {
+    }
 
 
     @PostMapping("/login")
@@ -46,7 +56,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody @Valid RegisterDTO data){
+    public ResponseEntity register(@RequestBody @Valid RegisterDTO data){
 
 
         if(!isUserValid(data) && this.repository.findByEmail(data.email()) != null) return ResponseEntity.status(400).build();
@@ -57,7 +67,18 @@ public class AuthenticationController {
 
 
         this.repository.save(newUser);
-        return ResponseEntity.status(201).body(newUser);
+
+        String token = UUID.randomUUID().toString();
+        ConfirmationToken confirmationToken = new ConfirmationToken(
+                token,
+                LocalDateTime.now(),
+                LocalDateTime.now().plusMinutes(120),
+                newUser
+        );
+
+        confirmationTokenService.saveConfirmationToken(confirmationToken);
+
+        return ResponseEntity.status(201).body(confirmationToken);
     }
 
 

@@ -79,7 +79,15 @@ public class User implements UserDetails {
     }
 
 
-    public User(int id, String name, String lastName, String cpf, String state, String city, String phone, String email, String senha) {
+    public User(int id,
+                String name,
+                String lastName,
+                String cpf,
+                String state,
+                String city,
+                String phone,
+                String email,
+                String senha) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
@@ -92,8 +100,15 @@ public class User implements UserDetails {
 
     }
 
-    public User(String name, String lastName, String cpf, String state, String city, String phone,
-                String email, String senha, UserRole role) {
+    public User(String name,
+                String lastName,
+                String cpf,
+                String state,
+                String city,
+                String phone,
+                String email,
+                String senha,
+                UserRole role) {
         this.name = name;
         this.lastName = lastName;
         this.cpf = cpf;
