@@ -8,10 +8,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.token.TokenService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 import sptech.faztudo.comLOCAL.domain.users.AuthenticationDTO;
 import sptech.faztudo.comLOCAL.domain.users.LoginResponseDTO;
 import sptech.faztudo.comLOCAL.domain.users.RegisterDTO;
@@ -40,10 +38,10 @@ public class AuthenticationController {
     @Autowired
     private ConfirmationTokenService confirmationTokenService;
 
-    public AuthenticationController() {
-    }
 
 
+
+//    @CrossOrigin(origins = "*", allowCredentials = "true")
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data){
 
@@ -55,8 +53,9 @@ public class AuthenticationController {
         return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 
+//    @CrossOrigin(origins = "*", allowCredentials = "true")
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody @Valid RegisterDTO data){
+    public ResponseEntity register(@RequestBody @Valid RegisterDTO data, UriComponentsBuilder uriComponentsBuilder){
 
 
         if(!isUserValid(data) && this.repository.findByEmail(data.email()) != null) return ResponseEntity.status(400).build();
@@ -68,6 +67,8 @@ public class AuthenticationController {
 
         this.repository.save(newUser);
 
+        var uri = uriComponentsBuilder.path("/users/{id}").buildAndExpand(newUser.getId()).toUri();
+
         String token = UUID.randomUUID().toString();
         ConfirmationToken confirmationToken = new ConfirmationToken(
                 token,
@@ -78,7 +79,7 @@ public class AuthenticationController {
 
         confirmationTokenService.saveConfirmationToken(confirmationToken);
 
-        return ResponseEntity.status(201).body(confirmationToken);
+        return ResponseEntity.created(uri).body(confirmationToken);
     }
 
 
