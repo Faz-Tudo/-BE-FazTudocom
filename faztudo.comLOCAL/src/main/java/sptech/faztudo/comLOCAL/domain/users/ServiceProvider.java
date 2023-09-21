@@ -6,7 +6,16 @@ public class ServiceProvider extends User {
 
     private int category;
 
-    public ServiceProvider(int id, String name, String lastName, String cpf, String state, String city, String phone, String email, String senha, int category) {
+    public ServiceProvider(int id,
+                           String name,
+                           String lastName,
+                           String cpf,
+                           String state,
+                           String city,
+                           String phone,
+                           String email,
+                           String senha,
+                           int category) {
         super(id, name, lastName, cpf, state, city, phone, email, senha);
         this.category = category;
     }
