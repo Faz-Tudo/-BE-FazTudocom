@@ -6,8 +6,7 @@ public class Contractor extends User {
 
     private boolean proUser;
 
-    public Contractor(int id,
-                      String name,
+    public Contractor(String name,
                       String lastName,
                       String cpf,
                       String state,
@@ -16,7 +15,7 @@ public class Contractor extends User {
                       String email,
                       String senha,
                       boolean proUser) {
-        super(id, name, lastName, cpf, state, city, phone, email, senha);
+        super(name, lastName, cpf, state, city, phone, email, senha);
         this.proUser = proUser;
     }
 

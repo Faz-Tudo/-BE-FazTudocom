@@ -10,14 +10,12 @@ import org.springframework.security.core.token.TokenService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-import sptech.faztudo.comLOCAL.domain.users.AuthenticationDTO;
-import sptech.faztudo.comLOCAL.domain.users.LoginResponseDTO;
-import sptech.faztudo.comLOCAL.domain.users.RegisterDTO;
-import sptech.faztudo.comLOCAL.domain.users.User;
+import sptech.faztudo.comLOCAL.domain.users.*;
 import sptech.faztudo.comLOCAL.infra.security.TokeService;
 import sptech.faztudo.comLOCAL.infra.security.tokenForRegister.ConfirmationToken;
 import sptech.faztudo.comLOCAL.infra.security.tokenForRegister.ConfirmationTokenService;
 import sptech.faztudo.comLOCAL.repositorys.userRepository;
+import sptech.faztudo.comLOCAL.repositorys.serviceProviderRepository;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -33,6 +31,9 @@ public class AuthenticationController {
     private userRepository repository;
 
     @Autowired
+    private serviceProviderRepository serviceProviderRepository;
+
+    @Autowired
     private TokeService tokeService;
 
     @Autowired
@@ -41,7 +42,7 @@ public class AuthenticationController {
 
 
 
-//    @CrossOrigin(origins = "*", allowCredentials = "true")
+
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data){
 
@@ -53,7 +54,7 @@ public class AuthenticationController {
         return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 
-//    @CrossOrigin(origins = "*", allowCredentials = "true")
+
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody @Valid RegisterDTO data, UriComponentsBuilder uriComponentsBuilder){
 
@@ -81,6 +82,20 @@ public class AuthenticationController {
 
         return ResponseEntity.created(uri).body(confirmationToken);
     }
+    @PostMapping("/register-service-provider")
+    public ResponseEntity registerServiceProvider(@RequestBody @Valid RegisterServiceProviderDTO dataServiceProvider, UriComponentsBuilder uriComponentsBuilder){
+
+            if(!isServiceProviderValid(dataServiceProvider) && this.serviceProviderRepository.findByEmail(dataServiceProvider.email()) != null) return ResponseEntity.status(400).build();
+
+            String encryptedPassword = new BCryptPasswordEncoder().encode(dataServiceProvider.senha());
+            ServiceProvider newUser = new ServiceProvider(dataServiceProvider.name(), dataServiceProvider.lastName(), dataServiceProvider.cpf(), dataServiceProvider.state(),
+                    dataServiceProvider.city(), dataServiceProvider.phone(), dataServiceProvider.email(), encryptedPassword, dataServiceProvider.category());
+
+            var uri = uriComponentsBuilder.path("/users/{id}").buildAndExpand(newUser.getId()).toUri();
+            this.serviceProviderRepository.save(newUser);
+
+            return ResponseEntity.created(uri).body(newUser);
+    }
 
 
 
@@ -93,6 +108,14 @@ public class AuthenticationController {
                 isValidEmail(data.email()) &&
                 isValidPhone(data.phone()) &&
                 isValidPassword(data.senha());
+    }
+   private boolean isServiceProviderValid(RegisterServiceProviderDTO dataServiceProvider) {
+        return isValidName(dataServiceProvider.name()) &&
+                isValidLastName(dataServiceProvider.lastName()) &&
+                isValidCPF(dataServiceProvider.cpf()) &&
+                isValidEmail(dataServiceProvider.email()) &&
+                isValidPhone(dataServiceProvider.phone()) &&
+                isValidPassword(dataServiceProvider.senha());
     }
 
     private boolean isValidName(String name) {

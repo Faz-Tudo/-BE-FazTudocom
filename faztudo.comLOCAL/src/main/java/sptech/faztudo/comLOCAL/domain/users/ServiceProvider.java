@@ -1,13 +1,17 @@
 package sptech.faztudo.comLOCAL.domain.users;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import sptech.faztudo.comLOCAL.domain.users.User;
 
+@Entity
 public class ServiceProvider extends User {
 
+    @Column(name = "category", nullable = false)
     private int category;
 
-    public ServiceProvider(int id,
-                           String name,
+    public ServiceProvider(String name,
                            String lastName,
                            String cpf,
                            String state,
@@ -16,9 +20,14 @@ public class ServiceProvider extends User {
                            String email,
                            String senha,
                            int category) {
-        super(id, name, lastName, cpf, state, city, phone, email, senha);
+        super( name, lastName, cpf, state, city, phone, email, senha);
         this.category = category;
     }
+    public ServiceProvider() {
+
+    }
+
+
 
     public int getCategory() {
         return category;
