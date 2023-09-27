@@ -8,7 +8,7 @@ import sptech.faztudo.comLOCAL.domain.users.User;
 @Entity
 public class ServiceProvider extends User {
 
-    @Column(name = "category", nullable = false)
+    @Column(name = "category")
     private int category;
 
     public ServiceProvider(String name,
