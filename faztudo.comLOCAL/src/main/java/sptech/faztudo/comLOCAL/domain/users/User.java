@@ -79,7 +79,7 @@ public class User implements UserDetails {
     }
 
 
-    public User(int id,
+    public User(
                 String name,
                 String lastName,
                 String cpf,
@@ -88,7 +88,7 @@ public class User implements UserDetails {
                 String phone,
                 String email,
                 String senha) {
-        this.id = id;
+
         this.name = name;
         this.lastName = lastName;
         this.cpf = cpf;
