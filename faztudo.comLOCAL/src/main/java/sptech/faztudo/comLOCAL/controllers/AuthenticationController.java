@@ -1,21 +1,24 @@
 package sptech.faztudo.comLOCAL.controllers;
 
-import io.micrometer.common.util.StringUtils;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.token.TokenService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+import sptech.faztudo.comLOCAL.domain.contractor.Contractor;
+import sptech.faztudo.comLOCAL.domain.contractor.RegisterContractorDTO;
+import sptech.faztudo.comLOCAL.domain.serviceProvider.RegisterServiceProviderDTO;
+import sptech.faztudo.comLOCAL.domain.serviceProvider.ServiceProvider;
 import sptech.faztudo.comLOCAL.domain.users.*;
 import sptech.faztudo.comLOCAL.infra.security.TokeService;
 import sptech.faztudo.comLOCAL.infra.security.tokenForRegister.ConfirmationToken;
 import sptech.faztudo.comLOCAL.infra.security.tokenForRegister.ConfirmationTokenService;
 import sptech.faztudo.comLOCAL.repositorys.userRepository;
 import sptech.faztudo.comLOCAL.repositorys.serviceProviderRepository;
+import sptech.faztudo.comLOCAL.repositorys.contractorRepository;
 import sptech.faztudo.comLOCAL.services.AuthorizationService;
 
 import java.time.LocalDateTime;
@@ -33,6 +36,9 @@ public class AuthenticationController {
 
     @Autowired
     private serviceProviderRepository serviceProviderRepository;
+
+    @Autowired
+    private contractorRepository contractorRepository;
 
     @Autowired
     private TokeService tokeService;
@@ -96,13 +102,27 @@ public class AuthenticationController {
             if(!authorizationService.isServiceProviderValid(dataServiceProvider) && this.serviceProviderRepository.findByEmail(dataServiceProvider.email()) != null) return ResponseEntity.status(400).build();
 
             String encryptedPassword = new BCryptPasswordEncoder().encode(dataServiceProvider.senha());
-            ServiceProvider newUser = new ServiceProvider(dataServiceProvider.name(), dataServiceProvider.lastName(), dataServiceProvider.cpf(), dataServiceProvider.state(),
+            ServiceProvider newServiceProvider = new ServiceProvider(dataServiceProvider.name(), dataServiceProvider.lastName(), dataServiceProvider.cpf(), dataServiceProvider.state(),
                     dataServiceProvider.city(), dataServiceProvider.phone(), dataServiceProvider.email(), encryptedPassword, dataServiceProvider.category());
 
-            var uri = uriComponentsBuilder.path("/users/{id}").buildAndExpand(newUser.getId()).toUri();
-            this.serviceProviderRepository.save(newUser);
+            var uri = uriComponentsBuilder.path("/users/{id}").buildAndExpand(newServiceProvider.getId()).toUri();
+            this.serviceProviderRepository.save(newServiceProvider);
 
-            return ResponseEntity.created(uri).body(newUser);
+            return ResponseEntity.created(uri).body(newServiceProvider);
+    }
+    @PostMapping("/register-contractor")
+    public ResponseEntity registerContractor(@RequestBody @Valid RegisterContractorDTO dataContractor, UriComponentsBuilder uriComponentsBuilder){
+
+            if(!authorizationService.isServiceProviderValid(dataContractor) && this.contractorRepository.findByEmail(dataContractor.email()) != null) return ResponseEntity.status(400).build();
+
+            String encryptedPassword = new BCryptPasswordEncoder().encode(dataContractor.senha());
+            Contractor newContractor = new Contractor(dataContractor.name(), dataContractor.lastName(), dataContractor.cpf(), dataContractor.state(),
+                    dataContractor.city(), dataContractor.phone(), dataContractor.email(), encryptedPassword, dataContractor.proUser());
+
+            var uri = uriComponentsBuilder.path("/users/{id}").buildAndExpand(newContractor.getId()).toUri();
+            this.contractorRepository.save(newContractor);
+
+            return ResponseEntity.created(uri).body(newContractor);
     }
 
     @GetMapping("/confirm")

@@ -2,13 +2,14 @@ package sptech.faztudo.comLOCAL.repositorys;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.userdetails.UserDetails;
-import sptech.faztudo.comLOCAL.domain.serviceProvider.ServiceProvider;
+import sptech.faztudo.comLOCAL.domain.contractor.Contractor;
+
 
 import java.util.List;
 
-public interface serviceProviderRepository extends JpaRepository<ServiceProvider, Integer> {
+public interface contractorRepository extends JpaRepository<Contractor, Integer> {
 
-    List<ServiceProvider> findAll();
-    ServiceProvider findById(int id);
+    List<Contractor> findAll();
+    Contractor findById(int id);
     UserDetails findByEmail(String email);
 }

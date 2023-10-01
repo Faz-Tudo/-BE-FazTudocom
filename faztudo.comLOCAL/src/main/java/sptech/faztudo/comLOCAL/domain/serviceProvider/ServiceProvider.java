@@ -1,4 +1,4 @@
-package sptech.faztudo.comLOCAL.domain.users;
+package sptech.faztudo.comLOCAL.domain.serviceProvider;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

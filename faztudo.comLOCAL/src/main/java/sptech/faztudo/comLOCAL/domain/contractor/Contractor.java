@@ -1,7 +1,9 @@
-package sptech.faztudo.comLOCAL.domain.users;
+package sptech.faztudo.comLOCAL.domain.contractor;
 
+import jakarta.persistence.Entity;
 import sptech.faztudo.comLOCAL.domain.users.User;
 
+@Entity
 public class Contractor extends User {
 
     private boolean proUser;
@@ -17,6 +19,10 @@ public class Contractor extends User {
                       boolean proUser) {
         super(name, lastName, cpf, state, city, phone, email, senha);
         this.proUser = proUser;
+    }
+
+    public Contractor(){
+
     }
 
     public boolean isProUser() {
