@@ -1,4 +1,4 @@
-package sptech.faztudo.comLOCAL.domain.users;
+package sptech.faztudo.comLOCAL.domain.serviceProvider;
 
 public record RegisterServiceProviderDTO(String name,
                                          String lastName,

@@ -7,8 +7,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import sptech.faztudo.comLOCAL.domain.contractor.RegisterContractorDTO;
 import sptech.faztudo.comLOCAL.domain.users.RegisterDTO;
-import sptech.faztudo.comLOCAL.domain.users.RegisterServiceProviderDTO;
+import sptech.faztudo.comLOCAL.domain.serviceProvider.RegisterServiceProviderDTO;
 import sptech.faztudo.comLOCAL.infra.security.tokenForRegister.ConfirmationToken;
 import sptech.faztudo.comLOCAL.infra.security.tokenForRegister.ConfirmationTokenService;
 import sptech.faztudo.comLOCAL.repositorys.userRepository;
@@ -67,6 +68,15 @@ public class AuthorizationService implements UserDetailsService {
                 isValidEmail(dataServiceProvider.email()) &&
                 isValidPhone(dataServiceProvider.phone()) &&
                 isValidPassword(dataServiceProvider.senha());
+    }
+
+    public boolean isServiceProviderValid(RegisterContractorDTO dataContractor) {
+        return isValidName(dataContractor.name()) &&
+                isValidLastName(dataContractor.lastName()) &&
+                isValidCPF(dataContractor.cpf()) &&
+                isValidEmail(dataContractor.email()) &&
+                isValidPhone(dataContractor.phone()) &&
+                isValidPassword(dataContractor.senha());
     }
 
     private boolean isValidName(String name) {
