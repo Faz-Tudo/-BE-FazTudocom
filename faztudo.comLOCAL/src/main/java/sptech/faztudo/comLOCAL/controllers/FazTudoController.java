@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import sptech.faztudo.comLOCAL.csv.GerenciadorDeArquivo;
+import sptech.faztudo.comLOCAL.csv.ListaObj;
 import sptech.faztudo.comLOCAL.domain.users.User;
 import sptech.faztudo.comLOCAL.repositorys.userRepository;
 
@@ -25,7 +27,11 @@ public class FazTudoController {
     public ResponseEntity<List<User>> findAll(){
 
         List<User> users  = UserRepository.findAll();
+
+        GerenciadorDeArquivo.gravaArquivoCsv(users,"ArquivoCSV");
+
         return ResponseEntity.status(200).body(users);
+
     }
 
     @GetMapping("/{id}")

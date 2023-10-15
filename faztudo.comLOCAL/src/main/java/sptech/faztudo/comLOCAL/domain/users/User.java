@@ -70,6 +70,38 @@ public class User implements UserDetails {
         return id;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
