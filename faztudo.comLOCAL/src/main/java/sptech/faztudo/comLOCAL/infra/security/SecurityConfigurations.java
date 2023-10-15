@@ -40,6 +40,7 @@ public class SecurityConfigurations implements WebMvcConfigurer{
                         .requestMatchers(HttpMethod.POST, "/auth/register-contractor").permitAll()
                         .requestMatchers(HttpMethod.POST, "/users").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/users").hasRole("ADMIN")
+                        .requestMatchers("/hello", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
@@ -47,6 +48,8 @@ public class SecurityConfigurations implements WebMvcConfigurer{
 
 
     }
+
+
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
