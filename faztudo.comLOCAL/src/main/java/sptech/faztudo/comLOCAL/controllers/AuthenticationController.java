@@ -1,5 +1,6 @@
 package sptech.faztudo.comLOCAL.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -54,6 +55,7 @@ public class AuthenticationController {
 
 
     @PostMapping("/login")
+    @Operation(summary = "Login", description = "Login para Users.", tags = "USER")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data){
 
         var userNamePassWord = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
@@ -66,6 +68,7 @@ public class AuthenticationController {
 
 
     @PostMapping("/register")
+    @Operation(summary = "Register", description = "Register para ADMIN.", tags = "USER")
     public ResponseEntity register(@RequestBody @Valid RegisterDTO data, UriComponentsBuilder uriComponentsBuilder){
 
 
@@ -97,6 +100,7 @@ public class AuthenticationController {
 
 
     @PostMapping("/register-service-provider")
+    @Operation(summary = "Register", description = "Register para service provider.", tags = "USER")
     public ResponseEntity registerServiceProvider(@RequestBody @Valid RegisterServiceProviderDTO dataServiceProvider, UriComponentsBuilder uriComponentsBuilder){
 
             if(!authorizationService.isServiceProviderValid(dataServiceProvider) && this.serviceProviderRepository.findByEmail(dataServiceProvider.email()) != null) return ResponseEntity.status(400).build();
@@ -111,6 +115,7 @@ public class AuthenticationController {
             return ResponseEntity.created(uri).body(newServiceProvider);
     }
     @PostMapping("/register-contractor")
+    @Operation(summary = "Register", description = "Register para contractor.", tags = "USER")
     public ResponseEntity registerContractor(@RequestBody @Valid RegisterContractorDTO dataContractor, UriComponentsBuilder uriComponentsBuilder){
 
             if(!authorizationService.isServiceProviderValid(dataContractor) && this.contractorRepository.findByEmail(dataContractor.email()) != null) return ResponseEntity.status(400).build();
