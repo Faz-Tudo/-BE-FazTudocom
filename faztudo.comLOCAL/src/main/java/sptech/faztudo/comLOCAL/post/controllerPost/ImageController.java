@@ -1,5 +1,6 @@
 package sptech.faztudo.comLOCAL.post.controllerPost;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ public class ImageController {
     private sptech.faztudo.comLOCAL.post.repositoryPost.imageRepository imageRepository;
 
     @PostMapping("/upload")
+    @Operation(summary = "Imagem Contratante", description = "Envio de imagens para uso do contratante.", tags = "USER - CONTRACTOR")
     public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) {
         try {
             if (file.isEmpty()) {
@@ -38,6 +40,7 @@ public class ImageController {
     }
 
     @GetMapping("/get/{id}")
+    @Operation(summary = "Imagem Contratante", description = "recupera imagens enviadas através do contrante através de id.", tags = "USER - CONTRACTOR")
     public ResponseEntity<byte[]> getImage(@PathVariable Long id) {
         Optional<Image> imageOptional = imageRepository.findById(id);
 

@@ -1,5 +1,6 @@
 package sptech.faztudo.comLOCAL.post.controllerPost;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,7 @@ public class ContractorPostController {
     private imageRepository imageRepository;
 
     @PostMapping("/")
+    @Operation(summary = "Post Contratante", description = "Postagem para contratante, envia descrição do trabalho e imagem.", tags = "USER - CONTRACTOR")
     public ResponseEntity<ContractorPost> criarContractorPost(@RequestBody ContractorPost contractorPost) {
         contractorPost.setDataCriacao(LocalDateTime.now()); // Defina a data de criação
         ContractorPost novoContractorPost = contractorPostRepository.save(contractorPost);
@@ -30,6 +32,7 @@ public class ContractorPostController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Post Contratante", description = "Recupera as postagens através do id do usuário.", tags = "USER - CONTRACTOR")
     public ResponseEntity<ContractorPost> obterContractorPost(@PathVariable Long id) {
         Optional<ContractorPost> contractorPostOptional = contractorPostRepository.findById(id);
         if (contractorPostOptional.isPresent()) {
@@ -41,6 +44,7 @@ public class ContractorPostController {
     }
 
     @PatchMapping("/{id}")
+    @Operation(summary = "Post Contratante", description = "Atualiza as postagens através do id do usuário.", tags = "USER - CONTRACTOR")
     public ResponseEntity<ContractorPost> atualizarContractorPost(@PathVariable Long id, @RequestBody Map<String, Object> updates) {
         Optional<ContractorPost> contractorPostOptional = contractorPostRepository.findById(id);
         if (contractorPostOptional.isPresent()) {
@@ -77,6 +81,7 @@ public class ContractorPostController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Post Contratante", description = "Deleta postagens através do id do usuário.", tags = "USER - CONTRACTOR")
     public ResponseEntity<Void> excluirContractorPost(@PathVariable Long id) {
         Optional<ContractorPost> contractorPostOptional = contractorPostRepository.findById(id);
         if (contractorPostOptional.isPresent()) {

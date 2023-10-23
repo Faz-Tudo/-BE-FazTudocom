@@ -11,7 +11,7 @@ public class SwaggerConfig {
 
     @Bean
     public OpenAPI customAPI(){
-        return new OpenAPI().info(new Info().title("FazTudo.com Users API").version("1.0.0")
+        return new OpenAPI().info(new Info().title("FazTudo.com Users API").version("1.1.0")
                 .license(new License().name("FAZTUDO.COM - SPTech")));
     }
 }
