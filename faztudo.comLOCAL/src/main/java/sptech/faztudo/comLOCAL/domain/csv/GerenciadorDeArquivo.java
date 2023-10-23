@@ -1,4 +1,4 @@
-package sptech.faztudo.comLOCAL.csv;
+package sptech.faztudo.comLOCAL.domain.csv;
 
 import sptech.faztudo.comLOCAL.domain.users.User;
 
@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class GerenciadorDeArquivo {
+
     public static void gravaArquivoCsv(List<User> lista, String nomeArq) {
         FileWriter arq = null;
         Formatter saida = null;
@@ -30,7 +31,7 @@ public class GerenciadorDeArquivo {
             for (int i = 0; i < lista.size(); i++) {
 
                 User user = lista.get(i);
-                saida.format("%d;%s;%s;%s;%s;%s;%s;%s\n",user.getId(),user.getName(),user.getLastName(),user.getEmail(),user.getCpf(),user.getCity(),user.getState(),user.getPhone());
+                saida.format("%d;%s;%s;%s;%s;%s;%s;%s;%s\n", user.getId(), user.getName(), user.getLastName(), user.getEmail(), user.getCpf(), user.getCity(), user.getState(), user.getPhone(), user.getRole());
 
 
             }
@@ -51,12 +52,14 @@ public class GerenciadorDeArquivo {
         }
     }
 
-    public static void leArquivoCsv(String nomeArq) {
+    public static List<User> leArquivoCsv(String nomeArq) {
         FileReader arq = null;
         Scanner entrada = null;
         Boolean deuRuim = false;
 
         nomeArq += ".csv";
+
+        List<User> users = new ArrayList<>(); // Crie uma lista para armazenar os dados lidos do arquivo.
 
         // Bloco try-catch para abrir o arquivo
         try {
@@ -67,25 +70,20 @@ public class GerenciadorDeArquivo {
             System.exit(1);
         }
 
-        // Bloco try-catch para ler o arquivo
+        // Bloco try-catch para ler o arquivo e preencher a lista de usuários
         try {
-            System.out.printf("%-7S %-20S %-30S %10S %-10S %-20S %-20S %-20S\n",
-                    "ID", "Nome", "Sobrenome", "Email", "CPF", "Cidade", "Estado", "Telefone");
-
             while (entrada.hasNext()) {
-
-                int id = entrada.nextInt();
                 String nome = entrada.next();
+                String sobrenome = entrada.next();
                 String email = entrada.next();
                 String cpf = entrada.next();
                 String cidade = entrada.next();
                 String estado = entrada.next();
                 String telefone = entrada.next();
+                String role = entrada.next();
 
-
-                System.out.printf("%-7d %-20s %-30s %10s %10s %17s %17s %17s\n",
-                        id, nome, email, cpf, cidade, estado, telefone);
-
+                User user = new User(nome, sobrenome, email, cpf, cidade, estado, telefone, role);
+                users.add(user);
             }
         } catch (NoSuchElementException erro) {
             System.out.println("Arquivo com problemas");
@@ -101,9 +99,20 @@ public class GerenciadorDeArquivo {
                 System.out.println("Erro ao fechar o arquivo");
                 deuRuim = true;
             }
-            if (deuRuim) {
-                System.exit(1);
-            }
         }
+
+        if (!deuRuim) {
+            // Ordenar a lista de usuários por nome
+            users.sort(Comparator.comparing(User::getName));
+
+            // Gravar o arquivo CSV ordenado
+            GerenciadorDeArquivo.gravaArquivoCsv(users, "ArquivoCSVOrdenado");
+        }
+
+        return users; // Retorna a lista ordenada (ou não) de usuários.
     }
+
 }
+
+
+//

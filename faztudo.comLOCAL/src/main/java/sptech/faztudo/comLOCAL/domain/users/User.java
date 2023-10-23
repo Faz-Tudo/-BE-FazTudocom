@@ -66,6 +66,8 @@ public class User implements UserDetails {
     @Column(name = "role")
     private UserRole role;
 
+
+
     public int getId() {
         return id;
     }
