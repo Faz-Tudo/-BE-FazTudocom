@@ -154,6 +154,19 @@ public class User implements UserDetails {
         this.role = role;
     }
 
+    public User(int id, String name, String lastName, String cpf, String state, String city, String phone, String email, String senha, UserRole role) {
+        this.id = id;
+        this.name = name;
+        this.lastName = lastName;
+        this.cpf = cpf;
+        this.state = state;
+        this.city = city;
+        this.phone = phone;
+        this.email = email;
+        this.senha = senha;
+        this.role = role;
+    }
+
     public String getEmail() {
         return email;
     }
