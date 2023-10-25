@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sptech.faztudo.comLOCAL.users.domain.csv.GerenciadorDeArquivo;
@@ -20,22 +21,22 @@ public class CsvController {
 
     @GetMapping("/csv/save")
     @Operation(summary = "Save CSV", description = "Listar todos os usuarios e salvar um CSV", tags = "BACKOFFICE")
-    public ResponseEntity<List<User>> saveCSV() {
+    public ResponseEntity<List<User>> salvarCSV() {
 
         List<User> users = csvRepository.findAll();
 
-        GerenciadorDeArquivo.gravaArquivoCsv(users, "ArquivoCSV");
+        GerenciadorDeArquivo.gravarCSV(users, "ArquivoCSV");
 
         return ResponseEntity.status(200).body(users);
 
     }
 
-    @PostMapping("/csv/read")
-    @Operation(summary = "Read CSV", description = "Ler o CSV de todos os usuários", tags = "BACKOFFICE")
-    public ResponseEntity<List<User>> readCSV() {
+    @PostMapping("/csv/order")
+    @Operation(summary = "Order CSV", description = "Ler o CSV de todos os usuários", tags = "BACKOFFICE")
+    public ResponseEntity<List<User>> ordenarCSV() {
 
         try {
-            List<User> users = GerenciadorDeArquivo.leArquivoCsv("ArquivoCSV");
+            List<User> users = GerenciadorDeArquivo.ordenarCSV("ArquivoCSV");
 
             return ResponseEntity.status(200).body(users);
 
@@ -45,6 +46,20 @@ public class CsvController {
         }
     }
 
+    @GetMapping("/csv/find/{nome}")
+    @Operation(summary = "Order CSV", description = "Ler o CSV de todos os usuários", tags = "BACKOFFICE")
+    public ResponseEntity<User> acharCSV(@PathVariable String nome) {
+
+        try {
+            User info = GerenciadorDeArquivo.acharCSV("ArquivoCSVOrdenado", nome);
+
+            return ResponseEntity.status(200).body(info);
+
+        } catch (Exception e) {
+
+            return ResponseEntity.status(400).build();
+        }
+    }
 
 
 }
