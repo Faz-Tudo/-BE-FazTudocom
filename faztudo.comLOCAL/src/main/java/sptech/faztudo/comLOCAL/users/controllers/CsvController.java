@@ -31,6 +31,7 @@ public class CsvController {
 
     }
 
+<<<<<<< HEAD
     @GetMapping("/txt/save")
     @Operation(summary = "Save TXT", description = "Listar todos os usuarios e salvar um TXT", tags = "BACKOFFICE")
     public ResponseEntity<List<User>> salvarTXT() {
@@ -45,6 +46,10 @@ public class CsvController {
 
     @PostMapping("/csv/order")
     @Operation(summary = "Order CSV", description = "Ler o CSV de todos os usuários", tags = "BACKOFFICE")
+=======
+    @GetMapping("/csv/ordenar")
+    @Operation(summary = "Order CSV", description = "Ler o CSV de todos os usuários e ordenar por ordem alfabetica", tags = "BACKOFFICE")
+>>>>>>> b5ee293fa43a0467fcd9c03568f5caf06223d25c
     public ResponseEntity<List<User>> ordenarCSV() {
 
         try {
