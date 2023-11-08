@@ -31,8 +31,25 @@ public class CsvController {
 
     }
 
+<<<<<<< HEAD
+    @GetMapping("/txt/save")
+    @Operation(summary = "Save TXT", description = "Listar todos os usuarios e salvar um TXT", tags = "BACKOFFICE")
+    public ResponseEntity<List<User>> salvarTXT() {
+
+        List<User> users = csvRepository.findAll();
+
+        GerenciadorDeArquivo.gravaArquivoTxt(users, "ArquivoTXT");
+
+        return ResponseEntity.status(200).body(users);
+
+    }
+
+    @PostMapping("/csv/order")
+    @Operation(summary = "Order CSV", description = "Ler o CSV de todos os usuários", tags = "BACKOFFICE")
+=======
     @GetMapping("/csv/ordenar")
     @Operation(summary = "Order CSV", description = "Ler o CSV de todos os usuários e ordenar por ordem alfabetica", tags = "BACKOFFICE")
+>>>>>>> b5ee293fa43a0467fcd9c03568f5caf06223d25c
     public ResponseEntity<List<User>> ordenarCSV() {
 
         try {
@@ -61,5 +78,21 @@ public class CsvController {
         }
     }
 
+    @PostMapping("/txt/import")
+    @Operation(summary = "Import TXT", description = "Ler o TXT dos usuários e importar para o BD", tags = "BACKOFFICE")
+    public ResponseEntity<List<User>> importarTXT() {
+
+        try {
+            List<User> users = GerenciadorDeArquivo.leArquivoTxt("ArquivoTXT");
+
+            csvRepository.saveAll(users);
+
+            return ResponseEntity.status(200).body(users);
+
+        } catch (Exception e) {
+
+            return ResponseEntity.status(400).build();
+        }
+    }
 
 }
