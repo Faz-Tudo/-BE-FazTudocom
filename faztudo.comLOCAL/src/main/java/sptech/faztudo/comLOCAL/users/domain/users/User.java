@@ -5,10 +5,6 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import jakarta.persistence.*;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 
 import jakarta.validation.constraints.*;
 import lombok.Getter;
@@ -18,6 +14,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import sptech.faztudo.comLOCAL.users.UserRole;
+
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -53,9 +50,8 @@ public class User implements UserDetails {
 
     @Column(name = "dt_nascimento")
     @NotNull
-//    @JsonDeserialize(using = LocalDateDeserializer.class)
-//    @JsonSerialize(using = LocalDateSerializer.class)
-//    @JsonFormat(pattern = "dd/MM/yyyy")
+    @Past
+    @AgeConstraint(minAge = 18)
     private LocalDate dt_nascimento;
 
     @Column(name = "cep", nullable = false)
