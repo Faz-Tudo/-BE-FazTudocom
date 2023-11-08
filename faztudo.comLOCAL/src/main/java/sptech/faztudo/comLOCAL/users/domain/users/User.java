@@ -1,19 +1,33 @@
 package sptech.faztudo.comLOCAL.users.domain.users;
 
+
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import jakarta.persistence.*;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+
 import jakarta.validation.constraints.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import sptech.faztudo.comLOCAL.users.UserRole;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 
 @Entity
 @Table(name = "user")
+@Getter
+@Setter
 public class User implements UserDetails {
 
 
@@ -36,6 +50,20 @@ public class User implements UserDetails {
     @CPF(message = "CPF inválido!")
     @NotNull
     private String cpf;
+
+    @Column(name = "dt_nascimento")
+    @NotNull
+//    @JsonDeserialize(using = LocalDateDeserializer.class)
+//    @JsonSerialize(using = LocalDateSerializer.class)
+//    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate dt_nascimento;
+
+    @Column(name = "cep", nullable = false)
+    @NotNull
+    private String cep;
+
+    @Column(name = "logradouro", nullable = false)
+    private String logradouro;
 
     @Column(name = "state")
     private String state;
@@ -67,43 +95,6 @@ public class User implements UserDetails {
     private UserRole role;
 
 
-
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public UserRole getRole() {
-        return role;
-    }
-
     public void setId(int id) {
         this.id = id;
     }
@@ -117,6 +108,9 @@ public class User implements UserDetails {
                 String name,
                 String lastName,
                 String cpf,
+                LocalDate dt_nascimento,
+                String cep,
+                String logradouro,
                 String state,
                 String city,
                 String phone,
@@ -126,6 +120,9 @@ public class User implements UserDetails {
         this.name = name;
         this.lastName = lastName;
         this.cpf = cpf;
+        this.dt_nascimento = dt_nascimento;
+        this.cep = cep;
+        this.logradouro = logradouro;
         this.state = state;
         this.city = city;
         this.phone = phone;
@@ -137,6 +134,9 @@ public class User implements UserDetails {
     public User(String name,
                 String lastName,
                 String cpf,
+                LocalDate dt_nascimento,
+                String cep,
+                String logradouro,
                 String state,
                 String city,
                 String phone,
@@ -146,6 +146,9 @@ public class User implements UserDetails {
         this.name = name;
         this.lastName = lastName;
         this.cpf = cpf;
+        this.dt_nascimento = dt_nascimento;
+        this.cep = cep;
+        this.logradouro = logradouro;
         this.state = state;
         this.city = city;
         this.phone = phone;
@@ -154,11 +157,26 @@ public class User implements UserDetails {
         this.role = role;
     }
 
-    public User(int id, String name, String lastName, String cpf, String state, String city, String phone, String email, String senha, UserRole role) {
+    public User(int id,
+                String name,
+                String lastName,
+                String cpf,
+                LocalDate dt_nascimento,
+                String cep,
+                String logradouro,
+                String state,
+                String city,
+                String phone,
+                String email,
+                String senha,
+                UserRole role) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
         this.cpf = cpf;
+        this.dt_nascimento = dt_nascimento;
+        this.cep = cep;
+        this.logradouro = logradouro;
         this.state = state;
         this.city = city;
         this.phone = phone;
