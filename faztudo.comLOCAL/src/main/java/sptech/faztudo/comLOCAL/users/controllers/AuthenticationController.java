@@ -78,8 +78,11 @@ public class AuthenticationController {
         if(!authorizationService.isUserValid(data) && this.repository.findByEmail(data.email()) != null) return ResponseEntity.status(400).build();
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.senha());
-        User newUser = new User(data.name(), data.lastName(), data.cpf(), data.state(),
-                data.city(), data.phone(), data.email(), encryptedPassword, data.role());
+        User newUser = new User(data.name(), data.lastName(), data.cpf(),
+                data.dt_nascimento(),data.cep(),
+                data.logradouro(), data.state(),
+                data.city(), data.phone(), data.email(),
+                encryptedPassword, data.role());
 
 
         this.repository.save(newUser);
@@ -109,8 +112,11 @@ public class AuthenticationController {
             if(!authorizationService.isServiceProviderValid(dataServiceProvider) && this.serviceProviderRepository.findByEmail(dataServiceProvider.email()) != null) return ResponseEntity.status(400).build();
 
             String encryptedPassword = new BCryptPasswordEncoder().encode(dataServiceProvider.senha());
-            ServiceProvider newServiceProvider = new ServiceProvider(dataServiceProvider.name(), dataServiceProvider.lastName(), dataServiceProvider.cpf(), dataServiceProvider.state(),
-                    dataServiceProvider.city(), dataServiceProvider.phone(), dataServiceProvider.email(), encryptedPassword, dataServiceProvider.category());
+            ServiceProvider newServiceProvider = new ServiceProvider(dataServiceProvider.name(), dataServiceProvider.lastName(),
+                    dataServiceProvider.cpf(), dataServiceProvider.dt_nascimento(), dataServiceProvider.cep(),
+                    dataServiceProvider.logradouro(), dataServiceProvider.state(),
+                    dataServiceProvider.city(), dataServiceProvider.phone(), dataServiceProvider.email(),
+                    encryptedPassword, dataServiceProvider.category());
 
             var uri = uriComponentsBuilder.path("/users/{id}").buildAndExpand(newServiceProvider.getId()).toUri();
             this.serviceProviderRepository.save(newServiceProvider);
@@ -124,8 +130,10 @@ public class AuthenticationController {
             if(!authorizationService.isServiceProviderValid(dataContractor) && this.contractorRepository.findByEmail(dataContractor.email()) != null) return ResponseEntity.status(400).build();
 
             String encryptedPassword = new BCryptPasswordEncoder().encode(dataContractor.senha());
-            Contractor newContractor = new Contractor(dataContractor.name(), dataContractor.lastName(), dataContractor.cpf(), dataContractor.state(),
-                    dataContractor.city(), dataContractor.phone(), dataContractor.email(), encryptedPassword, dataContractor.proUser());
+            Contractor newContractor = new Contractor(dataContractor.name(), dataContractor.lastName(),
+                    dataContractor.cpf(),dataContractor.dt_nascimento(), dataContractor.cep(), dataContractor.state(),
+                    dataContractor.logradouro(), dataContractor.city(), dataContractor.phone(), dataContractor.email(), encryptedPassword,
+                    dataContractor.proUser());
 
             var uri = uriComponentsBuilder.path("/users/{id}").buildAndExpand(newContractor.getId()).toUri();
             this.contractorRepository.save(newContractor);

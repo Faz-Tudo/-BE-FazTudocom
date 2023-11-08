@@ -55,7 +55,7 @@ public class CsvController {
         } catch (Exception e) {
 
             return ResponseEntity.status(400).build();
-        }
+     }
     }
 
     @GetMapping("/csv/find/{nome}")
