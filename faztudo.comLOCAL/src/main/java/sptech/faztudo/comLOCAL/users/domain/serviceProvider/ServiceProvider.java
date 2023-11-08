@@ -4,6 +4,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import sptech.faztudo.comLOCAL.users.domain.users.User;
 
+import java.time.LocalDate;
+
 @Entity
 public class ServiceProvider extends User {
 
@@ -13,13 +15,16 @@ public class ServiceProvider extends User {
     public ServiceProvider(String name,
                            String lastName,
                            String cpf,
+                           LocalDate dt_nascimento,
+                           String cep,
+                           String logradouro,
                            String state,
                            String city,
                            String phone,
                            String email,
                            String senha,
                            int category) {
-        super( name, lastName, cpf, state, city, phone, email, senha);
+        super( name, lastName, cpf, dt_nascimento, cep, logradouro, state, city, phone, email, senha);
         this.category = category;
     }
     public ServiceProvider() {

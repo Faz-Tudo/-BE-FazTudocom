@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.*;
 
 public class GerenciadorDeArquivo {
@@ -80,14 +81,22 @@ public class GerenciadorDeArquivo {
                 String sobrenome = entrada.next();
                 String email = entrada.next();
                 String cpf = entrada.next();
+                LocalDate dt_nascimento = LocalDate.parse(entrada.next());
+                String cep = entrada.next();
+                String logradouro = entrada.next();
                 String cidade = entrada.next();
                 String estado = entrada.next();
                 String telefone = entrada.next();
                 String role = entrada.next();
                 String senha = "?";
 
-                User user = new User(id,nome, sobrenome,cpf,estado,cidade,telefone,email,senha, UserRole.valueOf(role));
+                User user = new User(id,nome,sobrenome,cpf,dt_nascimento,cep,logradouro,
+                            estado,cidade,telefone,email,senha, UserRole.valueOf(role));
                 users.add(user);
+                System.out.println(users);
+
+
+
             }
         } catch (NoSuchElementException erro) {
             System.out.println("Arquivo com problemas");
@@ -141,6 +150,9 @@ public class GerenciadorDeArquivo {
                 String nome = entrada.next();
                 String sobrenome = entrada.next();
                 String email = entrada.next();
+                LocalDate dt_nascimento = LocalDate.parse(entrada.next());
+                String cep = entrada.next();
+                String logradouro = entrada.next();
                 String cpf = entrada.next();
                 String cidade = entrada.next();
                 String estado = entrada.next();
@@ -148,7 +160,8 @@ public class GerenciadorDeArquivo {
                 String role = entrada.next();
                 String senha = "?";
 
-                User user = new User(id, nome, sobrenome, cpf, estado, cidade, telefone, email, senha, UserRole.valueOf(role));
+                User user = new User(id, nome, sobrenome, cpf,dt_nascimento, cep, logradouro,
+                            estado, cidade, telefone, email, senha, UserRole.valueOf(role));
                 users.add(user);
             }
         } catch (NoSuchElementException erro) {

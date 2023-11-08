@@ -31,8 +31,8 @@ public class CsvController {
 
     }
 
-    @PostMapping("/csv/order")
-    @Operation(summary = "Order CSV", description = "Ler o CSV de todos os usuários", tags = "BACKOFFICE")
+    @GetMapping("/csv/ordenar")
+    @Operation(summary = "Order CSV", description = "Ler o CSV de todos os usuários e ordenar por ordem alfabetica", tags = "BACKOFFICE")
     public ResponseEntity<List<User>> ordenarCSV() {
 
         try {
@@ -43,7 +43,7 @@ public class CsvController {
         } catch (Exception e) {
 
             return ResponseEntity.status(400).build();
-        }
+     }
     }
 
     @GetMapping("/csv/find/{nome}")
