@@ -3,17 +3,14 @@ package sptech.faztudo.comLOCAL.users.domain.csv;
 import sptech.faztudo.comLOCAL.users.UserRole;
 import sptech.faztudo.comLOCAL.users.domain.users.User;
 
-<<<<<<< HEAD
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-=======
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
->>>>>>> b5ee293fa43a0467fcd9c03568f5caf06223d25c
 import java.util.*;
 
 public class GerenciadorDeArquivo {
@@ -96,17 +93,8 @@ public class GerenciadorDeArquivo {
                 String role = entrada.next();
                 String senha = "?";
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-                User user = new User(id, nome, sobrenome, cpf, estado, cidade, telefone, email, senha, UserRole.valueOf(role));
-=======
                 User user = new User(id,nome,sobrenome,cpf,dt_nascimento,cep,logradouro,
                             estado,cidade,telefone,email,senha, UserRole.valueOf(role));
->>>>>>> b5ee293fa43a0467fcd9c03568f5caf06223d25c
-=======
-                User user = new User(id,nome,sobrenome,cpf,dt_nascimento,cep,logradouro,
-                            estado,cidade,telefone,email,senha, UserRole.valueOf(role));
->>>>>>> b5ee293fa43a0467fcd9c03568f5caf06223d25c
                 users.add(user);
                 System.out.println(users);
 
@@ -231,14 +219,12 @@ public class GerenciadorDeArquivo {
     public static void gravaRegistro(String registro, String nomeArq) {
         BufferedWriter saida = null;
 
-// Abre o arquivo
         try {
             saida = new BufferedWriter(new FileWriter(nomeArq, true));
         } catch (IOException erro) {
             System.out.println("Erro na abertura do arquivo");
         }
 
-// Grava o registro e fecha o arquivo
         try {
             saida.append(registro + "\n");
             saida.close();
