@@ -1,7 +1,11 @@
 package sptech.faztudo.comLOCAL.users.domain.csv;
 
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import sptech.faztudo.comLOCAL.users.UserRole;
 import sptech.faztudo.comLOCAL.users.domain.users.User;
+import sptech.faztudo.comLOCAL.users.repositorys.csvRepository;
 
 import java.io.*;
 import java.time.LocalDateTime;
@@ -251,11 +255,14 @@ public class GerenciadorDeArquivo {
             corpo += String.format("%7d", a.getId()); //Completar de acordo com documento
             corpo += String.format("%10s", a.getName());
             corpo+= String.format("%15s",a.getLastName());
-            corpo+= String.format("%50s",a.getEmail());
             corpo+= String.format("%20s",a.getCpf());
-            corpo+= String.format("%29s",a.getCity());
+            corpo+= String.format("%20s",a.getDt_nascimento());
+            corpo+= String.format("%15s",a.getCep());
+            corpo+= String.format("%29s",a.getLogradouro());
             corpo+= String.format("%10s",a.getState());
-            corpo+= String.format("%15s",a.getPhone());
+            corpo+= String.format("%29s",a.getCity());
+            corpo+= String.format("%20s",a.getPhone());
+            corpo+= String.format("%50s",a.getEmail());
             corpo+= String.format("%10s",a.getRole());
             //Gravando corpo no arquivo:
             gravaRegistro(corpo, nomeArq);
@@ -269,6 +276,7 @@ public class GerenciadorDeArquivo {
 
         gravaRegistro(trailer, nomeArq);
     }
+
 
     public static List<User> leArquivoTxt(String nomeArq) {
 
@@ -294,24 +302,76 @@ public class GerenciadorDeArquivo {
 
                 tipoRegistro = registro.substring(0,2);
 
-                System.out.println(registro);
 
-                if (tipoRegistro.equals("02")) {
+                if (tipoRegistro.equals("00")) {
 
-                    String name = registro.substring(9, 19).trim();
-                    String lastName = registro.substring(19, 34).trim();
-                    String email = registro.substring(34, 84).trim();
-                    String cpf = registro.substring(84, 104).trim();
-                    String city = registro.substring(104, 133).trim();
-                    String state = registro.substring(133, 143).trim();
-                    String phone = registro.substring(143, 158).trim();
-                    UserRole role = UserRole.valueOf(registro.substring(158, 168).trim());
-                    String senha = registro.substring(168, 192).trim();
+                    System.out.println("É um registro de header");
+                    System.out.println("Tipo de Arquivo: " + registro.substring(2,9));
+                    System.out.println("Data e Hora: " + registro.substring(9,28));
+                    System.out.println("Versão: " + registro.substring(28,30));
+
+
+                }
+
+                else if (tipoRegistro.equals("01")) {
+
+                    System.out.println("É um registro de trailer");
+
+
+                }
+
+                else if (tipoRegistro.equals("02")) {
+
+                    System.out.println("É um registro de corpo");
+
+                    String id = registro.substring(8, 9).trim();
+                    System.out.println("id:"+id);
+                    String name = registro.substring(9, 25).trim();
+                    System.out.println("nome:"+name);
+                    String lastName = registro.substring(25, 43).trim();
+                    System.out.println("last:"+lastName);
+                    String cpf = registro.substring(43, 56).trim();
+                    System.out.println("cpf:"+cpf);
+
+                    String dt = registro.substring(56, 80).trim();
+                    System.out.println("dt:"+dt);
+
+                    LocalDate data = LocalDate.parse(dt);
+                    System.out.println("data:"+data);
+
+                    String cep = registro.substring(80, 95).trim();
+                    System.out.println("cep:"+cep);
+
+                    String logradouro = registro.substring(95, 120).trim();
+                    System.out.println("logradouro:"+logradouro);
+
+                    String state = registro.substring(120, 130).trim();
+                    System.out.println("state:"+state);
+
+                    String city = registro.substring(130, 160).trim();
+                    System.out.println("city:"+city);
+
+                    String phone = registro.substring(160, 190).trim();
+                    System.out.println("phone:"+phone);
+
+                    String email = registro.substring(200, 230).trim();
+                    System.out.println("email:"+email);
+
+                    String senha = registro.substring(230, 235).trim();
+                    System.out.println("senha:"+senha);
+
+                    String valor = registro.substring(235, 241).trim();
+
+                    UserRole role = UserRole.valueOf(valor);
+
+                    System.out.println("role:"+role);
 
                     contaRegDadosLidos++;
 
-                    User a = new User(name,lastName,cpf,state,city,phone,email,senha,role);
+                    User a = new User(name,lastName,cpf,data,cep,logradouro,state,city,phone,email,senha,role);
+
                     listaLida.add(a);
+
 
                 }
                 else {
@@ -322,6 +382,8 @@ public class GerenciadorDeArquivo {
 
             }
 
+            System.out.println("cheguei aq 1");
+
             entrada.close();
 
         }
@@ -331,7 +393,13 @@ public class GerenciadorDeArquivo {
             erro.printStackTrace();
         }
 
-        //
+        System.out.println("cheguei aq 2");
+
+        for (User a : listaLida) {
+            System.out.println(a);
+        }
+
+        System.out.println("cheguei aq 3");
 
         return listaLida;
     }

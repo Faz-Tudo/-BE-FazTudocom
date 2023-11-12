@@ -1,6 +1,7 @@
 package sptech.faztudo.comLOCAL.users.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import sptech.faztudo.comLOCAL.users.domain.csv.GerenciadorDeArquivo;
 import sptech.faztudo.comLOCAL.users.domain.users.User;
 import sptech.faztudo.comLOCAL.users.repositorys.csvRepository;
+import sptech.faztudo.comLOCAL.users.repositorys.userRepository;
 
 import java.util.List;
 @RestController
@@ -17,13 +19,13 @@ import java.util.List;
 public class CsvController {
 
     @Autowired
-    public csvRepository csvRepository;
+    userRepository userRepository;
 
     @GetMapping("/csv/save")
     @Operation(summary = "Save CSV", description = "Listar todos os usuarios e salvar um CSV", tags = "BACKOFFICE")
     public ResponseEntity<List<User>> salvarCSV() {
 
-        List<User> users = csvRepository.findAll();
+        List<User> users = userRepository.findAll();
 
         GerenciadorDeArquivo.gravarCSV(users, "ArquivoCSV");
 
@@ -35,7 +37,7 @@ public class CsvController {
     @Operation(summary = "Save TXT", description = "Listar todos os usuarios e salvar um TXT", tags = "BACKOFFICE")
     public ResponseEntity<List<User>> salvarTXT() {
 
-        List<User> users = csvRepository.findAll();
+        List<User> users = userRepository.findAll();
 
         GerenciadorDeArquivo.gravaArquivoTxt(users, "ArquivoTXT");
 
@@ -73,19 +75,25 @@ public class CsvController {
         }
     }
 
+
     @PostMapping("/txt/import")
     @Operation(summary = "Import TXT", description = "Ler o TXT dos usuários e importar para o BD", tags = "BACKOFFICE")
     public ResponseEntity<List<User>> importarTXT() {
-
         try {
-            List<User> users = GerenciadorDeArquivo.leArquivoTxt("ArquivoTXT");
 
-            csvRepository.saveAll(users);
+            System.out.println("tentei o gerenciador ");
+
+            List<User> users = GerenciadorDeArquivo.leArquivoTxt("ImportTXT");
+
+            for (User a : users){
+
+                System.out.println(a);
+            }
+
+            userRepository.saveAll(users);
 
             return ResponseEntity.status(200).body(users);
-
         } catch (Exception e) {
-
             return ResponseEntity.status(400).build();
         }
     }
