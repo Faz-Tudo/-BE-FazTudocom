@@ -31,7 +31,7 @@ public class User implements UserDetails {
     @Id
     @Column(unique = true, name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column(name = "name", nullable = false)
     @Size(min = 5, max = 50, message = "Nome com tamanho de inválido")
