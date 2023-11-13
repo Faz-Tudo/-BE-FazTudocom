@@ -23,7 +23,6 @@ import java.util.Locale;
 
 @Entity
 @Table(name = "user")
-@Getter
 @Setter
 public class User implements UserDetails {
 
@@ -185,6 +184,54 @@ public class User implements UserDetails {
         return email;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public LocalDate getDt_nascimento() {
+        return dt_nascimento;
+    }
+
+    public String getCep() {
+        return cep;
+    }
+
+    public String getLogradouro() {
+        return logradouro;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if(this.role == UserRole.ADMIN) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
@@ -220,5 +267,7 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
 }
 
