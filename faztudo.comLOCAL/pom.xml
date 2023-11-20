@@ -83,6 +83,16 @@
 			<version>8.0.0.Final</version>
 		</dependency>
 
+		<!-- JUnit Jupiter API para escrever testes JUnit 5 -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.8.2</version> <!-- Substitua pela versão mais recente do JUnit 5 -->
+			<scope>test</scope>
+		</dependency>
+
+
+
 	</dependencies>
 
 
