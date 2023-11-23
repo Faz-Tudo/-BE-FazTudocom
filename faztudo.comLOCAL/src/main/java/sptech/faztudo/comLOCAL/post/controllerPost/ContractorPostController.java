@@ -7,8 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sptech.faztudo.comLOCAL.post.domainPost.upload.ContractorPost;
 import sptech.faztudo.comLOCAL.post.domainPost.upload.Image;
-import sptech.faztudo.comLOCAL.post.repositoryPost.contractorPostRepository;
-import sptech.faztudo.comLOCAL.post.repositoryPost.imageRepository;
+import sptech.faztudo.comLOCAL.post.repositoryPost.ContractorPostRepository;
+import sptech.faztudo.comLOCAL.post.repositoryPost.ImageRepository;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -19,9 +19,9 @@ import java.util.Optional;
 public class ContractorPostController {
 
     @Autowired
-    private contractorPostRepository contractorPostRepository;
+    private ContractorPostRepository contractorPostRepository;
     @Autowired
-    private imageRepository imageRepository;
+    private ImageRepository imageRepository;
 
     @PostMapping("/")
     @Operation(summary = "Post Contratante", description = "Postagem para contratante, envia descrição do trabalho e imagem.", tags = "USER - CONTRACTOR - POST")
@@ -46,6 +46,7 @@ public class ContractorPostController {
     @PatchMapping("/{id}")
     @Operation(summary = "Post Contratante", description = "Atualiza as postagens através do id do usuário.", tags = "USER - CONTRACTOR - POST")
     public ResponseEntity<ContractorPost> atualizarContractorPost(@PathVariable Long id, @RequestBody Map<String, Object> updates) {
+
         Optional<ContractorPost> contractorPostOptional = contractorPostRepository.findById(id);
         if (contractorPostOptional.isPresent()) {
             ContractorPost contractorPost = contractorPostOptional.get();
