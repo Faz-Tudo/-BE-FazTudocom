@@ -1,22 +1,20 @@
 package sptech.faztudo.comLOCAL.users.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import sptech.faztudo.comLOCAL.users.domain.csv.GerenciadorDeArquivo;
+import sptech.faztudo.comLOCAL.users.domain.files.FileManager;
 import sptech.faztudo.comLOCAL.users.domain.users.User;
-import sptech.faztudo.comLOCAL.users.repositorys.csvRepository;
 import sptech.faztudo.comLOCAL.users.repositorys.userRepository;
 
 import java.util.List;
 @RestController
 
-public class CsvController {
+public class FileController {
 
     @Autowired
     userRepository userRepository;
@@ -27,7 +25,7 @@ public class CsvController {
 
         List<User> users = userRepository.findAll();
 
-        GerenciadorDeArquivo.gravarCSV(users, "ArquivoCSV");
+        FileManager.gravarCSV(users, "ArquivoCSV");
 
         return ResponseEntity.status(200).body(users);
 
@@ -39,7 +37,7 @@ public class CsvController {
 
         List<User> users = userRepository.findAll();
 
-        GerenciadorDeArquivo.gravaArquivoTxt(users, "ArquivoTXT");
+        FileManager.gravaArquivoTxt(users, "ArquivoTXT");
 
         return ResponseEntity.status(200).body(users);
 
@@ -50,7 +48,7 @@ public class CsvController {
     public ResponseEntity<List<User>> ordenarCSV() {
 
         try {
-            List<User> users = GerenciadorDeArquivo.ordenarCSV("ArquivoCSV");
+            List<User> users = FileManager.ordenarCSV("ArquivoCSV");
 
             return ResponseEntity.status(200).body(users);
 
@@ -65,7 +63,7 @@ public class CsvController {
     public ResponseEntity<User> acharCSV(@PathVariable String nome) {
 
         try {
-            User info = GerenciadorDeArquivo.acharCSV("ArquivoCSVOrdenado", nome);
+            User info = FileManager.acharCSV("ArquivoCSVOrdenado", nome);
 
             return ResponseEntity.status(200).body(info);
 
@@ -83,14 +81,28 @@ public class CsvController {
 
             System.out.println("tentei o gerenciador ");
 
-            List<User> users = GerenciadorDeArquivo.leArquivoTxt("ImportTXT");
+            List<User> users = FileManager.leArquivoTxt("ArquivoImportTXT");
 
             for (User a : users){
 
-                System.out.println(a);
+                System.out.println(a.getName());
+                System.out.println(a.getLastName());
+                System.out.println(a.getCpf());
+                System.out.println(a.getDt_nascimento());
+                System.out.println(a.getCep());
+                System.out.println(a.getLogradouro());
+                System.out.println(a.getState());
+                System.out.println(a.getCity());
+                System.out.println(a.getPhone());
+                System.out.println(a.getEmail());
+                System.out.println(a.getSenha());
+                System.out.println(a.getRole());
+                System.out.println();
+
+                userRepository.save(a);
             }
 
-            userRepository.saveAll(users);
+//            userRepository.saveAll(users);
 
             return ResponseEntity.status(200).body(users);
         } catch (Exception e) {

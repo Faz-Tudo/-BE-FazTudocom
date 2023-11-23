@@ -1,4 +1,4 @@
-package sptech.faztudo.comLOCAL.users.domain.csv;
+package sptech.faztudo.comLOCAL.users.domain.files;
 
 public class ListaObj<T>{
 

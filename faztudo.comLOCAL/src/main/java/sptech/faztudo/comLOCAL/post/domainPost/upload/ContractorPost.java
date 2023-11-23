@@ -15,8 +15,12 @@ public class ContractorPost {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "fk_user")
-    private User fkUser;
+    @JoinColumn(name = "fk_contractor")
+    private User fkContractor;
+
+    @ManyToOne
+    @JoinColumn(name = "fk_provider", nullable = true)
+    private User fkProvider;
 
     @Column
     private String descricao;
@@ -27,19 +31,26 @@ public class ContractorPost {
     @Column(name = "data_criacao", nullable = false)
     private LocalDateTime dataCriacao;
 
+    @Column(name = "data_conclusao", nullable = true)
+    private LocalDateTime dataDeConclusao;
+
     @ManyToOne
     @JoinColumn(name = "fk_image")
     private Image foto;
 
+
+
     public ContractorPost() {
     }
 
-    public ContractorPost(Long id, User fkUser, String descricao, String categoria, LocalDateTime dataCriacao, Image foto) {
+    public ContractorPost(Long id, User fkContractor, User fkProvider, String descricao, String categoria, LocalDateTime dataCriacao, LocalDateTime dataDeConclusao, Image foto) {
         this.id = id;
-        this.fkUser = fkUser;
+        this.fkContractor = fkContractor;
+        this.fkProvider = fkProvider;
         this.descricao = descricao;
         this.categoria = categoria;
         this.dataCriacao = dataCriacao;
+        this.dataDeConclusao = dataDeConclusao;
         this.foto = foto;
     }
 
@@ -51,12 +62,20 @@ public class ContractorPost {
         this.id = id;
     }
 
-    public User getFkUser() {
-        return fkUser;
+    public User getFkContractor() {
+        return fkContractor;
     }
 
-    public void setFkUser(User fkUser) {
-        this.fkUser = fkUser;
+    public void setFkContractor(User fkContractor) {
+        this.fkContractor = fkContractor;
+    }
+
+    public User getFkProvider() {
+        return fkProvider;
+    }
+
+    public void setFkProvider(User fkProvider) {
+        this.fkProvider = fkProvider;
     }
 
     public String getDescricao() {
@@ -81,6 +100,14 @@ public class ContractorPost {
 
     public void setDataCriacao(LocalDateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
+    }
+
+    public LocalDateTime getDataDeConclusao() {
+        return dataDeConclusao;
+    }
+
+    public void setDataDeConclusao(LocalDateTime dataDeConclusao) {
+        this.dataDeConclusao = dataDeConclusao;
     }
 
     public Image getFoto() {

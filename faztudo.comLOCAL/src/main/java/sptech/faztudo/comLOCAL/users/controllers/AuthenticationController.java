@@ -131,8 +131,8 @@ public class AuthenticationController {
 
             String encryptedPassword = new BCryptPasswordEncoder().encode(dataContractor.senha());
             Contractor newContractor = new Contractor(dataContractor.name(), dataContractor.lastName(),
-                    dataContractor.cpf(),dataContractor.dt_nascimento(), dataContractor.cep(), dataContractor.state(),
-                    dataContractor.logradouro(), dataContractor.city(), dataContractor.phone(), dataContractor.email(), encryptedPassword,
+                    dataContractor.cpf(),dataContractor.dt_nascimento(), dataContractor.cep(),dataContractor.logradouro() ,
+                    dataContractor.state(), dataContractor.city(), dataContractor.phone(), dataContractor.email(), encryptedPassword,
                     dataContractor.proUser());
 
             var uri = uriComponentsBuilder.path("/users/{id}").buildAndExpand(newContractor.getId()).toUri();
