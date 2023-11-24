@@ -11,7 +11,7 @@ import java.util.List;
 public interface userRepository extends JpaRepository<User, Integer> {
 
     List<User> findAll();
-    User findById(int id);
+    User findById(Long id);
     UserDetails findByEmail(String email);
 
 //    @Transactional

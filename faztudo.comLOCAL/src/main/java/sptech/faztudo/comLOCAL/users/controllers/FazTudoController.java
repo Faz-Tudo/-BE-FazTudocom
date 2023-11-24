@@ -29,7 +29,7 @@ public class FazTudoController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get User by Id", description = "Listar usuário por id.", tags = "BACKOFFICE")
-    public ResponseEntity<User> findById(@PathVariable int id) {
+    public ResponseEntity<User> findById(@PathVariable long id) {
         User user = UserRepository.findById(id);
         return ResponseEntity.status(200).body(user);
     }
@@ -42,7 +42,7 @@ public class FazTudoController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete User by Id", description = "Deleta usuário por id.", tags = "BACKOFFICE")
-    public ResponseEntity<User> delete(@PathVariable int id) {
+    public ResponseEntity<User> delete(@PathVariable long id) {
 
         try {
             User user = UserRepository.findById(id);

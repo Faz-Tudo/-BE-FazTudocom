@@ -9,6 +9,8 @@ import sptech.faztudo.comLOCAL.post.domainPost.upload.ContractorPost;
 import sptech.faztudo.comLOCAL.post.domainPost.upload.Image;
 import sptech.faztudo.comLOCAL.post.repositoryPost.ContractorPostRepository;
 import sptech.faztudo.comLOCAL.post.repositoryPost.ImageRepository;
+import sptech.faztudo.comLOCAL.users.domain.serviceProvider.ServiceFila;
+import sptech.faztudo.comLOCAL.users.domain.serviceProvider.ServicePilha;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -22,6 +24,7 @@ public class ContractorPostController {
     private ContractorPostRepository contractorPostRepository;
     @Autowired
     private ImageRepository imageRepository;
+
 
     @PostMapping("/")
     @Operation(summary = "Post Contratante", description = "Postagem para contratante, envia descrição do trabalho e imagem.", tags = "USER - CONTRACTOR - POST")
@@ -75,6 +78,7 @@ public class ContractorPostController {
             }
 
             ContractorPost contractorPostAtualizado = contractorPostRepository.save(contractorPost);
+
             return ResponseEntity.ok(contractorPostAtualizado);
         } else {
             return ResponseEntity.notFound().build();
