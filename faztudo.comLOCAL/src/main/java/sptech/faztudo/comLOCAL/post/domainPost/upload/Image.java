@@ -26,8 +26,9 @@ public class Image {
     public Image() {
     }
 
-    public Image(Long id, String name, byte[] data) {
+    public Image(Long id, User fkUser, String name, byte[] data) {
         this.id = id;
+        this.fkUser = fkUser;
         this.name = name;
         this.data = data;
     }
@@ -36,20 +37,28 @@ public class Image {
         return id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public byte[] getData() {
-        return data;
-    }
-
     public void setId(Long id) {
         this.id = id;
     }
 
+    public User getFkUser() {
+        return fkUser;
+    }
+
+    public void setFkUser(User fkUser) {
+        this.fkUser = fkUser;
+    }
+
+    public String getName() {
+        return name;
+    }
+
     public void setName(String name) {
         this.name = name;
+    }
+
+    public byte[] getData() {
+        return data;
     }
 
     public void setData(byte[] data) {

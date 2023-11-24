@@ -1,11 +1,7 @@
-package sptech.faztudo.comLOCAL.users.domain.csv;
+package sptech.faztudo.comLOCAL.users.domain.files;
 
-import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import sptech.faztudo.comLOCAL.users.UserRole;
 import sptech.faztudo.comLOCAL.users.domain.users.User;
-import sptech.faztudo.comLOCAL.users.repositorys.csvRepository;
 
 import java.io.*;
 import java.time.LocalDateTime;
@@ -17,7 +13,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 
-public class GerenciadorDeArquivo {
+public class FileManager {
 
     public static void gravarCSV(List<User> lista, String nomeArq) {
         FileWriter arq = null;
@@ -40,7 +36,10 @@ public class GerenciadorDeArquivo {
             for (int i = 0; i < lista.size(); i++) {
 
                 User user = lista.get(i);
-                saida.format("%d;%s;%s;%s;%s;%s;%s;%s;%s\n", user.getId(), user.getName(), user.getLastName(), user.getEmail(), user.getCpf(), user.getCity(), user.getState(), user.getPhone(), user.getRole());
+                saida.format("%d;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s\n",
+                        user.getId(),user.getName(),user.getLastName(),user.getCpf(),user.getDt_nascimento(),
+                        user.getCep(),user.getLogradouro(),user.getState(),user.getCity(),user.getPhone(),
+                        user.getEmail(),user.getSenha(),user.getRole());
 
 
             }
@@ -86,19 +85,20 @@ public class GerenciadorDeArquivo {
                 Integer id = Integer.parseInt(entrada.next());
                 String nome = entrada.next();
                 String sobrenome = entrada.next();
-                String email = entrada.next();
                 String cpf = entrada.next();
                 LocalDate dt_nascimento = LocalDate.parse(entrada.next());
                 String cep = entrada.next();
                 String logradouro = entrada.next();
-                String cidade = entrada.next();
                 String estado = entrada.next();
+                String cidade = entrada.next();
                 String telefone = entrada.next();
+                String email = entrada.next();
+                String senha = entrada.next();
                 String role = entrada.next();
-                String senha = "?";
 
-                User user = new User(id,nome,sobrenome,cpf,dt_nascimento,cep,logradouro,
-                            estado,cidade,telefone,email,senha, UserRole.valueOf(role));
+                User user = new User(id,nome,sobrenome,cpf,dt_nascimento,cep
+                ,logradouro,estado,cidade,telefone,email,senha,UserRole.valueOf(role));
+
                 users.add(user);
                 System.out.println(users);
 
@@ -126,7 +126,7 @@ public class GerenciadorDeArquivo {
             users.sort(Comparator.comparing(User::getName));
 
             // Gravar o arquivo CSV ordenado
-            GerenciadorDeArquivo.gravarCSV(users, "ArquivoCSVOrdenado");
+            FileManager.gravarCSV(users, "ArquivoCSVOrdenado");
         }
 
         return users; // Retorna a lista ordenada (ou não) de usuários.
@@ -156,19 +156,19 @@ public class GerenciadorDeArquivo {
                 Integer id = Integer.parseInt(entrada.next());
                 String nome = entrada.next();
                 String sobrenome = entrada.next();
-                String email = entrada.next();
+                String cpf = entrada.next();
                 LocalDate dt_nascimento = LocalDate.parse(entrada.next());
                 String cep = entrada.next();
                 String logradouro = entrada.next();
-                String cpf = entrada.next();
-                String cidade = entrada.next();
                 String estado = entrada.next();
+                String cidade = entrada.next();
                 String telefone = entrada.next();
+                String email = entrada.next();
+                String senha = entrada.next();
                 String role = entrada.next();
-                String senha = "?";
 
-                User user = new User(id, nome, sobrenome, cpf,dt_nascimento, cep, logradouro,
-                            estado, cidade, telefone, email, senha, UserRole.valueOf(role));
+                User user = new User(id,nome,sobrenome,cpf,dt_nascimento,cep
+                        ,logradouro,estado,cidade,telefone,email,senha,UserRole.valueOf(role));
                 users.add(user);
             }
         } catch (NoSuchElementException erro) {
@@ -263,6 +263,7 @@ public class GerenciadorDeArquivo {
             corpo+= String.format("%29s",a.getCity());
             corpo+= String.format("%20s",a.getPhone());
             corpo+= String.format("%50s",a.getEmail());
+            corpo+= String.format("%70s",a.getSenha());
             corpo+= String.format("%10s",a.getRole());
             //Gravando corpo no arquivo:
             gravaRegistro(corpo, nomeArq);
@@ -276,7 +277,6 @@ public class GerenciadorDeArquivo {
 
         gravaRegistro(trailer, nomeArq);
     }
-
 
     public static List<User> leArquivoTxt(String nomeArq) {
 
@@ -357,10 +357,11 @@ public class GerenciadorDeArquivo {
                     String email = registro.substring(200, 230).trim();
                     System.out.println("email:"+email);
 
-                    String senha = registro.substring(230, 235).trim();
+                    String senha = registro.substring(234, 246).trim();
                     System.out.println("senha:"+senha);
 
-                    String valor = registro.substring(235, 241).trim();
+                    String valor = registro.substring(247, 256).trim();
+                    System.out.println("valor:"+valor);
 
                     UserRole role = UserRole.valueOf(valor);
 
