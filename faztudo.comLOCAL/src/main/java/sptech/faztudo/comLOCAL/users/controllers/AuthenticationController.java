@@ -64,9 +64,11 @@ public class AuthenticationController {
         var userNamePassWord = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
         var auth = this.authenticationManager.authenticate(userNamePassWord);
 
+        var login = auth.getPrincipal();
+
         var token = tokeService.generateToken((User) auth.getPrincipal());
 
-        return ResponseEntity.ok(new LoginResponseDTO(token));
+        return ResponseEntity.ok(new LoginResponseDTO(token, login));
     }
 
 
@@ -131,9 +133,11 @@ public class AuthenticationController {
 
             String encryptedPassword = new BCryptPasswordEncoder().encode(dataContractor.senha());
             Contractor newContractor = new Contractor(dataContractor.name(), dataContractor.lastName(),
+
                     dataContractor.cpf(),dataContractor.dt_nascimento(), dataContractor.cep(),dataContractor.logradouro() ,
                     dataContractor.state(), dataContractor.city(), dataContractor.phone(), dataContractor.email(), encryptedPassword,
                     dataContractor.proUser());
+
 
             var uri = uriComponentsBuilder.path("/users/{id}").buildAndExpand(newContractor.getId()).toUri();
             this.contractorRepository.save(newContractor);

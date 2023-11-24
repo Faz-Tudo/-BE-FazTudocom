@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import sptech.faztudo.comLOCAL.post.domainPost.upload.Image;
+import sptech.faztudo.comLOCAL.post.repositoryPost.ImageRepository;
 
 import java.util.Optional;
 
@@ -17,7 +18,7 @@ import java.util.Optional;
 public class ImageController {
 
     @Autowired
-    private sptech.faztudo.comLOCAL.post.repositoryPost.imageRepository imageRepository;
+    private ImageRepository imageRepository;
 
     @PostMapping("/upload")
     @Operation(summary = "Imagem Contratante", description = "Envio de imagens para uso do contratante.", tags = "USER - CONTRACTOR")
