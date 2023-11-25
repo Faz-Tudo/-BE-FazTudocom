@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import sptech.faztudo.comLOCAL.users.domain.users.User;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class Contractor extends User {
@@ -21,14 +22,13 @@ public class Contractor extends User {
                       String phone,
                       String email,
                       String senha,
+                      LocalDateTime dt_cadastro,
+                      String descricao,
                       boolean proUser) {
-        super(name, lastName, cpf, dt_nascimento, cep, logradouro, state, city, phone, email, senha);
+        super(name, lastName, cpf, dt_nascimento, cep, logradouro, state, city, phone, email, senha,dt_cadastro,descricao);
         this.proUser = proUser;
     }
 
-    public Contractor(){
-
-    }
 
     public boolean isProUser() {
         return proUser;

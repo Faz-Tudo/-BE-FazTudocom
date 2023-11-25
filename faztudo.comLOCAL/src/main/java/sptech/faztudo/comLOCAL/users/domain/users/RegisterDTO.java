@@ -15,5 +15,7 @@ public record RegisterDTO(String name,
                           String phone,
                           String email,
                           String senha,
+                          LocalDate dt_cadastro,
+                          String descricao,
                           UserRole role) {
 }

@@ -25,6 +25,7 @@ import sptech.faztudo.comLOCAL.users.domain.users.LoginResponseDTO;
 import sptech.faztudo.comLOCAL.users.domain.users.RegisterDTO;
 import sptech.faztudo.comLOCAL.users.domain.users.User;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -80,11 +81,11 @@ public class AuthenticationController {
         if(!authorizationService.isUserValid(data) && this.repository.findByEmail(data.email()) != null) return ResponseEntity.status(400).build();
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.senha());
-        User newUser = new User(data.name(), data.lastName(), data.cpf(),
-                data.dt_nascimento(),data.cep(),
-                data.logradouro(), data.state(),
-                data.city(), data.phone(), data.email(),
-                encryptedPassword, data.role());
+
+        LocalDateTime cad = LocalDateTime.now();
+
+        User newUser = new User(data.name(),data.lastName(),data.cpf(),data.dt_nascimento(),data.cep(),data.logradouro(),data.state(),data.city()
+                ,data.phone(),data.email(),encryptedPassword,cad,data.descricao());
 
 
         this.repository.save(newUser);
@@ -114,11 +115,14 @@ public class AuthenticationController {
             if(!authorizationService.isServiceProviderValid(dataServiceProvider) && this.serviceProviderRepository.findByEmail(dataServiceProvider.email()) != null) return ResponseEntity.status(400).build();
 
             String encryptedPassword = new BCryptPasswordEncoder().encode(dataServiceProvider.senha());
+
+            LocalDateTime cad = LocalDateTime.now();
+
             ServiceProvider newServiceProvider = new ServiceProvider(dataServiceProvider.name(), dataServiceProvider.lastName(),
                     dataServiceProvider.cpf(), dataServiceProvider.dt_nascimento(), dataServiceProvider.cep(),
                     dataServiceProvider.logradouro(), dataServiceProvider.state(),
                     dataServiceProvider.city(), dataServiceProvider.phone(), dataServiceProvider.email(),
-                    encryptedPassword, dataServiceProvider.category());
+                    encryptedPassword,cad,dataServiceProvider.descricao(),dataServiceProvider.category());
 
             var uri = uriComponentsBuilder.path("/users/{id}").buildAndExpand(newServiceProvider.getId()).toUri();
             this.serviceProviderRepository.save(newServiceProvider);
@@ -132,10 +136,12 @@ public class AuthenticationController {
             if(!authorizationService.isServiceProviderValid(dataContractor) && this.contractorRepository.findByEmail(dataContractor.email()) != null) return ResponseEntity.status(400).build();
 
             String encryptedPassword = new BCryptPasswordEncoder().encode(dataContractor.senha());
-            Contractor newContractor = new Contractor(dataContractor.name(), dataContractor.lastName(),
 
+            LocalDateTime cad = LocalDateTime.now();
+
+            Contractor newContractor = new Contractor(dataContractor.name(), dataContractor.lastName(),
                     dataContractor.cpf(),dataContractor.dt_nascimento(), dataContractor.cep(),dataContractor.logradouro() ,
-                    dataContractor.state(), dataContractor.city(), dataContractor.phone(), dataContractor.email(), encryptedPassword,
+                    dataContractor.state(), dataContractor.city(), dataContractor.phone(), dataContractor.email(), encryptedPassword,cad,dataContractor.descricao(),
                     dataContractor.proUser());
 
 

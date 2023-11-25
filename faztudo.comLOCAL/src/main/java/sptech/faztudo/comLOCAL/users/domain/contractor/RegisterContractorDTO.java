@@ -13,5 +13,6 @@ public record RegisterContractorDTO(String name,
                                     String phone,
                                     String email,
                                     String senha,
+                                    String descricao,
                                     boolean proUser) {
 }
