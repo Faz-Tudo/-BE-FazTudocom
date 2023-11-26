@@ -16,7 +16,7 @@ import sptech.faztudo.comLOCAL.users.domain.serviceProvider.ServiceProvider;
 import sptech.faztudo.comLOCAL.users.security.TokeService;
 import sptech.faztudo.comLOCAL.users.security.tokenForRegister.ConfirmationToken;
 import sptech.faztudo.comLOCAL.users.security.tokenForRegister.ConfirmationTokenService;
-import sptech.faztudo.comLOCAL.users.repositorys.userRepository;
+import sptech.faztudo.comLOCAL.users.repositorys.UserRepository;
 import sptech.faztudo.comLOCAL.users.repositorys.serviceProviderRepository;
 import sptech.faztudo.comLOCAL.users.repositorys.contractorRepository;
 import sptech.faztudo.comLOCAL.users.services.AuthorizationService;
@@ -25,7 +25,7 @@ import sptech.faztudo.comLOCAL.users.domain.users.LoginResponseDTO;
 import sptech.faztudo.comLOCAL.users.domain.users.RegisterDTO;
 import sptech.faztudo.comLOCAL.users.domain.users.User;
 
-import java.time.LocalDate;
+import java.sql.SQLOutput;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -37,7 +37,7 @@ public class AuthenticationController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private userRepository repository;
+    private UserRepository repository;
 
     @Autowired
     private serviceProviderRepository serviceProviderRepository;
@@ -62,13 +62,19 @@ public class AuthenticationController {
     @Operation(summary = "Login", description = "Login para Users.", tags = "USER")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data){
 
+        System.out.println("passei aq 1");
         var userNamePassWord = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
+        System.out.println(userNamePassWord);
+        System.out.println("passei aq 2");
         var auth = this.authenticationManager.authenticate(userNamePassWord);
-
+        System.out.println(auth);
+        System.out.println("passei aq 3");
         var login = auth.getPrincipal();
 
+        System.out.println("passei aq 4");
         var token = tokeService.generateToken((User) auth.getPrincipal());
 
+        System.out.println("passei aq 5");
         return ResponseEntity.ok(new LoginResponseDTO(token, login));
     }
 

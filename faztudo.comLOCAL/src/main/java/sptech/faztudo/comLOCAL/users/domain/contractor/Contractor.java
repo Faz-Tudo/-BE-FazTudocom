@@ -1,6 +1,7 @@
 package sptech.faztudo.comLOCAL.users.domain.contractor;
 
 import jakarta.persistence.Entity;
+import sptech.faztudo.comLOCAL.users.UserRole;
 import sptech.faztudo.comLOCAL.users.domain.users.User;
 
 import java.time.LocalDate;
@@ -27,6 +28,10 @@ public class Contractor extends User {
                       boolean proUser) {
         super(name, lastName, cpf, dt_nascimento, cep, logradouro, state, city, phone, email, senha,dt_cadastro,descricao);
         this.proUser = proUser;
+    }
+
+    public Contractor() {
+
     }
 
 
