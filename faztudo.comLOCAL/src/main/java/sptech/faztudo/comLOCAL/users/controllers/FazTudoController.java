@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sptech.faztudo.comLOCAL.users.domain.users.User;
-import sptech.faztudo.comLOCAL.users.repositorys.userRepository;
 
 
 import java.util.List;
@@ -15,7 +14,7 @@ import java.util.List;
 public class FazTudoController {
 
     @Autowired
-    public userRepository UserRepository;
+    public sptech.faztudo.comLOCAL.users.repositorys.UserRepository UserRepository;
 
     @GetMapping("/")
     @Operation(summary = "Get All Users", description = "Listar todos os usuários.", tags = "BACKOFFICE")

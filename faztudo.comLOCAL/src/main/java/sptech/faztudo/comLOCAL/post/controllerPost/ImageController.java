@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import sptech.faztudo.comLOCAL.post.domainPost.upload.Image;
 import sptech.faztudo.comLOCAL.post.repositoryPost.ImageRepository;
+import sptech.faztudo.comLOCAL.users.domain.users.User;
+import sptech.faztudo.comLOCAL.users.repositorys.UserRepository;
 
 import java.util.Optional;
 
@@ -20,18 +22,23 @@ public class ImageController {
     @Autowired
     private ImageRepository imageRepository;
 
-    @PostMapping("/upload")
+    @Autowired
+    private UserRepository userRepository;
+
+    @PostMapping("/upload/{tipo}/{user}")
     @Operation(summary = "Imagem Contratante", description = "Envio de imagens para uso do contratante.", tags = "USER - CONTRACTOR")
-    public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file, @PathVariable Integer tipo, @PathVariable Integer user) {
         try {
             if (file.isEmpty()) {
                 return ResponseEntity.badRequest().body("O arquivo está vazio.");
             }
+            Optional<User> userOptional = userRepository.findById(user);
 
             Image image = new Image();
             image.setName(file.getOriginalFilename());
             image.setData(file.getBytes());
-
+            image.setTipo(tipo);
+            image.setFkUser(userOptional);
             imageRepository.save(image);
 
             return ResponseEntity.ok("Imagem enviada com sucesso.");
