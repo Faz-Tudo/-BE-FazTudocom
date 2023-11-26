@@ -53,6 +53,32 @@ public class FazTudoController {
         }
         return ResponseEntity.status(200).build();
     }
+//    @PostMapping("/favorite/{id}")
+//    @Operation(summary = "Add Favorite by Id", description = "Adiciona um favorito por id", tags = "BACKOFFICE")
+//    public ResponseEntity<?> addFavorite (@PathVariable int id){
+//        User userQueFavorita = new User();
+//        try {
+//            User user = UserRepository.findById(id);
+//            userQueFavorita.addFavorito(id);
+//        } catch (Exception e) {
+//            System.out.println(e);
+//            return ResponseEntity.status(404).build();
+//        }
+//        return ResponseEntity.status(200).build();
+//    }
+//    @DeleteMapping("/favorite/{id}")
+//    @Operation(summary = "Delete Favorite by Id", description = "Deleta um favorito por id", tags = "BACKOFFICE")
+//    public ResponseEntity<?> deleteFavorite (@PathVariable int id){
+//        User userQueFavorita = new User();
+//        try {
+//            User user = UserRepository.findById(id);
+//            userQueFavorita.removeFavorito(id);
+//        } catch (Exception e) {
+//            System.out.println(e);
+//            return ResponseEntity.status(404).build();
+//        }
+//        return ResponseEntity.status(200).build();
+//    }
 
 
 }
