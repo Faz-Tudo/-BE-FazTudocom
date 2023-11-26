@@ -36,10 +36,10 @@ public class FileManager {
             for (int i = 0; i < lista.size(); i++) {
 
                 User user = lista.get(i);
-                saida.format("%d;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s\n",
+                saida.format("%d;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s\n",
                         user.getId(),user.getName(),user.getLastName(),user.getCpf(),user.getDt_nascimento(),
                         user.getCep(),user.getLogradouro(),user.getState(),user.getCity(),user.getPhone(),
-                        user.getEmail(),user.getSenha(),user.getRole());
+                        user.getEmail(),user.getSenha(),user.getDt_cadastro(),user.getDescricao(),user.getRole());
 
 
             }
@@ -94,10 +94,12 @@ public class FileManager {
                 String telefone = entrada.next();
                 String email = entrada.next();
                 String senha = entrada.next();
+                LocalDateTime dt_cadastro = LocalDateTime.parse(entrada.next());
+                String descricao = entrada.next();
                 String role = entrada.next();
 
                 User user = new User(id,nome,sobrenome,cpf,dt_nascimento,cep
-                ,logradouro,estado,cidade,telefone,email,senha,UserRole.valueOf(role));
+                ,logradouro,estado,cidade,telefone,email,senha,dt_cadastro,descricao,UserRole.valueOf(role));
 
                 users.add(user);
                 System.out.println(users);
@@ -165,10 +167,12 @@ public class FileManager {
                 String telefone = entrada.next();
                 String email = entrada.next();
                 String senha = entrada.next();
+                LocalDateTime dt_cadastro = LocalDateTime.parse(entrada.next());
+                String descricao = entrada.next();
                 String role = entrada.next();
 
                 User user = new User(id,nome,sobrenome,cpf,dt_nascimento,cep
-                        ,logradouro,estado,cidade,telefone,email,senha,UserRole.valueOf(role));
+                        ,logradouro,estado,cidade,telefone,email,senha,dt_cadastro,descricao,UserRole.valueOf(role));
                 users.add(user);
             }
         } catch (NoSuchElementException erro) {
@@ -360,6 +364,8 @@ public class FileManager {
                     String senha = registro.substring(234, 246).trim();
                     System.out.println("senha:"+senha);
 
+                    String descricao = registro.substring(240,250).trim();
+
                     String valor = registro.substring(247, 256).trim();
                     System.out.println("valor:"+valor);
 
@@ -369,7 +375,10 @@ public class FileManager {
 
                     contaRegDadosLidos++;
 
-                    User a = new User(name,lastName,cpf,data,cep,logradouro,state,city,phone,email,senha,role);
+                    LocalDateTime cad = LocalDateTime.now();
+
+                    User a = new User(name,lastName,cpf,data,cep
+                            ,logradouro,state,city,phone,email,senha,cad,descricao,role);
 
                     listaLida.add(a);
 

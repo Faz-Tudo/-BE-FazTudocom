@@ -13,5 +13,6 @@ public record RegisterServiceProviderDTO(String name,
                                          String phone,
                                          String email,
                                          String senha,
+                                         String descricao,
                                          int category) {
 }
