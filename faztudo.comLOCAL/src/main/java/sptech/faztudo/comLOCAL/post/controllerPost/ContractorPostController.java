@@ -22,7 +22,7 @@ public class ContractorPostController {
     @Autowired
     private ContractorPostRepository contractorPostRepository;
     @Autowired
-    private ImageRepository imageRepository;
+    private ImageRepository imageRepository; //
 
     @PostMapping("/{idContractor}")
     @Operation(summary = "Post Contratante", description = "Postagem para contratante, envia descrição do trabalho e imagem.", tags = "USER - CONTRACTOR - POST")
@@ -70,15 +70,15 @@ public class ContractorPostController {
 
             }
 
-            if (updates.containsKey("categoria")) {
+            if (updates.containsKey("foto")) {
 
-                contractorPost.setCategoria((Integer) updates.get("categoria"));
+                contractorPost.setFoto(Long.valueOf((String) updates.get("foto")));
 
             }
 
-            if (updates.containsKey("foto")) {
+            if (updates.containsKey("categoria")) {
 
-               contractorPost.setFoto((Long) updates.get("categoria"));
+                contractorPost.setCategoria(Integer.valueOf((String) updates.get("categoria")));
 
             }
 
