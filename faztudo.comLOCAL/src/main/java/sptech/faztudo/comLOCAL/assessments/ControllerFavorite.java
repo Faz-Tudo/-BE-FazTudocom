@@ -10,7 +10,7 @@ import sptech.faztudo.comLOCAL.users.domain.serviceProvider.ServiceProvider;
 import sptech.faztudo.comLOCAL.users.domain.users.User;
 import sptech.faztudo.comLOCAL.users.repositorys.contractorRepository;
 import sptech.faztudo.comLOCAL.users.repositorys.serviceProviderRepository;
-import sptech.faztudo.comLOCAL.users.repositorys.userRepository;
+import sptech.faztudo.comLOCAL.users.repositorys.UserRepository;
 
 import java.util.List;
 
@@ -26,8 +26,9 @@ public class ControllerFavorite {
 
     @Autowired
     private serviceProviderRepository serviceProviderRepository;
+    
     @Autowired
-    private userRepository userRepository;
+    private UserRepository userRepository;
 
 
     @PostMapping("/favorite/{id_contractor}/{id_provider}")
