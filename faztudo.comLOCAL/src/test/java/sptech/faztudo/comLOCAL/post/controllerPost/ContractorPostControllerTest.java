@@ -67,7 +67,6 @@ class ContractorPostControllerTest {
     void atualizarContractorPost() {
 
 
-
     }
 
 
