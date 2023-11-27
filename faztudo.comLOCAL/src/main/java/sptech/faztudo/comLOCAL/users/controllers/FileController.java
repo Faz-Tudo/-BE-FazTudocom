@@ -60,10 +60,10 @@ public class FileController {
 
     @GetMapping("/csv/find/{nome}")
     @Operation(summary = "Order CSV", description = "Ler o CSV de todos os usuários", tags = "BACKOFFICE")
-    public ResponseEntity<User> acharCSV(@PathVariable String nome) {
+    public ResponseEntity<ResponseEntity<User>> acharCSV(@PathVariable String nome) {
 
         try {
-            User info = FileManager.acharCSV("ArquivoCSVOrdenado", nome);
+            ResponseEntity<User> info = FileManager.acharCSV("ArquivoCSVOrdenado", nome);
 
             return ResponseEntity.status(200).body(info);
 
