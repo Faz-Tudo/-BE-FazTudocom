@@ -106,7 +106,7 @@ public class AuthenticationController {
                     dataServiceProvider.cpf(), dataServiceProvider.dt_nascimento(), dataServiceProvider.cep(),
                     dataServiceProvider.logradouro(), dataServiceProvider.state(),
                     dataServiceProvider.city(), dataServiceProvider.phone(), dataServiceProvider.email(),
-                    encryptedPassword,cad,dataServiceProvider.descricao(),dataServiceProvider.category());
+                    encryptedPassword,cad,dataServiceProvider.descricao(),dataServiceProvider.category(),dataServiceProvider.role());
             var uri = uriComponentsBuilder.path("/users/{id}").buildAndExpand(newServiceProvider.getId()).toUri();
             this.serviceProviderRepository.save(newServiceProvider);
             return ResponseEntity.created(uri).body(newServiceProvider);
@@ -122,7 +122,7 @@ public class AuthenticationController {
             Contractor newContractor = new Contractor(dataContractor.name(), dataContractor.lastName(),
                     dataContractor.cpf(),dataContractor.dt_nascimento(), dataContractor.cep(),dataContractor.logradouro() ,
                     dataContractor.state(), dataContractor.city(), dataContractor.phone(), dataContractor.email(), encryptedPassword,cad,dataContractor.descricao(),
-                    dataContractor.proUser());
+                    dataContractor.proUser(),dataContractor.role());
             var uri = uriComponentsBuilder.path("/users/{id}").buildAndExpand(newContractor.getId()).toUri();
             this.contractorRepository.save(newContractor);
             return ResponseEntity.created(uri).body(newContractor);
