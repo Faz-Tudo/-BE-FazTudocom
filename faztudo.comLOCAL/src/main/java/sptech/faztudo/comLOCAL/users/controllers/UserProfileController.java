@@ -27,8 +27,6 @@ public class UserProfileController {
     @Autowired
     private UserRepository repository;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
 
     @PutMapping("/update-contractor/{id}")
     @Operation(summary = "Update", description = "Atualiza dados de contratantes.", tags = "PROFILE")
@@ -65,9 +63,7 @@ public class UserProfileController {
             @PathVariable int id
     ) {
         User newPassword =  repository.findById(id);
-
         String senha = passwordEncoder.encode(partialUpdate.senha());
-
         newPassword.setSenha(senha);
 
         return ResponseEntity.status(200).body(repository.save(newPassword));
