@@ -62,9 +62,9 @@ public class AuthenticationController {
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data){
 
         var userNamePassWord = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
-        System.out.println(userNamePassWord);
+
         var auth = this.authenticationManager.authenticate(userNamePassWord);
-        System.out.println(auth);
+
         var login = auth.getPrincipal();
         var token = tokeService.generateToken((User) auth.getPrincipal());
         return ResponseEntity.ok(new LoginResponseDTO(token, login));
