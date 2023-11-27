@@ -79,7 +79,7 @@ public class AuthenticationController {
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.senha());
         LocalDateTime cad = LocalDateTime.now();
         User newUser = new User(data.name(),data.lastName(),data.cpf(),data.dt_nascimento(),data.cep(),data.logradouro(),data.state(),data.city()
-                ,data.phone(),data.email(),encryptedPassword,cad,data.descricao());
+                ,data.phone(),data.email(),encryptedPassword,cad,data.descricao(),data.role());
         this.repository.save(newUser);
         var uri = uriComponentsBuilder.path("/users/{id}").buildAndExpand(newUser.getId()).toUri();
         String token = UUID.randomUUID().toString();

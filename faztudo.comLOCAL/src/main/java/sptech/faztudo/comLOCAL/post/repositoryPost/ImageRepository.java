@@ -10,4 +10,5 @@ public interface ImageRepository extends JpaRepository<Image, Long>  {
 
     List<Image> findAllByFkUser(Long userId);
 
+    Optional<Image> findByTipoAndFkUser(Integer imageId, Integer userID);
 }
