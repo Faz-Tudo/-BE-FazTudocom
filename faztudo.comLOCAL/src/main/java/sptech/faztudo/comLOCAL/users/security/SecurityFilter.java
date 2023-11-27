@@ -11,7 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import sptech.faztudo.comLOCAL.users.repositorys.userRepository;
+import sptech.faztudo.comLOCAL.users.repositorys.UserRepository;
 
 import java.io.IOException;
 
@@ -22,7 +22,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     TokeService tokenService;
 
     @Autowired
-    userRepository userRepository;
+    UserRepository userRepository;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         var token = this.recoverToken(request);

@@ -1,13 +1,10 @@
 package sptech.faztudo.comLOCAL.users.domain.users;
 
 
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import jakarta.persistence.*;
 
 
 import jakarta.validation.constraints.*;
-import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,9 +14,9 @@ import sptech.faztudo.comLOCAL.users.UserRole;
 
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
-import java.util.Locale;
 
 @Entity
 @Table(name = "user")
@@ -86,58 +83,26 @@ public class User implements UserDetails {
     @NotNull
     private String senha;
 
+    @Column(name = "dt_cadastro")
+    private LocalDateTime dt_cadastro;
+
+    @Column(name = "descricao_perfil")
+    private String descricao;
+
     @Column(name = "role")
     private UserRole role;
-
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public User() {
 
     }
 
 
-    public User(
-                String name,
-                String lastName,
-                String cpf,
-                LocalDate dt_nascimento,
-                String cep,
-                String logradouro,
-                String state,
-                String city,
-                String phone,
-                String email,
-                String senha) {
-
-        this.name = name;
-        this.lastName = lastName;
-        this.cpf = cpf;
-        this.dt_nascimento = dt_nascimento;
-        this.cep = cep;
-        this.logradouro = logradouro;
-        this.state = state;
-        this.city = city;
-        this.phone = phone;
-        this.email = email;
-        this.senha = senha;
-
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public User(String name,
-                String lastName,
-                String cpf,
-                LocalDate dt_nascimento,
-                String cep,
-                String logradouro,
-                String state,
-                String city,
-                String phone,
-                String email,
-                String senha,
-                UserRole role) {
+
+    public User(String name, String lastName, String cpf, LocalDate dt_nascimento, String cep, String logradouro, String state, String city, String phone, String email, String senha, LocalDateTime dt_cadastro, String descricao) {
         this.name = name;
         this.lastName = lastName;
         this.cpf = cpf;
@@ -149,22 +114,28 @@ public class User implements UserDetails {
         this.phone = phone;
         this.email = email;
         this.senha = senha;
+        this.dt_cadastro = dt_cadastro;
+        this.descricao = descricao;
+    }
+
+    public User(String name, String lastName, String cpf, LocalDate dt_nascimento, String cep, String logradouro, String state, String city, String phone, String email, String senha, LocalDateTime dt_cadastro, String descricao, UserRole role) {
+        this.name = name;
+        this.lastName = lastName;
+        this.cpf = cpf;
+        this.dt_nascimento = dt_nascimento;
+        this.cep = cep;
+        this.logradouro = logradouro;
+        this.state = state;
+        this.city = city;
+        this.phone = phone;
+        this.email = email;
+        this.senha = senha;
+        this.dt_cadastro = dt_cadastro;
+        this.descricao = descricao;
         this.role = role;
     }
 
-    public User(int id,
-                String name,
-                String lastName,
-                String cpf,
-                LocalDate dt_nascimento,
-                String cep,
-                String logradouro,
-                String state,
-                String city,
-                String phone,
-                String email,
-                String senha,
-                UserRole role) {
+    public User(Integer id, String name, String lastName, String cpf, LocalDate dt_nascimento, String cep, String logradouro, String state, String city, String phone, String email, String senha, LocalDateTime dt_cadastro, String descricao, UserRole role) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
@@ -177,11 +148,9 @@ public class User implements UserDetails {
         this.phone = phone;
         this.email = email;
         this.senha = senha;
+        this.dt_cadastro = dt_cadastro;
+        this.descricao = descricao;
         this.role = role;
-    }
-
-    public String getEmail() {
-        return email;
     }
 
     public Integer getId() {
@@ -192,44 +161,112 @@ public class User implements UserDetails {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getLastName() {
         return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getCpf() {
         return cpf;
     }
 
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
     public LocalDate getDt_nascimento() {
         return dt_nascimento;
+    }
+
+    public void setDt_nascimento(LocalDate dt_nascimento) {
+        this.dt_nascimento = dt_nascimento;
     }
 
     public String getCep() {
         return cep;
     }
 
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
+
     public String getLogradouro() {
         return logradouro;
+    }
+
+    public void setLogradouro(String logradouro) {
+        this.logradouro = logradouro;
     }
 
     public String getState() {
         return state;
     }
 
+    public void setState(String state) {
+        this.state = state;
+    }
+
     public String getCity() {
         return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public String getPhone() {
         return phone;
     }
 
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getSenha() {
         return senha;
     }
 
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public LocalDateTime getDt_cadastro() {
+        return dt_cadastro;
+    }
+
+    public void setDt_cadastro(LocalDateTime dt_cadastro) {
+        this.dt_cadastro = dt_cadastro;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
     public UserRole getRole() {
         return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 
     @Override
@@ -267,6 +304,7 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 
 
 }

@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import sptech.faztudo.comLOCAL.users.domain.users.User;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class ServiceProvider extends User {
@@ -23,15 +24,16 @@ public class ServiceProvider extends User {
                            String phone,
                            String email,
                            String senha,
+                           LocalDateTime dt_cadastro,
+                           String descricao,
                            int category) {
-        super( name, lastName, cpf, dt_nascimento, cep, logradouro, state, city, phone, email, senha);
+        super( name, lastName, cpf, dt_nascimento, cep, logradouro, state, city, phone, email, senha,dt_cadastro,descricao);
         this.category = category;
     }
-    public ServiceProvider() {
+
+    public ServiceProvider(){
 
     }
-
-
 
     public int getCategory() {
         return category;

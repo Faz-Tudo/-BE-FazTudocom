@@ -12,7 +12,7 @@ import sptech.faztudo.comLOCAL.users.domain.users.RegisterDTO;
 import sptech.faztudo.comLOCAL.users.domain.serviceProvider.RegisterServiceProviderDTO;
 import sptech.faztudo.comLOCAL.users.security.tokenForRegister.ConfirmationToken;
 import sptech.faztudo.comLOCAL.users.security.tokenForRegister.ConfirmationTokenService;
-import sptech.faztudo.comLOCAL.users.repositorys.userRepository;
+import sptech.faztudo.comLOCAL.users.repositorys.UserRepository;
 
 import java.time.LocalDateTime;
 
@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 public class AuthorizationService implements UserDetailsService {
 
     @Autowired
-    userRepository repository;
+    UserRepository repository;
 
     @Autowired
     private ConfirmationTokenService confirmationTokenService;
