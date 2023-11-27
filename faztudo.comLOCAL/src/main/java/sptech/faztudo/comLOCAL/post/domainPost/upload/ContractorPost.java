@@ -14,36 +14,40 @@ public class ContractorPost {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "fk_contractor")
-    private User fkContractor;
+    @Column(name = "fk_contractor")
+    private Integer fkContractor;
 
-    @ManyToOne
-    @JoinColumn(name = "fk_provider", nullable = true)
-    private User fkProvider;
+    @Column(name = "fk_provider")
+    private Integer fkProvider;
 
     @Column
     private String descricao;
 
     @Column
-    private String categoria;
+    private Integer categoria;
 
-    @Column(name = "data_criacao", nullable = false)
+    @Column(name = "data_criacao")
     private LocalDateTime dataCriacao;
 
-    @Column(name = "data_conclusao", nullable = true)
+    @Column(name = "data_conclusao")
     private LocalDateTime dataDeConclusao;
 
-    @ManyToOne
-    @JoinColumn(name = "fk_image")
-    private Image foto;
+    @Column(name = "fk_image")
+    private Long foto;
 
 
 
     public ContractorPost() {
     }
 
-    public ContractorPost(Long id, User fkContractor, User fkProvider, String descricao, String categoria, LocalDateTime dataCriacao, LocalDateTime dataDeConclusao, Image foto) {
+    public ContractorPost(Long id,
+                          Integer fkContractor,
+                          Integer fkProvider,
+                          String descricao,
+                          Integer categoria,
+                          LocalDateTime dataCriacao,
+                          LocalDateTime dataDeConclusao,
+                          Long foto) {
         this.id = id;
         this.fkContractor = fkContractor;
         this.fkProvider = fkProvider;
@@ -62,19 +66,19 @@ public class ContractorPost {
         this.id = id;
     }
 
-    public User getFkContractor() {
+    public Integer getFkContractor() {
         return fkContractor;
     }
 
-    public void setFkContractor(User fkContractor) {
+    public void setFkContractor(Integer fkContractor) {
         this.fkContractor = fkContractor;
     }
 
-    public User getFkProvider() {
+    public Integer getFkProvider() {
         return fkProvider;
     }
 
-    public void setFkProvider(User fkProvider) {
+    public void setFkProvider(Integer fkProvider) {
         this.fkProvider = fkProvider;
     }
 
@@ -86,11 +90,11 @@ public class ContractorPost {
         this.descricao = descricao;
     }
 
-    public String getCategoria() {
+    public Integer getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(String categoria) {
+    public void setCategoria(Integer categoria) {
         this.categoria = categoria;
     }
 
@@ -110,11 +114,11 @@ public class ContractorPost {
         this.dataDeConclusao = dataDeConclusao;
     }
 
-    public Image getFoto() {
+    public Long getFoto() {
         return foto;
     }
 
-    public void setFoto(Image foto) {
+    public void setFoto(Long foto) {
         this.foto = foto;
     }
 }
