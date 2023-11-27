@@ -1,5 +1,7 @@
 package sptech.faztudo.comLOCAL.users.domain.files;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import sptech.faztudo.comLOCAL.users.UserRole;
 import sptech.faztudo.comLOCAL.users.domain.users.User;
 
@@ -134,7 +136,7 @@ public class FileManager {
         return users; // Retorna a lista ordenada (ou não) de usuários.
     }
 
-    public static User acharCSV(String nomeArq, String nomeAProcurar) {
+    public static ResponseEntity<User> acharCSV(String nomeArq, String nomeAProcurar) {
         FileReader arq = null;
         Scanner entrada = null;
         Boolean deuRuim = false;
@@ -204,7 +206,7 @@ public class FileManager {
 
                 if (comparison == 0) {
                     // Nome encontrado, retornar o usuário correspondente
-                    return midUser;
+                    return ResponseEntity.status(HttpStatus.FOUND).body(midUser);
                 } else if (comparison < 0) {
                     // O nome está à esquerda de midUser, ajustar a posição à esquerda
                     right = mid - 1;
@@ -215,7 +217,7 @@ public class FileManager {
             }
 
             // Nome não encontrado
-            System.out.println("Nome não encontrado: " + nomeAProcurar);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } else {
             System.out.println("Problema ao ler o arquivo CSV.");
         }
@@ -267,7 +269,9 @@ public class FileManager {
             corpo+= String.format("%29s",a.getCity());
             corpo+= String.format("%20s",a.getPhone());
             corpo+= String.format("%50s",a.getEmail());
-            corpo+= String.format("%70s",a.getSenha());
+//          corpo+= String.format("%100s",a.getSenha());
+            corpo+= String.format("%30s",a.getDt_cadastro());
+            corpo+= String.format("%100s",a.getDescricao());
             corpo+= String.format("%10s",a.getRole());
             //Gravando corpo no arquivo:
             gravaRegistro(corpo, nomeArq);
