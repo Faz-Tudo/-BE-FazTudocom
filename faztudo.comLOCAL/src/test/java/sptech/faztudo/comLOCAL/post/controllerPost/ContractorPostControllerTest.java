@@ -6,6 +6,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import sptech.faztudo.comLOCAL.post.domainPost.upload.ContractorPost;
 import sptech.faztudo.comLOCAL.post.repositoryPost.ContractorPostRepository;
@@ -46,7 +48,7 @@ class ContractorPostControllerTest {
 
         when(contractorPostRepository.save(contractorPost)).thenReturn(contractorPost);
 
-       var response = contractorPostController.criarContractorPost(contractorPost, id);
+        var response = contractorPostController.criarContractorPost(contractorPost, id);
         verify(contractorPostRepository, times(1)).save(any(ContractorPost.class));
 
         assertEquals(201, response.getStatusCode().value());
@@ -72,7 +74,6 @@ class ContractorPostControllerTest {
     }
 
 
-
 // ...
 
     @Test
@@ -91,7 +92,7 @@ class ContractorPostControllerTest {
 
         ResponseEntity<ContractorPost> response = contractorPostController.atualizarContractorPost(id, updates);
 
-        
+
         when(contractorPostRepository.save(contractorPost)).thenReturn(contractorPost);
 
 
@@ -100,6 +101,17 @@ class ContractorPostControllerTest {
         assertEquals(200, response.getStatusCodeValue());
     }
 
+    @Test
+    void excluirContractorPost() {
+        Long id = 10L;
+
+        when(contractorPostRepository.findById(id)).thenReturn(Optional.of(new ContractorPost()));
+        ResponseEntity<Void> response = contractorPostController.excluirContractorPost(id);
+
+        verify(contractorPostRepository).findById(id);
+        verify(contractorPostRepository).delete(any(ContractorPost.class));
+        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+    }
 
 
 }
