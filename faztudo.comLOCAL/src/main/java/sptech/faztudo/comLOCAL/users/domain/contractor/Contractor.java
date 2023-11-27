@@ -6,6 +6,8 @@ import sptech.faztudo.comLOCAL.users.domain.users.User;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Contractor extends User {
@@ -34,7 +36,6 @@ public class Contractor extends User {
 
     }
 
-
     public boolean isProUser() {
         return proUser;
     }
@@ -42,7 +43,6 @@ public class Contractor extends User {
     public void setProUser(boolean proUser) {
         this.proUser = proUser;
     }
-
 
 }
 

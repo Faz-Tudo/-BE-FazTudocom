@@ -31,8 +31,9 @@ public class ServiceProvider extends User {
         this.category = category;
     }
 
-    public ServiceProvider(){
 
+    public ServiceProvider(){
+      
     }
 
     public int getCategory() {
