@@ -25,7 +25,6 @@ import sptech.faztudo.comLOCAL.users.domain.users.LoginResponseDTO;
 import sptech.faztudo.comLOCAL.users.domain.users.RegisterDTO;
 import sptech.faztudo.comLOCAL.users.domain.users.User;
 
-import java.sql.SQLOutput;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -62,19 +61,12 @@ public class AuthenticationController {
     @Operation(summary = "Login", description = "Login para Users.", tags = "USER")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data){
 
-        System.out.println("passei aq 1");
         var userNamePassWord = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
         System.out.println(userNamePassWord);
-        System.out.println("passei aq 2");
         var auth = this.authenticationManager.authenticate(userNamePassWord);
         System.out.println(auth);
-        System.out.println("passei aq 3");
         var login = auth.getPrincipal();
-
-        System.out.println("passei aq 4");
         var token = tokeService.generateToken((User) auth.getPrincipal());
-
-        System.out.println("passei aq 5");
         return ResponseEntity.ok(new LoginResponseDTO(token, login));
     }
 
@@ -83,21 +75,13 @@ public class AuthenticationController {
     @Operation(summary = "Register", description = "Register para ADMIN.", tags = "USER")
     public ResponseEntity register(@RequestBody @Valid RegisterDTO data, UriComponentsBuilder uriComponentsBuilder){
 
-
         if(!authorizationService.isUserValid(data) && this.repository.findByEmail(data.email()) != null) return ResponseEntity.status(400).build();
-
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.senha());
-
         LocalDateTime cad = LocalDateTime.now();
-
         User newUser = new User(data.name(),data.lastName(),data.cpf(),data.dt_nascimento(),data.cep(),data.logradouro(),data.state(),data.city()
                 ,data.phone(),data.email(),encryptedPassword,cad,data.descricao());
-
-
         this.repository.save(newUser);
-
         var uri = uriComponentsBuilder.path("/users/{id}").buildAndExpand(newUser.getId()).toUri();
-
         String token = UUID.randomUUID().toString();
         ConfirmationToken confirmationToken = new ConfirmationToken(
                 token,
@@ -105,11 +89,8 @@ public class AuthenticationController {
                 LocalDateTime.now().plusMinutes(120),
                 newUser
         );
-
         String link = "http://localhost:8080/auth/register/confirm?token=" + token;
-
         confirmationTokenService.saveConfirmationToken(confirmationToken);
-
         return ResponseEntity.created(uri).body(confirmationToken);
     }
 
@@ -119,41 +100,31 @@ public class AuthenticationController {
     public ResponseEntity registerServiceProvider(@RequestBody @Valid RegisterServiceProviderDTO dataServiceProvider, UriComponentsBuilder uriComponentsBuilder){
 
             if(!authorizationService.isServiceProviderValid(dataServiceProvider) && this.serviceProviderRepository.findByEmail(dataServiceProvider.email()) != null) return ResponseEntity.status(400).build();
-
             String encryptedPassword = new BCryptPasswordEncoder().encode(dataServiceProvider.senha());
-
             LocalDateTime cad = LocalDateTime.now();
-
             ServiceProvider newServiceProvider = new ServiceProvider(dataServiceProvider.name(), dataServiceProvider.lastName(),
                     dataServiceProvider.cpf(), dataServiceProvider.dt_nascimento(), dataServiceProvider.cep(),
                     dataServiceProvider.logradouro(), dataServiceProvider.state(),
                     dataServiceProvider.city(), dataServiceProvider.phone(), dataServiceProvider.email(),
                     encryptedPassword,cad,dataServiceProvider.descricao(),dataServiceProvider.category());
-
             var uri = uriComponentsBuilder.path("/users/{id}").buildAndExpand(newServiceProvider.getId()).toUri();
             this.serviceProviderRepository.save(newServiceProvider);
-
             return ResponseEntity.created(uri).body(newServiceProvider);
     }
+
     @PostMapping("/register-contractor")
     @Operation(summary = "Register", description = "Register para contractor.", tags = "USER")
     public ResponseEntity registerContractor(@RequestBody @Valid RegisterContractorDTO dataContractor, UriComponentsBuilder uriComponentsBuilder){
 
             if(!authorizationService.isServiceProviderValid(dataContractor) && this.contractorRepository.findByEmail(dataContractor.email()) != null) return ResponseEntity.status(400).build();
-
             String encryptedPassword = new BCryptPasswordEncoder().encode(dataContractor.senha());
-
             LocalDateTime cad = LocalDateTime.now();
-
             Contractor newContractor = new Contractor(dataContractor.name(), dataContractor.lastName(),
                     dataContractor.cpf(),dataContractor.dt_nascimento(), dataContractor.cep(),dataContractor.logradouro() ,
                     dataContractor.state(), dataContractor.city(), dataContractor.phone(), dataContractor.email(), encryptedPassword,cad,dataContractor.descricao(),
                     dataContractor.proUser());
-
-
             var uri = uriComponentsBuilder.path("/users/{id}").buildAndExpand(newContractor.getId()).toUri();
             this.contractorRepository.save(newContractor);
-
             return ResponseEntity.created(uri).body(newContractor);
     }
 

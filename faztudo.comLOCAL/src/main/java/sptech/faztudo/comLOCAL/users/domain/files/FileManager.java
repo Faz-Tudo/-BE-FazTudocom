@@ -370,7 +370,6 @@ public class FileManager {
                     System.out.println("valor:"+valor);
 
                     UserRole role = UserRole.valueOf(valor);
-
                     System.out.println("role:"+role);
 
                     contaRegDadosLidos++;
