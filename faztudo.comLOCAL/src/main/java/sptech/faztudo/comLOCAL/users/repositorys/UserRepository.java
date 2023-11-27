@@ -8,7 +8,7 @@ import sptech.faztudo.comLOCAL.users.domain.users.User;
 import java.util.List;
 
 @Repository
-public interface userRepository extends JpaRepository<User, Integer> {
+public interface UserRepository extends JpaRepository<User, Integer> {
 
     List<User> findAll();
     User findById(int id);

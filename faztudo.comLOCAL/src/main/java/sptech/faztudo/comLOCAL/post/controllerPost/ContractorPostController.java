@@ -11,6 +11,7 @@ import sptech.faztudo.comLOCAL.post.repositoryPost.ContractorPostRepository;
 import sptech.faztudo.comLOCAL.post.repositoryPost.ImageRepository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -21,76 +22,95 @@ public class ContractorPostController {
     @Autowired
     private ContractorPostRepository contractorPostRepository;
     @Autowired
-    private ImageRepository imageRepository;
+    private ImageRepository imageRepository; //
 
-    @PostMapping("/")
+    @PostMapping("/{idContractor}")
     @Operation(summary = "Post Contratante", description = "Postagem para contratante, envia descrição do trabalho e imagem.", tags = "USER - CONTRACTOR - POST")
-    public ResponseEntity<ContractorPost> criarContractorPost(@RequestBody ContractorPost contractorPost) {
-        contractorPost.setDataCriacao(LocalDateTime.now()); // Defina a data de criação
+    public ResponseEntity<ContractorPost> criarContractorPost(@RequestBody ContractorPost contractorPost, @PathVariable Integer idContractor) {
+
+        contractorPost.setDataCriacao(LocalDateTime.now());
+
+        contractorPost.setFkContractor(idContractor);
+
         ContractorPost novoContractorPost = contractorPostRepository.save(contractorPost);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(novoContractorPost);
     }
 
-    @GetMapping("/{id}")
-    @Operation(summary = "Post Contratante", description = "Recupera as postagens através do id do usuário.", tags = "USER - CONTRACTOR - POST")
-    public ResponseEntity<ContractorPost> obterContractorPost(@PathVariable Long id) {
-        Optional<ContractorPost> contractorPostOptional = contractorPostRepository.findById(id);
-        if (contractorPostOptional.isPresent()) {
-            ContractorPost contractorPost = contractorPostOptional.get();
-            return ResponseEntity.ok(contractorPost);
+    @GetMapping("/{idContractor}")
+    @Operation(summary = "Post Contratante", description = "Recupera todas as postagens através do id do usuário.", tags = "USER - CONTRACTOR - POST")
+    public ResponseEntity<List<ContractorPost>> obterContractorPost(@PathVariable Integer idContractor) {
+
+        List<ContractorPost> contractorPosts = contractorPostRepository.findAllByFkContractor(idContractor);
+
+        if (!contractorPosts.isEmpty()) {
+
+            return ResponseEntity.ok(contractorPosts);
+
         } else {
+
             return ResponseEntity.notFound().build();
+
         }
     }
 
-    @PatchMapping("/{id}")
-    @Operation(summary = "Post Contratante", description = "Atualiza as postagens através do id do usuário.", tags = "USER - CONTRACTOR - POST")
-    public ResponseEntity<ContractorPost> atualizarContractorPost(@PathVariable Long id, @RequestBody Map<String, Object> updates) {
+    @PatchMapping("/{idPost}")
+    @Operation(summary = "Post Contratante", description = "Atualiza as postagens através do id do post.", tags = "USER - CONTRACTOR - POST")
+    public ResponseEntity<ContractorPost> atualizarContractorPost(@PathVariable Long idPost, @RequestBody Map<String, Object> updates) {
 
-        Optional<ContractorPost> contractorPostOptional = contractorPostRepository.findById(id);
+        Optional<ContractorPost> contractorPostOptional = contractorPostRepository.findById(idPost);
+
         if (contractorPostOptional.isPresent()) {
+
             ContractorPost contractorPost = contractorPostOptional.get();
 
             if (updates.containsKey("descricao")) {
-                contractorPost.setDescricao((String) updates.get("descricao"));
-            }
 
-            if (updates.containsKey("categoria")) {
-                contractorPost.setCategoria((String) updates.get("categoria"));
+                contractorPost.setDescricao((String) updates.get("descricao"));
+
             }
 
             if (updates.containsKey("foto")) {
-                String fotoValue = (String) updates.get("foto");
 
-                Long fotoId = Long.parseLong(fotoValue);
+                contractorPost.setFoto(Long.valueOf((String) updates.get("foto")));
 
-                Image foto = imageRepository.findById(fotoId).orElse(null);
+            }
 
-                if (foto != null) {
-                    contractorPost.setFoto(foto);
+            if (updates.containsKey("categoria")) {
 
-                } else {
-                    return ResponseEntity.status(404).build();
-                }
+                contractorPost.setCategoria(Integer.valueOf((String) updates.get("categoria")));
+
             }
 
             ContractorPost contractorPostAtualizado = contractorPostRepository.save(contractorPost);
+
             return ResponseEntity.ok(contractorPostAtualizado);
+
         } else {
+
             return ResponseEntity.notFound().build();
+
         }
     }
 
-    @DeleteMapping("/{id}")
-    @Operation(summary = "Post Contratante", description = "Deleta postagens através do id do usuário.", tags = "USER - CONTRACTOR")
-    public ResponseEntity<Void> excluirContractorPost(@PathVariable Long id) {
-        Optional<ContractorPost> contractorPostOptional = contractorPostRepository.findById(id);
+    @DeleteMapping("/{idPost}")
+    @Operation(summary = "Post Contratante", description = "Deleta postagens através do id do post.", tags = "USER - CONTRACTOR")
+    public ResponseEntity<Void> excluirContractorPost(@PathVariable Long idPost) {
+
+        Optional<ContractorPost> contractorPostOptional = contractorPostRepository.findById(idPost);
+
         if (contractorPostOptional.isPresent()) {
+
             ContractorPost contractorPost = contractorPostOptional.get();
+
             contractorPostRepository.delete(contractorPost);
+
             return ResponseEntity.noContent().build();
+
         } else {
+
             return ResponseEntity.notFound().build();
+
         }
     }
 }

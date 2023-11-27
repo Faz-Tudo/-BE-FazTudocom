@@ -1,6 +1,7 @@
 package sptech.faztudo.comLOCAL.users.domain.contractor;
 
 import jakarta.persistence.Entity;
+import sptech.faztudo.comLOCAL.users.UserRole;
 import sptech.faztudo.comLOCAL.users.domain.users.User;
 
 import java.time.LocalDate;

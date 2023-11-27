@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sptech.faztudo.comLOCAL.users.domain.files.FileManager;
 import sptech.faztudo.comLOCAL.users.domain.users.User;
-import sptech.faztudo.comLOCAL.users.repositorys.userRepository;
+import sptech.faztudo.comLOCAL.users.repositorys.UserRepository;
 
 import java.util.List;
 @RestController
@@ -17,7 +17,7 @@ import java.util.List;
 public class FileController {
 
     @Autowired
-    userRepository userRepository;
+    UserRepository userRepository;
 
     @GetMapping("/csv/save")
     @Operation(summary = "Save CSV", description = "Listar todos os usuarios e salvar um CSV", tags = "BACKOFFICE")
@@ -60,10 +60,10 @@ public class FileController {
 
     @GetMapping("/csv/find/{nome}")
     @Operation(summary = "Order CSV", description = "Ler o CSV de todos os usuários", tags = "BACKOFFICE")
-    public ResponseEntity<User> acharCSV(@PathVariable String nome) {
+    public ResponseEntity<ResponseEntity<User>> acharCSV(@PathVariable String nome) {
 
         try {
-            User info = FileManager.acharCSV("ArquivoCSVOrdenado", nome);
+            ResponseEntity<User> info = FileManager.acharCSV("ArquivoCSVOrdenado", nome);
 
             return ResponseEntity.status(200).body(info);
 
