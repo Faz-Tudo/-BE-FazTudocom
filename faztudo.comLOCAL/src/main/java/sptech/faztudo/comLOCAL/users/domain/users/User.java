@@ -136,7 +136,21 @@ public class User implements UserDetails {
         this.role = role;
     }
 
-    public User(Integer id, String name, String lastName, String cpf, LocalDate dt_nascimento, String cep, String logradouro, String state, String city, String phone, String email, String senha, LocalDateTime dt_cadastro, String descricao, UserRole role) {
+    public User(Integer id,
+                String name,
+                String lastName,
+                String cpf,
+                LocalDate dt_nascimento,
+                String cep,
+                String logradouro,
+                String state,
+                String city,
+                String phone,
+                String email,
+                String senha,
+                LocalDateTime dt_cadastro,
+                String descricao,
+                UserRole role) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;

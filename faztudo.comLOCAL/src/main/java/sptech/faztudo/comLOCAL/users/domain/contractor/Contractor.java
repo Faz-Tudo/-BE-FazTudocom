@@ -27,8 +27,9 @@ public class Contractor extends User {
                       String senha,
                       LocalDateTime dt_cadastro,
                       String descricao,
-                      boolean proUser) {
-        super(name, lastName, cpf, dt_nascimento, cep, logradouro, state, city, phone, email, senha,dt_cadastro,descricao);
+                      boolean proUser,
+                      UserRole role) {
+        super(name, lastName, cpf, dt_nascimento, cep, logradouro, state, city, phone, email, senha,dt_cadastro,descricao,role);
         this.proUser = proUser;
     }
 

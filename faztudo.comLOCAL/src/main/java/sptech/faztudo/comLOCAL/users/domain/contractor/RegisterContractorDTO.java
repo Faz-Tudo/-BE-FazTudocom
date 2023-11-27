@@ -1,5 +1,7 @@
 package sptech.faztudo.comLOCAL.users.domain.contractor;
 
+import sptech.faztudo.comLOCAL.users.UserRole;
+
 import java.time.LocalDate;
 
 public record RegisterContractorDTO(String name,
@@ -14,5 +16,6 @@ public record RegisterContractorDTO(String name,
                                     String email,
                                     String senha,
                                     String descricao,
-                                    boolean proUser) {
+                                    boolean proUser,
+                                    UserRole role) {
 }
