@@ -59,7 +59,8 @@ public class UserProfileController {
     }
 
     @PatchMapping("/update-password/{id}")
-    public ResponseEntity<User> partialUpdateName(
+    @Operation(summary = "Update Password", description = "Atualiza senha para todos os usuários.", tags = "PROFILE")
+    public ResponseEntity<User> updatePassword(
             @RequestBody UpdateUserPassword partialUpdate,
             @PathVariable int id
     ) {
