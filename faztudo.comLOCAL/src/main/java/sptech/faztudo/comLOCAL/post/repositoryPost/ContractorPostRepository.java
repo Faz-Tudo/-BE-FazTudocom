@@ -8,4 +8,6 @@ import java.util.List;
 public interface ContractorPostRepository extends JpaRepository <ContractorPost, Long> {
 
     List<ContractorPost> findAllByFkContractor(Integer id);
+
+    ContractorPost findById(Integer id);
 }
