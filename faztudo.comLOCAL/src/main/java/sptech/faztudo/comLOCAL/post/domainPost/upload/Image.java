@@ -13,11 +13,11 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "fk_user")
-    private User fkUser;
 
-    @Column(nullable = false)
+    @Column(name = "fk_user")
+    private Integer fkUser;
+
+    @Column(name ="name")
     private String name;
 
     @Column(name = "tipo")
@@ -25,13 +25,13 @@ public class Image {
 
     @Lob
     @Basic(fetch = FetchType.LAZY)
-    @Column(nullable = false, columnDefinition = "longblob")
+    @Column(columnDefinition = "longblob")
     private byte[] data;
 
     public Image() {
     }
 
-    public Image(Long id, User fkUser, String name, Integer tipo, byte[] data) {
+    public Image(Long id, Integer fkUser, String name, Integer tipo, byte[] data) {
         this.id = id;
         this.fkUser = fkUser;
         this.name = name;
@@ -43,15 +43,11 @@ public class Image {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public User getFkUser() {
+    public Integer getFkUser() {
         return fkUser;
     }
 
-    public void setFkUser(User fkUser) {
+    public void setFkUser(Integer fkUser) {
         this.fkUser = fkUser;
     }
 
@@ -77,8 +73,5 @@ public class Image {
 
     public void setData(byte[] data) {
         this.data = data;
-    }
-
-    public void setFkUser(Optional<User> byId) {
     }
 }
