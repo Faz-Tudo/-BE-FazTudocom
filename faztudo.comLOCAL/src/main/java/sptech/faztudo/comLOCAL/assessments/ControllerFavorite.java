@@ -26,7 +26,7 @@ public class ControllerFavorite {
 
     @Autowired
     private serviceProviderRepository serviceProviderRepository;
-    
+
     @Autowired
     private UserRepository userRepository;
 
