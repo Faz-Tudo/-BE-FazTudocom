@@ -36,6 +36,12 @@ public class ImageController {
 
         Optional<User> optionalUser = userRepository.findById(user);
 
+        if (tipo == 1) {
+            Optional<Image> optionalImage = imageRepository.findByTipoAndFkUser(tipo, user);
+            if (optionalImage.isPresent()) {
+                return ResponseEntity.status(409).build();
+            }
+        }
 
         if (optionalUser.isPresent()) {
             Image image = new Image();
@@ -55,7 +61,7 @@ public class ImageController {
     }
 
     @GetMapping("/get/{id}")
-    @Operation(summary = "Imagem Contratante", description = "Recupera informações de imagens enviadas pelo contratante através do ID.", tags = "USER - CONTRACTOR")
+    @Operation(summary = "Lista de Imagens", description = "Recupera as imagens enviadas por ID de user", tags = "IMAGES")
     public ResponseEntity<List<ImageDTO>> getImages(@PathVariable Long id) {
 
         List<Image> imagens = imageRepository.findAllByFkUser(id);
@@ -63,7 +69,7 @@ public class ImageController {
         if (imagens.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        
+
         List<ImageDTO> imagensDTO = new ArrayList<>();
 
         for (Image imagem : imagens) {

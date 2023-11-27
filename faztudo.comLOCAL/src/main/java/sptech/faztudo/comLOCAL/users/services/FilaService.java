@@ -1,14 +1,16 @@
-package sptech.faztudo.comLOCAL.users.domain.files;
+package sptech.faztudo.comLOCAL.users.services;
 
-public class Fila<T> {
-    // Atributos
+import org.springframework.stereotype.Service;
+
+@Service
+public class FilaService<T> {
     private int tamanho;
     private T[] fila;
 
     // Construtor
-    public Fila(int capacidade) {
+    public FilaService() {
         this.tamanho = 0;
-        this.fila = (T[]) new Object[capacidade];
+        this.fila = (T[]) new Object[20];
     }
 
     // Métodos
@@ -65,7 +67,7 @@ public class Fila<T> {
 
             for (int i = 0; i < fila.length-1; i++) {
 
-            fila[i] = fila[i+1];
+                fila[i] = fila[i+1];
 
             }
             tamanho--;
@@ -88,4 +90,3 @@ public class Fila<T> {
         return tamanho;
     }
 }
-

@@ -2,6 +2,7 @@ package sptech.faztudo.comLOCAL.users.domain.serviceProvider;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import sptech.faztudo.comLOCAL.users.UserRole;
 import sptech.faztudo.comLOCAL.users.domain.users.User;
 
 import java.time.LocalDate;
@@ -26,13 +27,15 @@ public class ServiceProvider extends User {
                            String senha,
                            LocalDateTime dt_cadastro,
                            String descricao,
-                           int category) {
-        super( name, lastName, cpf, dt_nascimento, cep, logradouro, state, city, phone, email, senha,dt_cadastro,descricao);
+                           int category,
+                           UserRole role) {
+        super( name, lastName, cpf, dt_nascimento, cep, logradouro, state, city, phone, email, senha,dt_cadastro,descricao,role);
         this.category = category;
     }
 
-    public ServiceProvider(){
 
+    public ServiceProvider(){
+      
     }
 
     public int getCategory() {

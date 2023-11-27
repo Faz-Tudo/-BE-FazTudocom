@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/contractor-post")
+@RequestMapping("/post")
 public class ContractorPostController {
 
     @Autowired
