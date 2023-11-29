@@ -11,6 +11,7 @@ import sptech.faztudo.comLOCAL.users.services.FilaService;
 import sptech.faztudo.comLOCAL.users.services.PilhaService;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @RequestMapping("/provider-post")
@@ -24,6 +25,22 @@ public class ProviderPostController {
     @Autowired
     private FilaService<ContractorPost> filaService;
 
+    @GetMapping("/{idProvider}")
+    @Operation(summary = "Post Contratante", description = "Recupera todas as postagens através da fk do provedor.", tags = "USER - PROVIDER - POST")
+    public ResponseEntity<List<ContractorPost>> obterProviderPost(@PathVariable Integer idProvider) {
+
+        List<ContractorPost> contractorPosts = contractorPostRepository.findAllByFkProvider(idProvider);
+
+        if (!contractorPosts.isEmpty()) {
+
+            return ResponseEntity.ok(contractorPosts);
+
+        } else {
+
+            return ResponseEntity.notFound().build();
+
+        }
+    }
 
     @PatchMapping("/{idPost}/{idProvider}")
     @Operation(summary = "Post Contratante", description = "Aceita a demanda de trabalho.", tags = "USER - PROVIDER - PATCH")
