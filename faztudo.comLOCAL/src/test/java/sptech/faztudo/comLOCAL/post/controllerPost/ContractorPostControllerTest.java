@@ -84,7 +84,6 @@ class ContractorPostControllerTest {
 
         when(contractorPostRepository.findById(id)).thenReturn(Optional.of(contractorPost));
 
-        // Crie um Map contendo as atualizações desejadas (pode ser ajustado conforme necessário)
         Map<String, Object> updates = new HashMap<>();
         updates.put("descricao", "Nova descrição");
         updates.put("foto", "12345");
