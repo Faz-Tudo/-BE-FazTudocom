@@ -2,7 +2,9 @@ package sptech.faztudo.comLOCAL.users.domain.files;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import sptech.faztudo.comLOCAL.users.UserRole;
+import sptech.faztudo.comLOCAL.users.domain.contractor.Contractor;
 import sptech.faztudo.comLOCAL.users.domain.users.User;
 
 import java.io.*;
@@ -259,19 +261,19 @@ public class FileManager {
         for (User a : lista) {
             String corpo = "02";
             corpo += String.format("%7d", a.getId()); //Completar de acordo com documento
-            corpo += String.format("%10s", a.getName());
-            corpo+= String.format("%15s",a.getLastName());
-            corpo+= String.format("%20s",a.getCpf());
-            corpo+= String.format("%20s",a.getDt_nascimento());
-            corpo+= String.format("%15s",a.getCep());
-            corpo+= String.format("%29s",a.getLogradouro());
-            corpo+= String.format("%10s",a.getState());
-            corpo+= String.format("%29s",a.getCity());
+            corpo += String.format("%15s", a.getName());
+            corpo+= String.format("%20s",a.getLastName());
+            corpo+= String.format("%25s",a.getCpf());
+            corpo+= String.format("%15s",a.getDt_nascimento());
+            corpo+= String.format("%13s",a.getCep());
+            corpo+= String.format("%65s",a.getLogradouro());
+            corpo+= String.format("%15s",a.getState());
+            corpo+= String.format("%34s",a.getCity());
             corpo+= String.format("%20s",a.getPhone());
-            corpo+= String.format("%50s",a.getEmail());
-//          corpo+= String.format("%100s",a.getSenha());
+            corpo+= String.format("%55s",a.getEmail());
+            corpo+= String.format("%30s",a.getSenha());
             corpo+= String.format("%30s",a.getDt_cadastro());
-            corpo+= String.format("%100s",a.getDescricao());
+            corpo+= String.format("%256s",a.getDescricao());
             corpo+= String.format("%10s",a.getRole());
             //Gravando corpo no arquivo:
             gravaRegistro(corpo, nomeArq);
@@ -332,45 +334,46 @@ public class FileManager {
 
                     System.out.println("É um registro de corpo");
 
-                    String id = registro.substring(8, 9).trim();
-                    System.out.println("id:"+id);
-                    String name = registro.substring(9, 25).trim();
+                    String name = registro.substring(03, 12).trim();
                     System.out.println("nome:"+name);
-                    String lastName = registro.substring(25, 43).trim();
+
+                    String lastName = registro.substring(13, 24).trim();
                     System.out.println("last:"+lastName);
-                    String cpf = registro.substring(43, 56).trim();
+
+                    String cpf = registro.substring(25, 37).trim();
                     System.out.println("cpf:"+cpf);
 
-                    String dt = registro.substring(56, 80).trim();
+                    String dt = registro.substring(37,50).trim();
                     System.out.println("dt:"+dt);
 
                     LocalDate data = LocalDate.parse(dt);
                     System.out.println("data:"+data);
 
-                    String cep = registro.substring(80, 95).trim();
+                    String cep = registro.substring(50, 60).trim();
                     System.out.println("cep:"+cep);
 
-                    String logradouro = registro.substring(95, 120).trim();
+                    String logradouro = registro.substring(60, 75).trim();
                     System.out.println("logradouro:"+logradouro);
 
-                    String state = registro.substring(120, 130).trim();
+                    String state = registro.substring(76,96).trim();
                     System.out.println("state:"+state);
 
-                    String city = registro.substring(130, 160).trim();
+                    String city = registro.substring(96, 116).trim();
                     System.out.println("city:"+city);
 
-                    String phone = registro.substring(160, 190).trim();
+                    String phone = registro.substring(116, 129).trim();
                     System.out.println("phone:"+phone);
 
-                    String email = registro.substring(200, 230).trim();
+                    String email = registro.substring(129, 160).trim();
                     System.out.println("email:"+email);
 
-                    String senha = registro.substring(234, 246).trim();
+                    String senha = registro.substring(160, 185).trim();
                     System.out.println("senha:"+senha);
 
-                    String descricao = registro.substring(240,250).trim();
+                    String descricao = registro.substring(186,220).trim();
+                    System.out.println("descrição:"+descricao);
 
-                    String valor = registro.substring(247, 256).trim();
+                    String valor = registro.substring(221,226).trim();
                     System.out.println("valor:"+valor);
 
                     UserRole role = UserRole.valueOf(valor);
@@ -380,10 +383,12 @@ public class FileManager {
 
                     LocalDateTime cad = LocalDateTime.now();
 
-                    User a = new User(name,lastName,cpf,data,cep
-                            ,logradouro,state,city,phone,email,senha,cad,descricao,role);
+                    String encryptedPassword = new BCryptPasswordEncoder().encode(senha);
+
+                    User a = new User(name,lastName,cpf,data,cep,logradouro,state,city,phone,email,encryptedPassword,cad,descricao,role);
 
                     listaLida.add(a);
+
 
 
                 }

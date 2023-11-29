@@ -10,4 +10,6 @@ public interface ContractorPostRepository extends JpaRepository <ContractorPost,
     List<ContractorPost> findAllByFkContractor(Integer id);
 
     ContractorPost findById(Integer id);
+
+    List<ContractorPost> findAllByFkProvider(Integer id);
 }
