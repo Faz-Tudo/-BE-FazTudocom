@@ -20,6 +20,11 @@ public class Favorite {
         this.fkProvider = fkProvider;
     }
 
+    public Favorite() {
+
+    }
+
+
     public Integer getFkContractor() {
         return fkContractor;
     }

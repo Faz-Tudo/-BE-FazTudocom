@@ -81,28 +81,12 @@ public class FileController {
 
             System.out.println("tentei o gerenciador ");
 
-            List<User> users = FileManager.leArquivoTxt("ArquivoImportTXT");
+            List<User> users = FileManager.leArquivoTxt("ArquivoTXT");
 
             for (User a : users){
 
-                System.out.println(a.getName());
-                System.out.println(a.getLastName());
-                System.out.println(a.getCpf());
-                System.out.println(a.getDt_nascimento());
-                System.out.println(a.getCep());
-                System.out.println(a.getLogradouro());
-                System.out.println(a.getState());
-                System.out.println(a.getCity());
-                System.out.println(a.getPhone());
-                System.out.println(a.getEmail());
-                System.out.println(a.getSenha());
-                System.out.println(a.getRole());
-                System.out.println();
-
                 userRepository.save(a);
             }
-
-//            userRepository.saveAll(users);
 
             return ResponseEntity.status(200).body(users);
         } catch (Exception e) {

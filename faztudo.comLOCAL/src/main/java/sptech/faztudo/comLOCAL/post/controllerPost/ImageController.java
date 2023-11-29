@@ -32,7 +32,7 @@ public class ImageController {
 
     @PostMapping("/upload/{tipo}/{user}")
     @Operation(summary = "Imagens Geral", description = "Envio de imagens, uso geral, distinção por ID de usuario e TIPO de imagen", tags = "IMAGES")
-    public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file, @PathVariable Integer tipo, @PathVariable Integer user) throws IOException {
+    public ResponseEntity<Long> uploadImage(@RequestParam("file") MultipartFile file, @PathVariable Integer tipo, @PathVariable Integer user) throws IOException {
 
         Optional<User> optionalUser = userRepository.findById(user);
 
@@ -51,11 +51,13 @@ public class ImageController {
             image.setTipo(tipo);
             image.setFkUser(user);
 
-            imageRepository.save(image);
+            Image savedImage = imageRepository.save(image);
 
-            return ResponseEntity.status(201).body("Upload da imagem realizado com sucesso!");
+            Long idDaImagem = savedImage.getId();
+
+            return ResponseEntity.status(201).body(idDaImagem);
         } else {
-            return ResponseEntity.status(404).body("Usuario não encontrado!");
+            return ResponseEntity.status(404).build();
         }
 
     }

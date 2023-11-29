@@ -15,7 +15,7 @@ import sptech.faztudo.comLOCAL.users.repositorys.UserRepository;
 import java.util.List;
 
 @RestController
-@RequestMapping("/contractor-post")
+@RequestMapping("/favorite")
 public class ControllerFavorite {
 
     @Autowired
@@ -31,14 +31,14 @@ public class ControllerFavorite {
     private UserRepository userRepository;
 
 
-    @PostMapping("/favorite/{id_contractor}/{id_provider}")
-    @Operation(summary = "Add Favorite by Id", description = "Adiciona um favorito por id", tags = "BACKOFFICE")
+    @PostMapping("/{id_contractor}/{id_provider}")
+    @Operation(summary = "Add Favorite by Id", description = "Adiciona um favorito por id", tags = "PROFILE")
     public ResponseEntity<?> addFavorite (@PathVariable int id_contractor ,@PathVariable int id_provider){
         try {
-            User serviceProvider = userRepository.findById(id_provider);
-            User contractor = userRepository.findById(id_contractor);
-            List<Long> idApagado = favoriteRepository.existsByFk(id_contractor,id_provider);
-            if(contractor.getId() > 0 && serviceProvider.getId() > 0 && idApagado.isEmpty()){
+            User serviceProvider = serviceProviderRepository.findById(id_provider);
+            User contractor = contractorRepository.findById(id_contractor);
+            long idApagado = favoriteRepository.existsByFk(id_contractor,id_provider);
+            if(contractor.getId() > 0 && serviceProvider.getId() > 0 && idApagado > 0){
             Favorite favorite = new Favorite(id_contractor,id_provider);
             favoriteRepository.save(favorite);}
             else {
@@ -51,15 +51,22 @@ public class ControllerFavorite {
         return ResponseEntity.status(200).build();
     }
 
-    @DeleteMapping("/favorite/{id_contractor}/{id_provider}")
-    @Operation(summary = "Remove Favorite by Id", description = "Remove um favorito por id", tags = "BACKOFFICE")
+    @DeleteMapping("/{id_contractor}/{id_provider}")
+    @Operation(summary = "Remove Favorite by Id", description = "Remove um favorito por id", tags = "PROFILE")
     public ResponseEntity<?> removeFavorite (@PathVariable int id_contractor ,@PathVariable int id_provider){
 
-        List<Long> idApagado = favoriteRepository.existsByFk(id_contractor,id_provider);
-        if(!idApagado.isEmpty() ){
-            favoriteRepository.deleteById(idApagado.get(0));
+        long idApagado = favoriteRepository.existsByFk(id_contractor,id_provider);
+        if(idApagado > 0 ){
+            favoriteRepository.deleteById(idApagado);
             return ResponseEntity.status(200).build();
         }
         return ResponseEntity.status(404).build();
+    }
+
+    @GetMapping("/")
+    @Operation(summary = "Get All Users Favorites", description = "Listar todos os favoritos.", tags = "PROFILE")
+    public ResponseEntity<List<User>> findAllFavorites() {
+        List<User> users = favoriteRepository.findByFavorite();
+        return ResponseEntity.status(200).body(users);
     }
 }
