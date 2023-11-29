@@ -37,6 +37,23 @@ public class ContractorPostController {
         return ResponseEntity.status(HttpStatus.CREATED).body(novoContractorPost);
     }
 
+    @GetMapping("/all")
+    @Operation(summary = "Post Contratante", description = "Recupera todas as postagens do site", tags = "USER - CONTRACTOR - POST")
+    public ResponseEntity<List<ContractorPost>> obterAllPost() {
+
+        List<ContractorPost> contractorPosts = contractorPostRepository.findAll();
+
+        if (!contractorPosts.isEmpty()) {
+
+            return ResponseEntity.ok(contractorPosts);
+
+        } else {
+
+            return ResponseEntity.notFound().build();
+
+        }
+    }
+
     @GetMapping("/{idContractor}")
     @Operation(summary = "Post Contratante", description = "Recupera todas as postagens através do id do usuário.", tags = "USER - CONTRACTOR - POST")
     public ResponseEntity<List<ContractorPost>> obterContractorPost(@PathVariable Integer idContractor) {
