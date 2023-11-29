@@ -88,6 +88,32 @@ public class ImageController {
         return new ResponseEntity<>(imagensDTO, HttpStatus.OK);
     }
 
+    @GetMapping("/get/all")
+    @Operation(summary = "Lista de Imagens", description = "Recupera todas as imagens do banco", tags = "IMAGES")
+    public ResponseEntity<List<ImageDTO>> getAllImages() {
+
+        List<Image> imagens = imageRepository.findAll();
+
+        if (imagens.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        List<ImageDTO> imagensDTO = new ArrayList<>();
+
+        for (Image imagem : imagens) {
+
+            String base64Data = Base64.getEncoder().encodeToString(imagem.getData());
+            String nome = imagem.getName();
+            Integer imagemTipo = imagem.getTipo();
+            Integer fkUser = imagem.getFkUser();
+
+            ImageDTO imagemDTO = new ImageDTO(base64Data, nome, imagemTipo, fkUser);
+            imagensDTO.add(imagemDTO);
+        }
+
+        return new ResponseEntity<>(imagensDTO, HttpStatus.OK);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteImage(@PathVariable Long id) {
 
