@@ -27,9 +27,10 @@ public class Contractor extends User {
                       String senha,
                       LocalDateTime dt_cadastro,
                       String descricao,
+                      byte[] image_profile,
                       boolean proUser,
                       UserRole role) {
-        super(name, lastName, cpf, dt_nascimento, cep, logradouro, state, city, phone, email, senha,dt_cadastro,descricao,role);
+        super(name, lastName, cpf, dt_nascimento, cep, logradouro, state, city, phone, email, senha,dt_cadastro,descricao,image_profile, role);
         this.proUser = proUser;
     }
 
