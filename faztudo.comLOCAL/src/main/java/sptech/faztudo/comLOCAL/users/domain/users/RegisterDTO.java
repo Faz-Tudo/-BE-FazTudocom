@@ -17,5 +17,6 @@ public record RegisterDTO(String name,
                           String senha,
                           LocalDate dt_cadastro,
                           String descricao,
+                          byte[] image_profile,
                           UserRole role) {
 }

@@ -16,6 +16,9 @@ public record RegisterContractorDTO(String name,
                                     String email,
                                     String senha,
                                     String descricao,
+                                    byte[] image_profile,
                                     boolean proUser,
                                     UserRole role) {
+    public static record UpdateContractor() {
+    }
 }
