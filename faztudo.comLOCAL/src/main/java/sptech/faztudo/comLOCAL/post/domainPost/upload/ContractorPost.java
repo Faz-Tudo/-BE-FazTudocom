@@ -24,7 +24,16 @@ public class ContractorPost {
     private String descricao;
 
     @Column
+    private String avaliacao;
+
+    @Column
+    private String status;
+
+    @Column
     private Integer categoria;
+
+    @Column
+    private Integer rating;
 
     @Column(name = "data_criacao")
     private LocalDateTime dataCriacao;
@@ -32,9 +41,10 @@ public class ContractorPost {
     @Column(name = "data_conclusao")
     private LocalDateTime dataDeConclusao;
 
-    @Column(name = "fk_image")
-    private Long foto;
-
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    @Column(columnDefinition = "longblob", name = "imagem")
+    private byte[] data;
 
 
     public ContractorPost() {
@@ -44,18 +54,24 @@ public class ContractorPost {
                           Integer fkContractor,
                           Integer fkProvider,
                           String descricao,
+                          String avaliacao,
+                          String status,
                           Integer categoria,
+                          Integer rating,
                           LocalDateTime dataCriacao,
                           LocalDateTime dataDeConclusao,
-                          Long foto) {
+                          byte[] data) {
         this.id = id;
         this.fkContractor = fkContractor;
         this.fkProvider = fkProvider;
         this.descricao = descricao;
+        this.avaliacao = avaliacao;
+        this.status = status;
         this.categoria = categoria;
+        this.rating = rating;
         this.dataCriacao = dataCriacao;
         this.dataDeConclusao = dataDeConclusao;
-        this.foto = foto;
+        this.data = data;
     }
 
     public Long getId() {
@@ -90,12 +106,36 @@ public class ContractorPost {
         this.descricao = descricao;
     }
 
+    public String getAvaliacao() {
+        return avaliacao;
+    }
+
+    public void setAvaliacao(String avaliacao) {
+        this.avaliacao = avaliacao;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public Integer getCategoria() {
         return categoria;
     }
 
     public void setCategoria(Integer categoria) {
         this.categoria = categoria;
+    }
+
+    public Integer getRating() {
+        return rating;
+    }
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
     }
 
     public LocalDateTime getDataCriacao() {
@@ -114,11 +154,11 @@ public class ContractorPost {
         this.dataDeConclusao = dataDeConclusao;
     }
 
-    public Long getFoto() {
-        return foto;
+    public byte[] getData() {
+        return data;
     }
 
-    public void setFoto(Long foto) {
-        this.foto = foto;
+    public void setData(byte[] data) {
+        this.data = data;
     }
 }
