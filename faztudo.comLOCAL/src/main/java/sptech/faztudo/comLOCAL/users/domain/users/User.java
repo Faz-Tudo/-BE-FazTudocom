@@ -90,6 +90,11 @@ public class User implements UserDetails {
     @Column(name = "descricao_perfil")
     private String descricao;
 
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    @Column(columnDefinition = "longblob")
+    private byte[] image_profile;
+
     @Column(name = "role")
     private UserRole role;
 
@@ -103,7 +108,7 @@ public class User implements UserDetails {
     }
 
 
-    public User(String name, String lastName, String cpf, LocalDate dt_nascimento, String cep, String logradouro, String state, String city, String phone, String email, String senha, LocalDateTime dt_cadastro, String descricao) {
+    public User(String name, String lastName, String cpf, LocalDate dt_nascimento, String cep, String logradouro, String state, String city, String phone, String email, String senha, LocalDateTime dt_cadastro, String descricao,  byte[] image_profile) {
         this.name = name;
         this.lastName = lastName;
         this.cpf = cpf;
@@ -117,9 +122,10 @@ public class User implements UserDetails {
         this.senha = senha;
         this.dt_cadastro = dt_cadastro;
         this.descricao = descricao;
+        this.image_profile = image_profile;
     }
 
-    public User(String name, String lastName, String cpf, LocalDate dt_nascimento, String cep, String logradouro, String state, String city, String phone, String email, String senha, LocalDateTime dt_cadastro, String descricao, UserRole role) {
+    public User(String name, String lastName, String cpf, LocalDate dt_nascimento, String cep, String logradouro, String state, String city, String phone, String email, String senha, LocalDateTime dt_cadastro, String descricao,  byte[] image_profile, UserRole role) {
         this.name = name;
         this.lastName = lastName;
         this.cpf = cpf;
@@ -133,8 +139,11 @@ public class User implements UserDetails {
         this.senha = senha;
         this.dt_cadastro = dt_cadastro;
         this.descricao = descricao;
+        this.image_profile = image_profile;
         this.role = role;
     }
+
+
 
     public User(Integer id,
                 String name,
@@ -150,6 +159,7 @@ public class User implements UserDetails {
                 String senha,
                 LocalDateTime dt_cadastro,
                 String descricao,
+                byte[] image_profile,
                 UserRole role) {
         this.id = id;
         this.name = name;
@@ -165,6 +175,7 @@ public class User implements UserDetails {
         this.senha = senha;
         this.dt_cadastro = dt_cadastro;
         this.descricao = descricao;
+        this.image_profile = image_profile;
         this.role = role;
     }
 
@@ -270,6 +281,14 @@ public class User implements UserDetails {
 
     public String getDescricao() {
         return descricao;
+    }
+
+    public byte[] getImage_profile() {
+        return image_profile;
+    }
+
+    public void setImage_profile(byte[] image_profile) {
+        this.image_profile = image_profile;
     }
 
     public void setDescricao(String descricao) {

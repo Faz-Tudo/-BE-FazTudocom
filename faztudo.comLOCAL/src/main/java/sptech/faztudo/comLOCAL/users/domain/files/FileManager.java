@@ -40,10 +40,11 @@ public class FileManager {
             for (int i = 0; i < lista.size(); i++) {
 
                 User user = lista.get(i);
-                saida.format("%d;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s\n",
+                saida.format("%d;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s\n",
                         user.getId(),user.getName(),user.getLastName(),user.getCpf(),user.getDt_nascimento(),
                         user.getCep(),user.getLogradouro(),user.getState(),user.getCity(),user.getPhone(),
-                        user.getEmail(),user.getSenha(),user.getDt_cadastro(),user.getDescricao(),user.getRole());
+                        user.getEmail(),user.getSenha(),user.getDt_cadastro(),user.getDescricao(),user.getDt_cadastro(),
+                        user.getRole());
 
 
             }
@@ -100,10 +101,11 @@ public class FileManager {
                 String senha = entrada.next();
                 LocalDateTime dt_cadastro = LocalDateTime.parse(entrada.next());
                 String descricao = entrada.next();
+                byte[] image_profile_base64 = new byte[]{entrada.nextByte()};
                 String role = entrada.next();
 
                 User user = new User(id,nome,sobrenome,cpf,dt_nascimento,cep
-                ,logradouro,estado,cidade,telefone,email,senha,dt_cadastro,descricao,UserRole.valueOf(role));
+                ,logradouro,estado,cidade,telefone,email,senha,dt_cadastro,descricao,image_profile_base64, UserRole.valueOf(role));
 
                 users.add(user);
                 System.out.println(users);
@@ -173,10 +175,12 @@ public class FileManager {
                 String senha = entrada.next();
                 LocalDateTime dt_cadastro = LocalDateTime.parse(entrada.next());
                 String descricao = entrada.next();
+                byte[] image_profile_base64 = new byte[]{entrada.nextByte()};
                 String role = entrada.next();
 
                 User user = new User(id,nome,sobrenome,cpf,dt_nascimento,cep
-                        ,logradouro,estado,cidade,telefone,email,senha,dt_cadastro,descricao,UserRole.valueOf(role));
+                        ,logradouro,estado,cidade,telefone,email,senha,dt_cadastro,descricao,
+                        image_profile_base64, UserRole.valueOf(role));
                 users.add(user);
             }
         } catch (NoSuchElementException erro) {
@@ -373,7 +377,10 @@ public class FileManager {
                     String descricao = registro.substring(186,220).trim();
                     System.out.println("descrição:"+descricao);
 
-                    String valor = registro.substring(221,226).trim();
+                    byte[] image_profile_base64 = registro.substring(221,300).trim().getBytes();
+                    System.out.println("image_profile_base64:"+image_profile_base64);
+
+                    String valor = registro.substring(301,306).trim();
                     System.out.println("valor:"+valor);
 
                     UserRole role = UserRole.valueOf(valor);
@@ -385,7 +392,8 @@ public class FileManager {
 
                     String encryptedPassword = new BCryptPasswordEncoder().encode(senha);
 
-                    User a = new User(name,lastName,cpf,data,cep,logradouro,state,city,phone,email,encryptedPassword,cad,descricao,role);
+                    User a = new User(name,lastName,cpf,data,cep,logradouro,state,city,phone,email,encryptedPassword,
+                                     cad,descricao,image_profile_base64, role);
 
                     listaLida.add(a);
 
