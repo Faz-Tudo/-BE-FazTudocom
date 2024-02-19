@@ -5,11 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import sptech.faztudo.comLOCAL.post.domainPost.upload.ContractorPost;
 import sptech.faztudo.comLOCAL.post.domainPost.upload.Image;
 import sptech.faztudo.comLOCAL.post.repositoryPost.ContractorPostRepository;
 import sptech.faztudo.comLOCAL.post.repositoryPost.ImageRepository;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +24,7 @@ public class ContractorPostController {
     @Autowired
     private ContractorPostRepository contractorPostRepository;
     @Autowired
-    private ImageRepository imageRepository; //
+    private ImageRepository imageRepository;
 
     @PostMapping("/{idContractor}")
     @Operation(summary = "Post Contratante", description = "Postagem para contratante, envia descrição do trabalho e imagem.", tags = "USER - CONTRACTOR - POST")
@@ -31,6 +33,8 @@ public class ContractorPostController {
         contractorPost.setDataCriacao(LocalDateTime.now());
 
         contractorPost.setFkContractor(idContractor);
+
+        contractorPost.setStatus("Recem criado");
 
         ContractorPost novoContractorPost = contractorPostRepository.save(contractorPost);
 
@@ -87,15 +91,39 @@ public class ContractorPostController {
 
             }
 
-            if (updates.containsKey("foto")) {
-
-                contractorPost.setFoto(Long.valueOf((String) updates.get("foto")));
-
-            }
-
             if (updates.containsKey("categoria")) {
 
                 contractorPost.setCategoria(Integer.valueOf((String) updates.get("categoria")));
+
+            }
+
+            if (updates.containsKey("fk_provider")) {
+
+                contractorPost.setFkProvider(Integer.valueOf((String) updates.get("fk_provider")));
+
+            }
+
+            if (updates.containsKey("avaliacao")) {
+
+                contractorPost.setAvaliacao((String) updates.get("avaliacao"));
+
+            }
+
+            if (updates.containsKey("status")) {
+
+                contractorPost.setStatus((String) updates.get("status"));
+
+                if (updates.get("status").equals("finalizado")){
+
+                    contractorPost.setDataDeConclusao(LocalDateTime.now());
+
+                }
+
+            }
+
+            if (updates.containsKey("rating")) {
+
+                contractorPost.setRating(Integer.valueOf((String) updates.get("rating")));
 
             }
 
@@ -108,6 +136,33 @@ public class ContractorPostController {
             return ResponseEntity.notFound().build();
 
         }
+    }
+
+    @PatchMapping("/atrelar/{idPost}")
+    @Operation(summary = "Post Contratante", description = "Atrela uma imagem a postagem.", tags = "USER - CONTRACTOR - POST")
+    public ResponseEntity<ContractorPost> atrelarImagem(@RequestParam("file") MultipartFile file, @PathVariable Integer idPost) throws IOException {
+
+        Optional<ContractorPost> contractorPostOptional = Optional.ofNullable(contractorPostRepository.findById(idPost));
+
+        System.out.println(contractorPostOptional);
+        
+
+        if (contractorPostOptional.isPresent()) {
+
+            ContractorPost contractorPost = contractorPostOptional.get();
+
+            contractorPost.setData(file.getBytes());
+
+            ContractorPost contractorPostAtualizado = contractorPostRepository.save(contractorPost);
+
+            return ResponseEntity.ok(contractorPostAtualizado);
+
+        } else {
+
+            return ResponseEntity.notFound().build();
+
+        }
+
     }
 
     @DeleteMapping("/{idPost}")
