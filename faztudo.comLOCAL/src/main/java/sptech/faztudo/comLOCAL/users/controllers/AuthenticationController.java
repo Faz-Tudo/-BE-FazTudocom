@@ -102,7 +102,7 @@ public class AuthenticationController {
             if(!authorizationService.isServiceProviderValid(dataServiceProvider) && this.serviceProviderRepository.findByEmail(dataServiceProvider.email()) != null) return ResponseEntity.status(400).build();
             String encryptedPassword = new BCryptPasswordEncoder().encode(dataServiceProvider.senha());
             LocalDateTime cad = LocalDateTime.now();
-            ServiceProvider newServiceProvider = new ServiceProvider(dataServiceProvider.name(), dataServiceProvider.lastName(),
+          ServiceProvider newServiceProvider = new ServiceProvider(dataServiceProvider.name(), dataServiceProvider.lastName(),
                     dataServiceProvider.cpf(), dataServiceProvider.dt_nascimento(), dataServiceProvider.cep(),
                     dataServiceProvider.logradouro(), dataServiceProvider.state(),
                     dataServiceProvider.city(), dataServiceProvider.phone(), dataServiceProvider.email(),

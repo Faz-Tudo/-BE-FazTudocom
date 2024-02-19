@@ -16,7 +16,10 @@ public record RegisterServiceProviderDTO(String name,
                                          String email,
                                          String senha,
                                          String descricao,
+
+                                         Category category,
+
                                          byte[] image_profile,
-                                         int category,
-                                         UserRole role) {
+                                        
+                                        UserRole role) {
 }
