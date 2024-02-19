@@ -79,7 +79,7 @@ public class AuthenticationController {
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.senha());
         LocalDateTime cad = LocalDateTime.now();
         User newUser = new User(data.name(),data.lastName(),data.cpf(),data.dt_nascimento(),data.cep(),data.logradouro(),data.state(),data.city()
-                ,data.phone(),data.email(),encryptedPassword,cad,data.descricao(),data.role());
+                ,data.phone(),data.email(),encryptedPassword,cad,data.descricao(),data.image_profile(), data.role());
         this.repository.save(newUser);
         var uri = uriComponentsBuilder.path("/users/{id}").buildAndExpand(newUser.getId()).toUri();
         String token = UUID.randomUUID().toString();
@@ -106,7 +106,7 @@ public class AuthenticationController {
                     dataServiceProvider.cpf(), dataServiceProvider.dt_nascimento(), dataServiceProvider.cep(),
                     dataServiceProvider.logradouro(), dataServiceProvider.state(),
                     dataServiceProvider.city(), dataServiceProvider.phone(), dataServiceProvider.email(),
-                    encryptedPassword,cad,dataServiceProvider.descricao(),dataServiceProvider.category(),dataServiceProvider.role());
+                    encryptedPassword,cad,dataServiceProvider.descricao(), dataServiceProvider.image_profile(), dataServiceProvider.category(),dataServiceProvider.role());
             var uri = uriComponentsBuilder.path("/users/{id}").buildAndExpand(newServiceProvider.getId()).toUri();
             this.serviceProviderRepository.save(newServiceProvider);
             return ResponseEntity.created(uri).body(newServiceProvider);
@@ -121,7 +121,8 @@ public class AuthenticationController {
             LocalDateTime cad = LocalDateTime.now();
             Contractor newContractor = new Contractor(dataContractor.name(), dataContractor.lastName(),
                     dataContractor.cpf(),dataContractor.dt_nascimento(), dataContractor.cep(),dataContractor.logradouro() ,
-                    dataContractor.state(), dataContractor.city(), dataContractor.phone(), dataContractor.email(), encryptedPassword,cad,dataContractor.descricao(),
+                    dataContractor.state(), dataContractor.city(), dataContractor.phone(), dataContractor.email(), encryptedPassword,cad,
+                    dataContractor.descricao(), dataContractor.image_profile(),
                     dataContractor.proUser(),dataContractor.role());
             var uri = uriComponentsBuilder.path("/users/{id}").buildAndExpand(newContractor.getId()).toUri();
             this.contractorRepository.save(newContractor);

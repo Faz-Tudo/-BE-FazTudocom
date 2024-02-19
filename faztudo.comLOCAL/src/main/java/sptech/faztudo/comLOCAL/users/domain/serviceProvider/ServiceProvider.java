@@ -27,8 +27,10 @@ public class ServiceProvider extends User {
                            LocalDateTime dt_cadastro,
                            String descricao,
                            Category category,
+                           byte[] image_profile,
+
                            UserRole role) {
-        super( name, lastName, cpf, dt_nascimento, cep, logradouro, state, city, phone, email, senha,dt_cadastro,descricao,role);
+        super( name, lastName, cpf, dt_nascimento, cep, logradouro, state, city, phone, email, senha,dt_cadastro,descricao,image_profile, role);
         this.category = category;
     }
 
