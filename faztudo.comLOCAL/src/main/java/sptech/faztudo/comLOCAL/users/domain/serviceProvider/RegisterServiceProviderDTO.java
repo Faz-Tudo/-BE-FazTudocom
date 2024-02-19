@@ -16,6 +16,6 @@ public record RegisterServiceProviderDTO(String name,
                                          String email,
                                          String senha,
                                          String descricao,
-                                         int category,
+                                         Category category,
                                          UserRole role) {
 }

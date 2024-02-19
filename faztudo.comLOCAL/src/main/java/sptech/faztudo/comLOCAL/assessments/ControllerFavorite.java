@@ -35,14 +35,14 @@ public class ControllerFavorite {
     @Operation(summary = "Add Favorite by Id", description = "Adiciona um favorito por id", tags = "PROFILE")
     public ResponseEntity<?> addFavorite (@PathVariable int id_contractor ,@PathVariable int id_provider){
         try {
-            User serviceProvider = serviceProviderRepository.findById(id_provider);
-            User contractor = contractorRepository.findById(id_contractor);
+            Boolean serviceProvider = serviceProviderRepository.existsById(id_provider);
+            Boolean contractor = contractorRepository.existsById(id_contractor);
             long idApagado = favoriteRepository.existsByFk(id_contractor,id_provider);
-            if(contractor.getId() > 0 && serviceProvider.getId() > 0 && idApagado > 0){
+            if(serviceProvider && contractor){
+                return ResponseEntity.status(404).build();}
+            else {
             Favorite favorite = new Favorite(id_contractor,id_provider);
             favoriteRepository.save(favorite);}
-            else {
-                return ResponseEntity.status(404).build();}
 
         } catch (Exception e) {
             System.out.println(e);

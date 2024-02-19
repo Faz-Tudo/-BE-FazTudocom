@@ -1,7 +1,6 @@
 package sptech.faztudo.comLOCAL.users.domain.serviceProvider;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import sptech.faztudo.comLOCAL.users.UserRole;
 import sptech.faztudo.comLOCAL.users.domain.users.User;
 
@@ -11,8 +10,8 @@ import java.time.LocalDateTime;
 @Entity
 public class ServiceProvider extends User {
 
-    @Column(name = "category")
-    private int category;
+    @ManyToOne
+    private Category category;
 
     public ServiceProvider(String name,
                            String lastName,
@@ -27,7 +26,7 @@ public class ServiceProvider extends User {
                            String senha,
                            LocalDateTime dt_cadastro,
                            String descricao,
-                           int category,
+                           Category category,
                            UserRole role) {
         super( name, lastName, cpf, dt_nascimento, cep, logradouro, state, city, phone, email, senha,dt_cadastro,descricao,role);
         this.category = category;
@@ -38,11 +37,11 @@ public class ServiceProvider extends User {
       
     }
 
-    public int getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(int category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 
