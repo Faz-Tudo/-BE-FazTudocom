@@ -106,7 +106,7 @@ public class AuthenticationController {
                     dataServiceProvider.cpf(), dataServiceProvider.dt_nascimento(), dataServiceProvider.cep(),
                     dataServiceProvider.logradouro(), dataServiceProvider.state(),
                     dataServiceProvider.city(), dataServiceProvider.phone(), dataServiceProvider.email(),
-                    encryptedPassword,cad,dataServiceProvider.descricao(), dataServiceProvider.image_profile(), dataServiceProvider.category(),dataServiceProvider.role());
+                    encryptedPassword,cad,dataServiceProvider.descricao(),dataServiceProvider.category(), dataServiceProvider.image_profile(), dataServiceProvider.role());
             var uri = uriComponentsBuilder.path("/users/{id}").buildAndExpand(newServiceProvider.getId()).toUri();
             this.serviceProviderRepository.save(newServiceProvider);
             return ResponseEntity.created(uri).body(newServiceProvider);

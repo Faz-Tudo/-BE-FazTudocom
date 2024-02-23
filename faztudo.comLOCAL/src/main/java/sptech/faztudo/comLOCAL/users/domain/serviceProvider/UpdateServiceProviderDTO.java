@@ -5,5 +5,5 @@ public record UpdateServiceProviderDTO(String cep,
                                        String state,
                                        String city,
                                        String phone,
-                                       int category) {
+                                       Category category) {
 }
