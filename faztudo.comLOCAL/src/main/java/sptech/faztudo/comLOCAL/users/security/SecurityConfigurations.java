@@ -33,6 +33,8 @@ public class SecurityConfigurations implements WebMvcConfigurer{
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/public/forgot-password").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/public/change-password").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register-service-provider").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register-contractor").permitAll()
