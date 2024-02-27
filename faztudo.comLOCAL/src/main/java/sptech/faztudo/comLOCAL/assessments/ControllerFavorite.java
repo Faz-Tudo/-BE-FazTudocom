@@ -37,8 +37,8 @@ public class ControllerFavorite {
         try {
             Boolean serviceProvider = serviceProviderRepository.existsById(id_provider);
             Boolean contractor = contractorRepository.existsById(id_contractor);
-            long idApagado = favoriteRepository.existsByFk(id_contractor,id_provider);
-            if(serviceProvider && contractor){
+           /* long idApagado = favoriteRepository.existsByFk(id_contractor,id_provider);*/
+            if(!serviceProvider && !contractor){
                 return ResponseEntity.status(404).build();}
             else {
             Favorite favorite = new Favorite(id_contractor,id_provider);
@@ -63,10 +63,10 @@ public class ControllerFavorite {
         return ResponseEntity.status(404).build();
     }
 
-    @GetMapping("/")
+    @GetMapping("/{id_contractor}")
     @Operation(summary = "Get All Users Favorites", description = "Listar todos os favoritos.", tags = "PROFILE")
-    public ResponseEntity<List<User>> findAllFavorites() {
-        List<User> users = favoriteRepository.findByFavorite();
+    public ResponseEntity<List<User>> findAllFavorites(@PathVariable int id_contractor) {
+        List<User> users = favoriteRepository.findByFavorite(id_contractor);
         return ResponseEntity.status(200).body(users);
     }
 }
