@@ -2,17 +2,25 @@ package sptech.faztudo.comLOCAL.users.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
+import sptech.faztudo.comLOCAL.email.Email;
+import sptech.faztudo.comLOCAL.email.EmailService;
 import sptech.faztudo.comLOCAL.users.domain.contractor.Contractor;
 import sptech.faztudo.comLOCAL.users.domain.contractor.RegisterContractorDTO;
 import sptech.faztudo.comLOCAL.users.domain.serviceProvider.RegisterServiceProviderDTO;
 import sptech.faztudo.comLOCAL.users.domain.serviceProvider.ServiceProvider;
+import sptech.faztudo.comLOCAL.users.domain.users.*;
+import sptech.faztudo.comLOCAL.users.repositorys.ForgotPasswordRepository;
 import sptech.faztudo.comLOCAL.users.security.TokeService;
 import sptech.faztudo.comLOCAL.users.security.tokenForRegister.ConfirmationToken;
 import sptech.faztudo.comLOCAL.users.security.tokenForRegister.ConfirmationTokenService;
@@ -20,15 +28,16 @@ import sptech.faztudo.comLOCAL.users.repositorys.UserRepository;
 import sptech.faztudo.comLOCAL.users.repositorys.serviceProviderRepository;
 import sptech.faztudo.comLOCAL.users.repositorys.contractorRepository;
 import sptech.faztudo.comLOCAL.users.services.AuthorizationService;
-import sptech.faztudo.comLOCAL.users.domain.users.AuthenticationDTO;
-import sptech.faztudo.comLOCAL.users.domain.users.LoginResponseDTO;
-import sptech.faztudo.comLOCAL.users.domain.users.RegisterDTO;
-import sptech.faztudo.comLOCAL.users.domain.users.User;
+import sptech.faztudo.comLOCAL.users.services.UserPasswordService;
 
+import java.net.URI;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
+@Slf4j
+@RequiredArgsConstructor
 @RequestMapping("auth")
 public class AuthenticationController {
 
@@ -37,6 +46,9 @@ public class AuthenticationController {
 
     @Autowired
     private UserRepository repository;
+
+    @Autowired
+    private ForgotPasswordRepository forgotPasswordRepository;
 
     @Autowired
     private serviceProviderRepository serviceProviderRepository;
@@ -52,6 +64,12 @@ public class AuthenticationController {
 
     @Autowired
     private AuthorizationService authorizationService;
+
+    @Autowired
+    private UserPasswordService userPasswordService;
+
+    @Autowired
+    private EmailService emailService;
 
 
 
@@ -127,6 +145,29 @@ public class AuthenticationController {
             var uri = uriComponentsBuilder.path("/users/{id}").buildAndExpand(newContractor.getId()).toUri();
             this.contractorRepository.save(newContractor);
             return ResponseEntity.created(uri).body(newContractor);
+    }
+
+    @PostMapping("/public/forgot-password")
+    public void forgotPassword(@RequestBody @Valid ForgotPassword forgotPassword) {
+        Optional<User> optionalUser = Optional.ofNullable(forgotPasswordRepository.findByEmail(forgotPassword.getEmail()));
+        optionalUser.ifPresent(user -> {
+            String token = userPasswordService.generateToken(user);
+            String conteudo = "http://localhost:8080/auth/public/change-password/" + token;
+            Email email = new Email(forgotPassword.getEmail(), "Recuperação de senha", conteudo);
+            emailService.sendEmail(email);
+        });
+    }
+
+    @PostMapping("/public/change-password/{token}")
+    public void changePassword(
+            @RequestBody @Valid ForgotPasswordWithToken forgotPasswordWithToken,
+            @PathVariable String token) {
+        try {
+            userPasswordService.forgotPassword(forgotPasswordWithToken.getPassword(), token);
+        }catch (Exception e) {
+            log.error("Erro ao alterar a senha usando token", e);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/confirm")
