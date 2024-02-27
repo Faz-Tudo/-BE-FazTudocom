@@ -7,7 +7,4 @@ import lombok.Data;
 public class ForgotPasswordWithToken {
     @NotBlank
     private String password;
-
-    @NotBlank
-    private String token;
 }

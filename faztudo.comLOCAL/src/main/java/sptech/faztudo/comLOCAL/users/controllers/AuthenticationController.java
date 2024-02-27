@@ -13,6 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
+import sptech.faztudo.comLOCAL.email.Email;
+import sptech.faztudo.comLOCAL.email.EmailService;
 import sptech.faztudo.comLOCAL.users.domain.contractor.Contractor;
 import sptech.faztudo.comLOCAL.users.domain.contractor.RegisterContractorDTO;
 import sptech.faztudo.comLOCAL.users.domain.serviceProvider.RegisterServiceProviderDTO;
@@ -28,6 +30,7 @@ import sptech.faztudo.comLOCAL.users.repositorys.contractorRepository;
 import sptech.faztudo.comLOCAL.users.services.AuthorizationService;
 import sptech.faztudo.comLOCAL.users.services.UserPasswordService;
 
+import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
@@ -64,6 +67,9 @@ public class AuthenticationController {
 
     @Autowired
     private UserPasswordService userPasswordService;
+
+    @Autowired
+    private EmailService emailService;
 
 
 
@@ -146,14 +152,18 @@ public class AuthenticationController {
         Optional<User> optionalUser = Optional.ofNullable(forgotPasswordRepository.findByEmail(forgotPassword.getEmail()));
         optionalUser.ifPresent(user -> {
             String token = userPasswordService.generateToken(user);
-            System.out.println(token);
+            String conteudo = "http://localhost:8080/auth/public/change-password/" + token;
+            Email email = new Email(forgotPassword.getEmail(), "Recuperação de senha", conteudo);
+            emailService.sendEmail(email);
         });
     }
 
-    @PostMapping("/public/change-password")
-    public void changePassword(@RequestBody @Valid ForgotPasswordWithToken forgotPasswordWithToken) {
+    @PostMapping("/public/change-password/{token}")
+    public void changePassword(
+            @RequestBody @Valid ForgotPasswordWithToken forgotPasswordWithToken,
+            @PathVariable String token) {
         try {
-            userPasswordService.forgotPassword(forgotPasswordWithToken.getPassword(), forgotPasswordWithToken.getToken());
+            userPasswordService.forgotPassword(forgotPasswordWithToken.getPassword(), token);
         }catch (Exception e) {
             log.error("Erro ao alterar a senha usando token", e);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
