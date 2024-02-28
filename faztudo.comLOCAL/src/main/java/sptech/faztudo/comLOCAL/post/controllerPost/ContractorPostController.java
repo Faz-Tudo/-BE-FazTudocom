@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import sptech.faztudo.comLOCAL.post.domainPost.upload.ContractorPost;
 import sptech.faztudo.comLOCAL.post.domainPost.upload.Image;
+import sptech.faztudo.comLOCAL.post.domainPost.upload.PostAcceptance;
 import sptech.faztudo.comLOCAL.post.repositoryPost.ContractorPostRepository;
 import sptech.faztudo.comLOCAL.post.repositoryPost.ImageRepository;
+import sptech.faztudo.comLOCAL.post.servicePost.AuxService;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -24,7 +26,8 @@ public class ContractorPostController {
     @Autowired
     private ContractorPostRepository contractorPostRepository;
     @Autowired
-    private ImageRepository imageRepository;
+    private AuxService auxService;
+
 
     @PostMapping("/{idContractor}")
     @Operation(summary = "Post Contratante", description = "Postagem para contratante, envia descrição do trabalho e imagem.", tags = "USER - CONTRACTOR - POST")
@@ -39,6 +42,30 @@ public class ContractorPostController {
         ContractorPost novoContractorPost = contractorPostRepository.save(contractorPost);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(novoContractorPost);
+    }
+
+    @PatchMapping("/finalizar/{idPost}")
+    @Operation(summary = "Post Contratante", description = "Finalizar postagem, depois do interesse aceito!", tags = "USER - CONTRACTOR - POST")
+    public ResponseEntity<ContractorPost> finalizarContractorPost(@RequestBody Map<String, Object> updates,  @PathVariable Integer idPost) {
+
+        ContractorPost post = contractorPostRepository.findById(idPost);
+
+        if (post != null) {
+
+            String avaliacao = (String) updates.get("avaliacao");
+            String ratingString = (String) updates.get("rating");
+
+            Integer rating = Integer.valueOf(ratingString);
+
+            auxService.patchDemandaFinalizada(idPost, avaliacao, rating);
+
+            return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+
+        } else {
+
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
     }
 
     @GetMapping("/all")
@@ -75,7 +102,7 @@ public class ContractorPostController {
         }
     }
 
-    @PatchMapping("/{idPost}")
+    @PatchMapping("/atualizar/{idPost}")
     @Operation(summary = "Post Contratante", description = "Atualiza as postagens através do id do post.", tags = "USER - CONTRACTOR - POST")
     public ResponseEntity<ContractorPost> atualizarContractorPost(@PathVariable Long idPost, @RequestBody Map<String, Object> updates) {
 
