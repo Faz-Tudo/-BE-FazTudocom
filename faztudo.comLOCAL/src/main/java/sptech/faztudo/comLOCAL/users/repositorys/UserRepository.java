@@ -7,6 +7,7 @@ import sptech.faztudo.comLOCAL.users.domain.serviceProvider.ServiceProvider;
 import sptech.faztudo.comLOCAL.users.domain.users.User;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
@@ -14,6 +15,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     List<User> findAll();
     User findById(int id);
     UserDetails findByEmail(String email);
+
+
 
 
 

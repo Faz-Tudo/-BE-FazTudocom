@@ -35,14 +35,14 @@ public class ControllerFavorite {
     @Operation(summary = "Add Favorite by Id", description = "Adiciona um favorito por id", tags = "PROFILE")
     public ResponseEntity<?> addFavorite (@PathVariable int id_contractor ,@PathVariable int id_provider){
         try {
-            User serviceProvider = serviceProviderRepository.findById(id_provider);
-            User contractor = contractorRepository.findById(id_contractor);
-            long idApagado = favoriteRepository.existsByFk(id_contractor,id_provider);
-            if(contractor.getId() > 0 && serviceProvider.getId() > 0 && idApagado > 0){
+            Boolean serviceProvider = serviceProviderRepository.existsById(id_provider);
+            Boolean contractor = contractorRepository.existsById(id_contractor);
+           /* long idApagado = favoriteRepository.existsByFk(id_contractor,id_provider);*/
+            if(!serviceProvider && !contractor){
+                return ResponseEntity.status(404).build();}
+            else {
             Favorite favorite = new Favorite(id_contractor,id_provider);
             favoriteRepository.save(favorite);}
-            else {
-                return ResponseEntity.status(404).build();}
 
         } catch (Exception e) {
             System.out.println(e);
@@ -63,10 +63,10 @@ public class ControllerFavorite {
         return ResponseEntity.status(404).build();
     }
 
-    @GetMapping("/")
+    @GetMapping("/{id_contractor}")
     @Operation(summary = "Get All Users Favorites", description = "Listar todos os favoritos.", tags = "PROFILE")
-    public ResponseEntity<List<User>> findAllFavorites() {
-        List<User> users = favoriteRepository.findByFavorite();
+    public ResponseEntity<List<User>> findAllFavorites(@PathVariable int id_contractor) {
+        List<User> users = favoriteRepository.findByFavorite(id_contractor);
         return ResponseEntity.status(200).body(users);
     }
 }
