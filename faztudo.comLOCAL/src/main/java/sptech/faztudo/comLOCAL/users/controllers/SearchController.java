@@ -28,12 +28,4 @@ public class SearchController {
 
     }
 
-//    @GetMapping("/")
-//    @Operation(summary = "Get All Providers", description = "Listar todos os prestadores.", tags = "SEARCH")
-//    public ResponseEntity<List<ServiceProvider>> findMecanicos() {
-//        List<ServiceProvider> users = repository.findAllbyCategory("Mecanicos");
-//        return ResponseEntity.status(200).body(users);
-//
-//    }
-
 }
