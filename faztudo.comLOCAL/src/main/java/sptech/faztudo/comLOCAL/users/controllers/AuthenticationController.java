@@ -148,6 +148,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/public/forgot-password")
+    @Operation(summary = "Password", description = "Recuperação senha", tags = "USER")
     public void forgotPassword(@RequestBody @Valid ForgotPassword forgotPassword) {
         Optional<User> optionalUser = Optional.ofNullable(forgotPasswordRepository.findByEmail(forgotPassword.getEmail()));
         optionalUser.ifPresent(user -> {
@@ -159,6 +160,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/public/change-password/{token}")
+    @Operation(summary = "Password", description = "Recuperação senha", tags = "USER")
     public void changePassword(
             @RequestBody @Valid ForgotPasswordWithToken forgotPasswordWithToken,
             @PathVariable String token) {
@@ -171,6 +173,7 @@ public class AuthenticationController {
     }
 
     @GetMapping("/confirm")
+    @Operation(summary = "Token", description = "Confirmar token", tags = "USER")
     public String confirm(@RequestParam("token") String token) {
         return authorizationService.confirmToken(token);
     }

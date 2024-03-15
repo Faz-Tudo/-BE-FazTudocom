@@ -115,6 +115,7 @@ public class ImageController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Lista de Imagens", description = "Apaga a imagem", tags = "IMAGES")
     public ResponseEntity<String> deleteImage(@PathVariable Long id) {
 
         if (imageRepository.existsById(id)) {
