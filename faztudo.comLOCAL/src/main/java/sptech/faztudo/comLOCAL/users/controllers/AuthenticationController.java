@@ -153,7 +153,7 @@ public class AuthenticationController {
         Optional<User> optionalUser = Optional.ofNullable(forgotPasswordRepository.findByEmail(forgotPassword.getEmail()));
         optionalUser.ifPresent(user -> {
             String token = userPasswordService.generateToken(user);
-            String conteudo = "http://localhost:8080/auth/public/change-password/" + token;
+            String conteudo = "http://localhost:5173/redefinir-senha/" + token;
             Email email = new Email(forgotPassword.getEmail(), "Recuperação de senha", conteudo);
             emailService.sendEmail(email);
         });
