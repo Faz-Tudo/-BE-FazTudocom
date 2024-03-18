@@ -84,4 +84,14 @@ public class AuxService {
         contractorPostRepository.save(patch);
 
     }
+
+    public ContractorPost recuperarDemanda(Integer idPost){
+
+
+        ContractorPost demanda = contractorPostRepository.findById(idPost);
+
+
+        return demanda;
+    }
+
 }
