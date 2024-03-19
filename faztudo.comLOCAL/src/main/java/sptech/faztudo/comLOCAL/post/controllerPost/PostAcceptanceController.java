@@ -152,7 +152,7 @@ public class PostAcceptanceController {
     }
 
     @GetMapping("/notificar/{idPostAcceptance}")
-    @Operation(summary = "recuperarDemanda", description = "Recuperar as informaçoes de demanda", tags = "POST - POST ACCEPTANCE")
+    @Operation(summary = "recuperarDemanda", description = "Recuperar ass informaçoes de demanda", tags = "POST - POST ACCEPTANCE")
     public ResponseEntity<ContractorPost> recuperarPost(@PathVariable Long idPostAcceptance) {
 
         Optional<PostAcceptance> optional = postAcceptanceRepository.findById(idPostAcceptance);
