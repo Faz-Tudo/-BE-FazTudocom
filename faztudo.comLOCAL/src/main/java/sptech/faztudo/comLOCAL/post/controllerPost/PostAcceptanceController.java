@@ -153,15 +153,13 @@ public class PostAcceptanceController {
 
     @GetMapping("/notificar/{idPostAcceptance}")
     @Operation(summary = "recuperarDemanda", description = "Recuperar ass informaçoes de demanda", tags = "POST - POST ACCEPTANCE")
-    public ResponseEntity<ContractorPost> recuperarPost(@PathVariable Long idPostAcceptance) {
+    public ResponseEntity<PostAcceptance> recuperarPost(@PathVariable Long idPostAcceptance) {
 
-        Optional<PostAcceptance> optional = postAcceptanceRepository.findById(idPostAcceptance);
+        Optional<PostAcceptance> optional = auxService.recuperarDemanda(idPostAcceptance);
 
         if (optional.isPresent()) {
 
-            ContractorPost a = auxService.recuperarDemanda(Math.toIntExact(optional.get().getPost().getId()));
-
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(a);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(optional.get());
 
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
