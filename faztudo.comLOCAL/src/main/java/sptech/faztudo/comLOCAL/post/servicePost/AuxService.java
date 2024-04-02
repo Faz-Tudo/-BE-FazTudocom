@@ -8,6 +8,7 @@ import sptech.faztudo.comLOCAL.post.repositoryPost.ContractorPostRepository;
 import sptech.faztudo.comLOCAL.post.repositoryPost.PostAcceptanceRepository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -86,13 +87,13 @@ public class AuxService {
 
     }
 
-    public Optional<PostAcceptance> recuperarDemanda(Long idPost){
+    public List<PostAcceptance> recuperarTodasDemandas( ){
 
 
 //        ContractorPost demanda = contractorPostRepository.findById(idPost);
 //        Optional<PostAcceptance> demanda = PostAcceptanceRepository.findById(idPost);
 //        return demanda;
-        return PostAcceptanceRepository.findById(idPost);
+        return PostAcceptanceRepository.findAll();
 
 
     }
