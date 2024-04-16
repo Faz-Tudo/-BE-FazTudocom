@@ -4,7 +4,16 @@ public class ImageDTO {
     private String base64Data;
     private String nome;
     private Integer tipo;
+    private Long id;
     private Integer fkUser;
+
+    public ImageDTO(String base64Data, String nome, Integer tipo, Long id, Integer fkUser) {
+        this.base64Data = base64Data;
+        this.nome = nome;
+        this.tipo = tipo;
+        this.id = id;
+        this.fkUser = fkUser;
+    }
 
     public ImageDTO(String base64Data, String nome, Integer tipo, Integer fkUser) {
         this.base64Data = base64Data;
@@ -43,5 +52,13 @@ public class ImageDTO {
 
     public void setFkUser(Integer fkUser) {
         this.fkUser = fkUser;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

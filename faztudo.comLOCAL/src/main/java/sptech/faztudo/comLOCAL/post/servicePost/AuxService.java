@@ -3,10 +3,12 @@ package sptech.faztudo.comLOCAL.post.servicePost;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sptech.faztudo.comLOCAL.post.domainPost.upload.ContractorPost;
+import sptech.faztudo.comLOCAL.post.domainPost.upload.PostAcceptance;
 import sptech.faztudo.comLOCAL.post.repositoryPost.ContractorPostRepository;
 import sptech.faztudo.comLOCAL.post.repositoryPost.PostAcceptanceRepository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -84,4 +86,16 @@ public class AuxService {
         contractorPostRepository.save(patch);
 
     }
+
+    public List<PostAcceptance> recuperarTodasDemandas( ){
+
+
+//        ContractorPost demanda = contractorPostRepository.findById(idPost);
+//        Optional<PostAcceptance> demanda = PostAcceptanceRepository.findById(idPost);
+//        return demanda;
+        return PostAcceptanceRepository.findAll();
+
+
+    }
+
 }

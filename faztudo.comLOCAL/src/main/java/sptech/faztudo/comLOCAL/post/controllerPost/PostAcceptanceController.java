@@ -14,6 +14,7 @@ import sptech.faztudo.comLOCAL.users.domain.serviceProvider.ServiceProvider;
 import sptech.faztudo.comLOCAL.users.repositorys.serviceProviderRepository;
 import sptech.faztudo.comLOCAL.post.repositoryPost.PostAcceptanceRepository;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -151,6 +152,21 @@ public class PostAcceptanceController {
 
     }
 
+    @GetMapping("/notificar")
+    @Operation(summary = "recuperarDemanda", description = "Recuperar ass informaçoes de demanda", tags = "POST - POST ACCEPTANCE")
+    public ResponseEntity<List<PostAcceptance>> recuperarTodasDemandas() {
+
+        List<PostAcceptance> optional = auxService.recuperarTodasDemandas();
+
+        if (!optional.isEmpty()) {
+
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(optional);
+
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+    }
 
 
 }

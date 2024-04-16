@@ -79,13 +79,15 @@ public class ImageController {
             String base64Data = Base64.getEncoder().encodeToString(imagem.getData());
             String nome = imagem.getName();
             Integer imagemTipo = imagem.getTipo();
+            Long imagemId = imagem.getId();
             Integer fkUser = imagem.getFkUser();
 
-            ImageDTO imagemDTO = new ImageDTO(base64Data, nome, imagemTipo, fkUser);
+            ImageDTO imagemDTO = new ImageDTO(base64Data, nome, imagemTipo, imagemId, fkUser); // Passando o ID da imagem para o construtor do DTO
             imagensDTO.add(imagemDTO);
         }
 
-        return new ResponseEntity<>(imagensDTO, HttpStatus.OK);
+        ResponseEntity responseEntity = new ResponseEntity<>(imagensDTO, HttpStatus.OK);
+        return responseEntity;
     }
 
     @GetMapping("/get/all")
