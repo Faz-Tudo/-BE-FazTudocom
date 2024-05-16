@@ -1,7 +1,16 @@
-FROM openjdk:17
-ENV APP_NAME faztudo
-COPY ./target/${APP_NAME}.jar  /app/${APP_NAME}.jar
+FROM maven:3-openjdk-17 as builder
+LABEL authors="FazTudo"
+
+WORKDIR /build
+
+COPY . .
+
+RUN mvn clean package -DskipTests -Dcheckstyle.skip=true
+
+FROM openjdk:17-slim
+
 WORKDIR /app
-CMD java -jar ${APP_NAME}.jar
-EXPOSE 8080
-EXPOSE 3306
+
+COPY --from=builder /build/target/*.jar /app/app.jar
+
+CMD ["java", "-jar", "app.jar"]
