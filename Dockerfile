@@ -3,7 +3,7 @@ LABEL authors="FazTudo"
 
 WORKDIR /build
 
-COPY . .
+COPY faztudo.comLOCAL /build
 
 RUN mvn clean package -DskipTests -Dcheckstyle.skip=true
 
