@@ -1,0 +1,26 @@
+name: "Exemplo de CD"
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Pull Docker image
+        run: docker pull wallacemartinz/faztudoapi
+
+      - name: Stop Docker container
+        run: docker stop faztudoapi || true
+
+      - name: Remove Docker container
+        run: docker rm faztudoapi || true
+
+      - name: Run Docker container
+        run: docker run --name faztudoapi -d -p 8080:8080 \
+          -e SPRING_DATASOURCE_URL=jdbc:mysql://cd-teste.cxs0c4auyc09.us-east-1.rds.amazonaws.com:3306/faztudo?createDatabaseIfNotExist=true \
+          -e SPRING_DATASOURCE_USERNAME=admin \
+          -e SPRING_DATASOURCE_PASSWORD=12345678 \
+          wallacemartinz/faztudoapi:latest
