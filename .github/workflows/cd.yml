@@ -21,7 +21,7 @@ jobs:
       - name: Run Docker container
         run: |
           docker run --name faztudoapi -d -p 8080:8080 \
-            -e SPRING_DATASOURCE_URL='jdbc:mysql://cd-teste.cxs0c4auyc09.us-east-1.rds.amazonaws.com:3306/faztudo?createDatabaseIfNotExist=true' \
-            -e SPRING_DATASOURCE_USERNAME=admin \
-            -e SPRING_DATASOURCE_PASSWORD=12345678 \
+            -e SPRING_DATASOURCE_URL='jdbc:mysql://faztudo.crckmikk66r3.us-east-1.rds.amazonaws.com:3306/faztudo?createDatabaseIfNotExist=true' \
+            -e SPRING_DATASOURCE_USERNAME=root \
+            -e SPRING_DATASOURCE_PASSWORD=urubu100 \
             wallacemartinz/faztudoapi:latest
