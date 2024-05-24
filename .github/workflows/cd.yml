@@ -8,6 +8,9 @@ on:
 jobs:
   deploy:
     runs-on: self-hosted
+    strategy:
+      matrix:
+        runner: [apifaztudo1, apifaztudo2]
     steps:
       - name: Pull Docker image
         run: docker pull wallacemartinz/faztudoapi:latest
