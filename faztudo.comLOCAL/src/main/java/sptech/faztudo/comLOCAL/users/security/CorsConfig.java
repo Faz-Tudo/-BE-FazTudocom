@@ -17,12 +17,17 @@ public class CorsConfig implements WebMvcConfigurer {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.addAllowedHeader("*");
+        configuration.setAllowedOrigins(Arrays.asList(
+                "http://localhost:8080",
+                "https://localhost:8080",
+                "http://faztudo.sytes.net",
+                "https://faztudo.sytes.net"
+        ));
 
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE","PATCH"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH"));
         configuration.setAllowCredentials(true);
-        configuration.addAllowedHeader("*");
-
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setExposedHeaders(Arrays.asList("Authorization", "Content-Type"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
@@ -33,10 +38,12 @@ public class CorsConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOrigins(
-                    "http://localhost:8080",
-                    "https://localhost:8080",
-                    "http://faztudo.sytes.net",
-                    "https://faztudo.sytes.net")
+                        "http://localhost:8080",
+                        "https://localhost:8080",
+                        "http://faztudo.sytes.net",
+                        "https://faztudo.sytes.net")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH")
+                .allowedHeaders("*")
                 .allowCredentials(true);
     }
 }
