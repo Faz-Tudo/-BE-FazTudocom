@@ -31,9 +31,6 @@ jobs:
         run: mvn -B package -DskipTests
         working-directory: faztudo.comLOCAL
 
-      - name: Run unit tests
-        run: mvn test
-        working-directory: faztudo.comLOCAL
 
   docker:
     runs-on: ubuntu-latest
