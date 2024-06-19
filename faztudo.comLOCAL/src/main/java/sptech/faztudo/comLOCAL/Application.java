@@ -12,7 +12,7 @@ import java.sql.Connection;
 
 @SpringBootApplication
 public class  Application {
-	
+	//Init aplication
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 
